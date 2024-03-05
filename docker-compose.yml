@@ -1,0 +1,6 @@
+services:
+
+  frontend:
+    build: ./imit_frontend
+    ports:
+      - 3000:3000

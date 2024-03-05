@@ -10,5 +10,8 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ['nuxt-icon', 'nuxt-bootstrap-icons']
+  colorMode: {
+    preference: 'light'
+  },
+  modules: ['nuxt-icon', 'nuxt-bootstrap-icons', 'nuxt-quasar-ui', '@nuxt/ui'],
 })

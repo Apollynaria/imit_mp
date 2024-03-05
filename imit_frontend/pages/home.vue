@@ -1,6 +1,9 @@
 <template>
     <div class="w-90 mx-auto max-w-screen-lg">
   
+      <UBreadcrumb :links="links" class="mb-3"/>
+
+
       <h1 class="text-2xl font-bold underline ">
         Test page. Table and text
       </h1>
@@ -110,6 +113,18 @@
     title: 'Тестовая страница',
   })
   
+  const links = [{
+    label: 'Главная',
+    icon: 'i-heroicons-home',
+    to: '/home'
+  }, {
+    label: 'Navigation',
+    icon: 'i-heroicons-square-3-stack-3d'
+  }, {
+    label: 'Breadcrumb',
+    icon: 'i-heroicons-link'
+  }]
+
 
   </script>
     
