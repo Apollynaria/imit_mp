@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Navbar/>
-        <NuxtPage class="p-3"/>
+        <NavbarPhoto/>   
+        <NuxtPage/>
         <Footer />
     </div>
 </template>
