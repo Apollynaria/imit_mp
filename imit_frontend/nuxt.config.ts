@@ -14,4 +14,7 @@ export default defineNuxtConfig({
     preference: 'light'
   },
   modules: ['nuxt-icon', 'nuxt-bootstrap-icons', 'nuxt-quasar-ui', '@nuxt/ui'],
+  quasar: {
+    cssAddon: false
+  }
 })

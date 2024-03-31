@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <NavbarPhoto/>   
+    <div class="bg-[#E6E6E6]">
         <NuxtPage/>
         <Footer />
     </div>
