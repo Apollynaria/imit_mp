@@ -29,13 +29,15 @@ const cards_prospects = ref([
       </div>
     </StarBackground>
 
-    <div class="w-90 mx-auto max-w-screen-xl">
+    <div class="w-90 mx-auto max-w-screen-xl bg-white">
       <Carousel></Carousel>
       <div class="gap-1 columns-1 md:columns-3">
         <CardWithText v-for="(card, index) in cards_prospects" :key="index" :title="card.title" :text="card.text"
           :icon="card.icon">
         </CardWithText>
       </div>
+      <CalendarHome></CalendarHome>
+
     </div>
   </div>
 </template>

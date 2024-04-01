@@ -8,7 +8,9 @@ const windowWidth = ref();
 
 const urls_text = ref([
     { name: '/home', text: 'ГЛАВНАЯ', icon: 'material-symbols-light:jamboard-kiosk' },
-    { name: '/conferences', text: 'КОНФЕРЕНЦИИ', icon: 'material-symbols-light:jamboard-kiosk' },])
+    { name: '/conferences', text: 'КОНФЕРЕНЦИИ', icon: 'material-symbols-light:jamboard-kiosk' },
+    { name: '/conferences', text: 'ОЛИМПИАДЫ', icon: 'material-symbols-light:jamboard-kiosk' },
+    { name: '/conferences', text: 'СЕМИНАРЫ', icon: 'material-symbols-light:jamboard-kiosk' },])
 
 const urls_icon = ref([
     { name: 'https://t.me/webimit_bot', text: '', icon: 'mdi:telegram', tooltip: 'Подписаться' },

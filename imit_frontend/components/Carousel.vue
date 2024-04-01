@@ -21,10 +21,10 @@ const autoplay = ref(true);
             >
             <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg">
                 <div class="absolute-bottom custom-caption">
-                    <div class="text-h2 text-white text-bold m-3 flex justify-between items-end">
+                    <div class="text-h3 text-white text-bold m-3 flex justify-between items-end">
                         Конференция
-                        <q-btn color="secondary" class="h-[15px]" size="15px" no-caps>
-                            Идет регистрация<Icon class="ms-2" name="svg-spinners:3-dots-scale-middle" size="20" />
+                        <q-btn color="purple" class="h-[15px]" size="15px" no-caps>
+                            <Icon class="me-2" name="svg-spinners:pulse-2" color="white" size="20" />Идет регистрация
                         </q-btn>
                     </div>
                     <div class="text-subtitle1 text-white m-3 flex justify-between items-center z-10">
@@ -36,10 +36,10 @@ const autoplay = ref(true);
 
             <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg">
                 <div class="absolute-bottom custom-caption">
-                    <div class="text-h2 text-white text-bold m-3 flex justify-between items-end">
+                    <div class="text-h3 text-white text-bold m-3 flex justify-between items-end">
                         Конференция2
-                        <q-btn color="secondary" class="h-[15px]" size="15px" no-caps>
-                            Идет регистрация<Icon class="ms-2" name="svg-spinners:3-dots-scale-middle" size="20" />
+                        <q-btn color="purple" class="h-[15px]" size="15px" no-caps>
+                            <Icon class="me-2" name="svg-spinners:pulse-2" color="white" size="20" />Идет регистрация
                         </q-btn>
                     </div>
                     <div class="text-subtitle1 text-white m-3 flex justify-between items-center z-10">
