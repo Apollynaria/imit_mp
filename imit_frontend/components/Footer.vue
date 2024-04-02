@@ -1,7 +1,7 @@
 <script setup lang="ts">
 </script>
 <template>
-    <footer class="flex flex-col  justify-center bg-[#142437]">
+    <footer class="flex flex-col border-t-[1px] border-gray-500 justify-center bg-[#142437]">
 
         <nav class="flex justify-center flex-wrap gap-6 text-gray-100 mb-3 mt-3">
             <a class="hover:text-gray-500 transition-all duration-300" href="/home">Главная</a>

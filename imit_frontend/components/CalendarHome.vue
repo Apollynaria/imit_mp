@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { setCssVar } from 'quasar'
+
 const date = ref('2019/02/01');
 const myLocale = reactive({
     days: 'Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота'.split('_'),
@@ -10,6 +12,11 @@ const myLocale = reactive({
     pluralDay: 'dias'
 });
 const events = ref(['2019/02/01', '2019/02/05', '2019/02/06'])
+
+onMounted(() => {
+    setCssVar('dark', '#142437')
+});
+
 </script>
 
 <template>

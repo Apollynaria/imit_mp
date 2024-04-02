@@ -21,7 +21,7 @@ const autoplay = ref(true);
             >
             <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg">
                 <div class="absolute-bottom custom-caption">
-                    <div class="text-h3 text-white text-bold m-3 flex justify-between items-end">
+                    <div class="text-[40px] text-white text-bold m-3 flex justify-between items-end">
                         Конференция
                         <q-btn color="purple" class="h-[15px]" size="15px" no-caps>
                             <Icon class="me-2" name="svg-spinners:pulse-2" color="white" size="20" />Идет регистрация
@@ -36,7 +36,7 @@ const autoplay = ref(true);
 
             <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg">
                 <div class="absolute-bottom custom-caption">
-                    <div class="text-h3 text-white text-bold m-3 flex justify-between items-end">
+                    <div class="text-[40px] text-white text-bold m-3 flex justify-between items-end">
                         Конференция2
                         <q-btn color="purple" class="h-[15px]" size="15px" no-caps>
                             <Icon class="me-2" name="svg-spinners:pulse-2" color="white" size="20" />Идет регистрация

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { setCssVar } from 'quasar'
-setCssVar('dark', '#142437')
+
 </script>
 
 <template>

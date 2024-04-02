@@ -75,10 +75,10 @@ onBeforeMount(() => {
             </li>
         </ul>
         <!-- mobile -->
-        <ul v-else class="flex items-center justify-center font-medium w-full text-white list-none no-underline">
+        <ul v-else class="flex items-end justify-end font-medium w-full text-white list-none no-underline">
             <li class="p-3">
-                <Icon class="bar pb-1 transition-all duration-400 pb-1 hover:text-gray-500 " @click="toggleMobileNav"
-                    v-show="mobile" name="iconamoon:menu-burger-horizontal-bold" size="40" />
+                <Icon class="bar pb-1 transition-all duration-400 pb-1" @click="toggleMobileNav"
+                    v-show="mobile" :name="mobileNav? 'ic:sharp-close' : 'iconamoon:menu-burger-horizontal-bold'" size="40" />
             </li>
         </ul>
         <transition name="mobile-nav">
@@ -97,8 +97,8 @@ onBeforeMount(() => {
         </transition>
     </nav>
 
-    <div class="h-[2%]">
-        <hr class="w-[50%] h-[0.2px] m-auto bg-gray-100 border-0 rounded mt-4">
+    <div v-if="!mobile" class="h-[2%]">
+        <hr class="w-[400px] h-[0.2px] m-auto bg-gray-100 border-0 rounded mt-4">
     </div>
 </template>
 
