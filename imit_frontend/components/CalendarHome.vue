@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { setCssVar } from 'quasar'
+import { useThemeStore } from '@/stores/theme'
+const themeStore = useThemeStore()
+const isDarkTheme = computed(() => themeStore.isDarkTheme)
 
 const date = ref('2019/02/01');
 const myLocale = reactive({
@@ -21,21 +24,28 @@ onMounted(() => {
 
 <template>
     <div class="">
-        <div class="text-h4 text-center m-3">Календарь мероприятий</div>
+        <!-- <div class="text-center">
+            <Icon class="text-[#1976D2]" name="material-symbols:calendar-month-outline" size="40" />
+        </div> -->
+        <div class="text-h4 text-center m-3 text-[#1f2731] dark:text-[#fff] font-semibold">
+            Календарь мероприятий
+        </div>
         <div class="q-pa-md flex flex-row justify-center w-95">
             <div class="mb-5">
-                <q-date v-model="date" color="dark" :locale="myLocale" :events="events" event-color="red" />
+                <q-date :dark="isDarkTheme" v-model="date" color="primary" :locale="myLocale" :events="events"
+                    event-color="red" />
             </div>
 
-            <div class="w-[600px] ms-5 mb-5">
-                <q-tab-panels v-model="date" animated transition-prev="jump-up" transition-next="jump-up">
+            <div class="w-[600px] ms-5 mb-5  dark:text-[#fff]">
+                <q-tab-panels class="dark:bg-[#142437] rounded border border-slate-300 dark:border-slate-600" v-model="date" animated transition-prev="jump-up"
+                    transition-next="jump-up">
                     <q-tab-panel name="2019/02/02">
-                        <div class="text-h5 q-mb-md">Мероприятия на 01.02.2019</div>
+                        <div class="text-h5 q-mb-md font-semibold">Мероприятия на 01.02.2019</div>
                         <p>Мероприятия отсутствуют.</p>
                     </q-tab-panel>
 
                     <q-tab-panel name="2019/02/01">
-                        <div class="text-h5 q-mb-md">Мероприятия на 01.02.2019</div>
+                        <div class="text-h5 q-mb-md font-semibold">Мероприятия на 01.02.2019</div>
                         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio
                             iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
                             culpa fuga nulla ullam. In, libero.</p>
@@ -45,7 +55,7 @@ onMounted(() => {
                     </q-tab-panel>
 
                     <q-tab-panel name="2019/02/05">
-                        <div class="text-h5 q-mb-md">Мероприятия на 05.02.2019</div>
+                        <div class="text-h5 q-mb-md font-semibold">Мероприятия на 05.02.2019</div>
                         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio
                             iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
                             culpa fuga nulla ullam. In, libero.</p>
@@ -55,7 +65,7 @@ onMounted(() => {
                     </q-tab-panel>
 
                     <q-tab-panel name="2019/02/06">
-                        <div class="text-h5 q-mb-md">Мероприятия на 06.02.2019</div>
+                        <div class="text-h5 q-mb-md font-semibold">Мероприятия на 06.02.2019</div>
                         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio
                             iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
                             culpa fuga nulla ullam. In, libero.</p>
@@ -73,5 +83,4 @@ onMounted(() => {
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

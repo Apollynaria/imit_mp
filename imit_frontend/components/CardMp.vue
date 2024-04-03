@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useThemeStore } from '@/stores/theme'
+const themeStore = useThemeStore()
+const isDarkTheme = computed(() => themeStore.isDarkTheme)
 
 const props = defineProps({
     title: {
@@ -19,7 +22,7 @@ const props = defineProps({
 
 <template>
     <div class="p-3 h-full">
-        <q-card dark bordered class="my-card bg-white h-full flex flex-col">
+        <q-card :dark="isDarkTheme" bordered class="my-card bg-[#fff] dark:bg-[#142437] h-full flex flex-col">
             <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
                 <div class="absolute-bottom text-h6">
                     {{ props.title }}
@@ -28,7 +31,7 @@ const props = defineProps({
 
             <q-card-section class="flex-1">
                 <div class="text-overline text-orange-9 font-semibold">{{ props.date }}</div>
-                <div class="text-caption text-black">
+                <div class="text-caption text-#[000] dark:text-[#fff]">
                     {{ props.description }}
                 </div>
             </q-card-section>
@@ -36,7 +39,7 @@ const props = defineProps({
             <q-card-actions class="mt-auto">
                 <q-btn color="primary" label="Подробнее" />
                 <q-btn color="secondary">
-                    <Icon class="me-2" name="svg-spinners:pulse-2" color="white" size="20" />Регистрация
+                    Регистрация
                 </q-btn>
             </q-card-actions>
         </q-card>

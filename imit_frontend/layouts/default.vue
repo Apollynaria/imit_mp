@@ -1,15 +1,16 @@
+<script setup lang="ts">
+import { useThemeStore } from '@/stores/theme'
+const themeStore = useThemeStore()
+</script>
+
 <template>
-    <div class="bg-[#E6E6E6]">
-        <NuxtPage/>
-        <Footer />
+    <div :class="themeStore.getTheme">
+        <div class='bg-[#e2e2e2] dark:bg-[#081626]'>
+            <ButtonsUpAndTheme />
+            <NuxtPage />
+            <Footer />
+        </div>
     </div>
 </template>
 
-<script setup lang="ts">
-
-</script>
-
-<style>
-
-
-</style>
+<style></style>

@@ -44,41 +44,39 @@ const cards_mp = ref([
 
     </StarBackground>
 
-    <div class="bg-white">
-      <Carousel class="w-90 mx-auto max-w-screen-xl"></Carousel>
-    </div>
+    <div class="bg-[#fff] dark:bg-[#142437] w-90 mx-auto max-w-screen-xl">
+      <Carousel></Carousel>
 
-    <div class="bg-[#142437]">
-      <div class="w-90 mx-auto max-w-screen-xl gap-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center">
+      <div class="gap-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center">
         <CardWithText v-for="(card, index) in cards_prospects" :key="index" :title="card.title" :text="card.text"
           :icon="card.icon">
         </CardWithText>
       </div>
-    </div>
 
-    <CalendarHome></CalendarHome>
+      <CalendarHome></CalendarHome>
 
-    <div class="bg-[#142437]">
-      <div class="w-90 mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <CardMp v-for="(card, index) in cards_mp" :key="index" :title="card.title" :description="card.description"
-            :date="card.date">
-          </CardMp>
-        </div>
 
-        <div class="flex justify-center p-2">
-          <q-btn color="primary" label="Загрузить еще" />
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <CardMp v-for="(card, index) in cards_mp" :key="index" :title="card.title" :description="card.description"
+          :date="card.date">
+        </CardMp>
+      </div>
 
-        <div class="flex justify-center ">
-          <button
-            class="text-[16px] mb-3 transition-all duration-400 pb-[1px] border-b border-transparent hover:border-white text-white"
-            type="button">
-            АРХИВ
-          </button>
-        </div>
+      <div class="flex justify-center p-2">
+        <q-btn color="primary" label="Загрузить еще" />
+      </div>
+
+      <div class="flex justify-center ">
+        <button
+          class="text-[16px] mb-3 transition-all duration-400 pb-[1px] border-b border-transparent hover:border-[#000] text-[#000] dark:hover:border-[#fff] dark:text-[#fff]"
+          type="button">
+          АРХИВ
+        </button>
+      </div>
     </div>
 
   </div>
+
 </template>
 
 <style scoped></style>
