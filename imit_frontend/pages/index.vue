@@ -4,7 +4,6 @@
 
 <template>
     <div>
-        <StarBackground/>
     </div>
 </template>
 

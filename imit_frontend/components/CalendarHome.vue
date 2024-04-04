@@ -37,44 +37,51 @@ onMounted(() => {
             </div>
 
             <div class="w-[600px] ms-5 mb-5  dark:text-[#fff]">
-                <q-tab-panels class="dark:bg-[#142437] rounded border border-slate-300 dark:border-slate-600" v-model="date" animated transition-prev="jump-up"
-                    transition-next="jump-up">
-                    <q-tab-panel name="2019/02/02">
-                        <div class="text-h5 q-mb-md font-semibold">Мероприятия на 01.02.2019</div>
-                        <p>Мероприятия отсутствуют.</p>
-                    </q-tab-panel>
+                <q-card :dark="isDarkTheme">
+                    <q-tab-panels class="dark:bg-[#142437] rounded " v-model="date" animated transition-prev="jump-up"
+                        transition-next="jump-up">
+                        <q-tab-panel dark name="2019/02/02">
+                            <div class="text-h5 q-mb-md font-semibold">Мероприятия на 01.02.2019</div>
+                            <p>Мероприятия отсутствуют.</p>
+                        </q-tab-panel>
 
-                    <q-tab-panel name="2019/02/01">
-                        <div class="text-h5 q-mb-md font-semibold">Мероприятия на 01.02.2019</div>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio
-                            iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                            culpa fuga nulla ullam. In, libero.</p>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio
-                            iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                            culpa fuga nulla ullam. In, libero.</p>
-                    </q-tab-panel>
+                        <q-tab-panel name="2019/02/01">
+                            <div class="text-h5 q-mb-md font-semibold">Мероприятия на 01.02.2019</div>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
+                                odio
+                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
+                                culpa fuga nulla ullam. In, libero.</p>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
+                                odio
+                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
+                                culpa fuga nulla ullam. In, libero.</p>
+                        </q-tab-panel>
 
-                    <q-tab-panel name="2019/02/05">
-                        <div class="text-h5 q-mb-md font-semibold">Мероприятия на 05.02.2019</div>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio
-                            iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                            culpa fuga nulla ullam. In, libero.</p>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio
-                            iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                            culpa fuga nulla ullam. In, libero.</p>
-                    </q-tab-panel>
+                        <q-tab-panel name="2019/02/05">
+                            <div class="text-h5 q-mb-md font-semibold">Мероприятия на 05.02.2019</div>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
+                                odio
+                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
+                                culpa fuga nulla ullam. In, libero.</p>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
+                                odio
+                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
+                                culpa fuga nulla ullam. In, libero.</p>
+                        </q-tab-panel>
 
-                    <q-tab-panel name="2019/02/06">
-                        <div class="text-h5 q-mb-md font-semibold">Мероприятия на 06.02.2019</div>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio
-                            iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                            culpa fuga nulla ullam. In, libero.</p>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio
-                            iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                            culpa fuga nulla ullam. In, libero.</p>
-                    </q-tab-panel>
-                </q-tab-panels>
-
+                        <q-tab-panel name="2019/02/06">
+                            <div class="text-h5 q-mb-md font-semibold">Мероприятия на 06.02.2019</div>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
+                                odio
+                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
+                                culpa fuga nulla ullam. In, libero.</p>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
+                                odio
+                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
+                                culpa fuga nulla ullam. In, libero.</p>
+                        </q-tab-panel>
+                    </q-tab-panels>
+                </q-card>
 
             </div>
         </div>

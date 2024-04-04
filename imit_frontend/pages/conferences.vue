@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useThemeStore } from '@/stores/theme'
+const themeStore = useThemeStore()
+const isDarkTheme = computed(() => themeStore.isDarkTheme)
 
 const cards_mp = ref([
     { title: 'Конференция 1', description: 'Lorem ipsum dolor sit amet.', date: '12.05.2024' },
@@ -31,7 +34,40 @@ const cards_mp = ref([
 
 
         <div class="bg-[#fff] dark:bg-[#142437] w-90 mx-auto max-w-screen-xl">
+
             <br>
+
+            <div class="text-h4 text-center text-[#1f2731] dark:text-[#fff] font-semibold mb-2">
+                Научные конференции
+            </div>
+
+            <div class="flex flex-row justify-center mb-2">
+
+                <img class="w-[600px] p-3" src="../public/VbwjenOX4WA.jpg">
+
+                <div class="w-[600px] text-h6 text-[#1f2731] dark:text-[#fff] p-3 content-center">
+                    <q-card :dark="isDarkTheme"
+                        class="bg-[#fff] dark:bg-[#142437] text-[#000] dark:text-[#fff] my-card">
+
+                        <q-card-section>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
+                            odio
+                            iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
+                            culpa fuga nulla ullam. In, libero.
+                        </q-card-section>
+
+                        <q-separator :dark="isDarkTheme" inset />
+
+                        <q-card-section>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
+                            odio
+                            iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
+                            culpa fuga nulla ullam. In, libero.
+                        </q-card-section>
+                    </q-card>
+                </div>
+            </div>
+
             <div class="text-h4 text-center text-[#1f2731] dark:text-[#fff] font-semibold mb-2">
                 Текущие конференции
             </div>

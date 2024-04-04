@@ -26,7 +26,7 @@
     color: #fff;
     text-align: center;
     font-weight: 300;
-    font-size: 50px;
+
 }
 
 #title span {

@@ -10,13 +10,20 @@ const scrollTop = () => {
   });
 }
 
+const props = defineProps({
+    showUp: {
+        type: Boolean,
+        default: true
+    }
+});
+
 </script>
 
 <template>
     <div class="z-40 fixed top-[10px] right-[10px]">
         <q-btn round @click="themeStore.switchTheme" :color="themeStore.getTheme == 'light'? 'dark' : 'primary'" :icon="themeStore.getTheme == 'light'? 'dark_mode' : 'light_mode'" size="md"/>
     </div>
-    <div class="z-40 fixed bottom-[10px] right-[10px]">
+    <div v-if="showUp" class="z-40 fixed bottom-[10px] right-[10px]">
         <q-btn round @click="scrollTop" :color="themeStore.getTheme == 'light'? 'dark' : 'primary'" icon="arrow_upward" size="md"/>
     </div>
 </template>

@@ -12,15 +12,11 @@ import { ref } from 'vue'
 const themeStore = useThemeStore()
 const theme = ref(themeStore.getTheme)
 
-
-const switchTheme = () => {
-  themeStore.switchTheme()
-}
 </script>
 
 <template>
     <div>
-        <q-btn @click=switchTheme outline color="primary" size="15px" label="Тема" no-caps />
+        <q-btn @click=themeStore.switchTheme outline color="primary" size="15px" label="Тема" no-caps />
     </div>
 </template>
 
