@@ -1,8 +1,8 @@
 <template>
     <div :class="themeStore.getTheme">
-        <q-layout view="lHh Lpr lFf" class="bg-[#e2e2e2] dark:bg-[#081626]">
+        <q-layout view="lHh Lpr lFf" class="bg-[#e2e2e2] dark:bg-[#081626]" >
             <q-header elevated>
-                <q-toolbar class="bg-[#e2e2e2] dark:bg-[#081626] text-[#000] dark:text-[#fff]">
+                <q-toolbar class="bg-[#FBFAFC] dark:bg-[#142437] text-[#000] dark:text-[#fff]">
                     <q-btn flat dense round @click="toggleLeftDrawer" icon="menu" aria-label="Menu" />
                     <q-toolbar-title>
                         Личный кабинет
@@ -37,7 +37,7 @@
             </q-header>
 
             <q-drawer v-model="leftDrawerOpen" show-if-above
-                class="shadow-[0_35px_40px_-15px_rgba(0,0,0,0.7)] bg-[#e2e2e2] dark:bg-[#081626] text-[#000] dark:text-[#fff]">
+                class="shadow-[0_25px_20px_-15px_rgba(0,0,0,0.8)] bg-[#fff] dark:bg-[#142437] text-[#000] dark:text-[#fff]">
                 <div class="flex justify-center mb-2">
                     <img src="../imit_nobackground.png" class="w-[100px] mt-3 circle" alt="">
                 </div>

@@ -67,18 +67,18 @@ onBeforeMount(() => {
             </li>
             <!-- menu with tooltip -->
             <li v-for="url in urls_icon" :key="url.name" class="ml-4">
-                <UTooltip :text=url.tooltip>
-                    <nuxt-link class="text-[16px] transition-all duration-400 pb-1 hover:text-gray-500" :to="url.name">
-                        <Icon :name="url.icon" size="20" />
-                    </nuxt-link>
-                </UTooltip>
+                <nuxt-link class="text-[16px] text-[#fff] transition-all duration-400 pb-1 hover:text-gray-500"
+                    :to="url.name">
+                    <Icon :name="url.icon" size="20" />
+                    <q-tooltip class="text-[#000] text-[12px] bg-[#fff] font-medium">{{ url.tooltip }}</q-tooltip>
+                </nuxt-link>
             </li>
         </ul>
         <!-- mobile -->
         <ul v-else class="flex items-end justify-end font-medium w-full text-white list-none no-underline">
-            <li class="p-3">
-                <Icon class="bar pb-1 transition-all duration-400 pb-1" @click="toggleMobileNav"
-                    v-show="mobile" :name="mobileNav? 'ic:sharp-close' : 'iconamoon:menu-burger-horizontal-bold'" size="40" />
+            <li class=" me-[45px] mb-[30px]">
+                <Icon class="bar pb-1 transition-all duration-400 pb-1" @click="toggleMobileNav" v-show="mobile"
+                    :name="mobileNav ? 'ic:sharp-close' : 'iconamoon:menu-burger-horizontal-bold'" size="40" />
             </li>
         </ul>
         <transition name="mobile-nav">
