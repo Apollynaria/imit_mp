@@ -21,7 +21,7 @@ const urls_mobile = ref([
     { name: '/home', text: 'Главная', icon: 'material-symbols-light:jamboard-kiosk' },
     { name: '/home', text: 'Конференции', icon: 'material-symbols-light:jamboard-kiosk' },
     { name: '/home', text: 'Подписаться', icon: 'mdi:telegram' },
-    { name: 'https://t.me/webimit_bot', text: 'Войти', icon: 'mdi:import' },
+    { name: '/login', text: 'Войти', icon: 'mdi:import' },
 ])
 
 

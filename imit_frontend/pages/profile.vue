@@ -26,7 +26,7 @@ const user_details = reactive({})
         <div class="p-3">
             <q-input dark color="white" disabled dense v-model="user_details.old_password" label="Ваш пароль" />
             <q-input dark color="white" type="password" dense v-model="user_details.new_password" label="Новый пароль" />
-            <q-input dark color="white" type="password" dense v-model="user_details.new_password_again" label="Повторите новый пароль" />
+            <q-input dark color="white" type="password" dense v-model="user_details.new_repeatPassword" label="Повторите пароль" />
             <q-btn label="Установить новый пароль" type="button" color="primary" />
         </div>
 
