@@ -16,5 +16,14 @@ export default defineNuxtConfig({
   modules: ['nuxt-icon', 'nuxt-bootstrap-icons', 'nuxt-quasar-ui', '@nuxt/ui', '@pinia/nuxt',],
   quasar: {
     cssAddon: false
-  }
+  },
+  hooks: {
+    'pages:extend'(pages) {
+        pages.push({
+            name: 'home',
+            path: '/home',
+            file: '~/pages/index.vue'
+        })
+    }
+}
 })
