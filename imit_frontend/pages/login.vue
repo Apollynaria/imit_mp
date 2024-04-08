@@ -6,9 +6,6 @@ definePageMeta({
     layout: 'star'
 })
 
-const username = ref('my-login')
-const password = ref('12345')
-
 // const classLogo = computed(() => {
 //     console.log('g')
 //     return{
@@ -18,15 +15,26 @@ const password = ref('12345')
     
 // })
 
+const isPwd = ref(true);
+const user = reactive({
+    login: '',
+    password: '',
+})
+
 </script>
 
 <template>
     <div>
        <form-login-and-register title="Вход в систему">
-        <q-input :dark="isDarkTheme" filled v-model="username" label="Логин" lazy-rules />
+        <q-input :dark="isDarkTheme" filled v-model="user.login" label="Логин" lazy-rules />
 
-        <q-input :dark="isDarkTheme" type="password" filled v-model="password" label="Пароль"
-            lazy-rules />
+        <q-input v-model="user.password" class="flex-1" :dark="isDarkTheme" filled
+                    :type="isPwd ? 'password' : 'text'" label="Пароль">
+                    <template v-slot:append>
+                        <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                            @click="isPwd = !isPwd" />
+                    </template>
+                </q-input>
 
         <div class="flex justify-between">
             <q-btn label="Войти" to="/profile" type="button" color="primary" />
