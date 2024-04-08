@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+const themeStore = useThemeStore()
+const isDarkTheme = computed(() => themeStore.isDarkTheme)
 
 
 useSeoMeta({
@@ -9,26 +11,116 @@ definePageMeta({
     layout: 'admin'
 })
 
-const user_details = reactive({})
+const isPwd = ref(true);
+const isPwdNew = ref(true);
+const isPwdRepeat = ref(true);
+const user_details = reactive({
+    login: 'ivanov2002',
+    name: 'Иван',
+    surname: 'Иванов',
+    patronymic: 'Иванович',
+    password: '',
+    place_of_work: 'ИМИТ ИГУ, 02471-ДБ',
+    email: '123@mail.ru',
+    phone: '9500885977',
+})
+
+const classLogo = computed(() => {
+    return {
+        'bg-[#142437]': (isDarkTheme.value === true),
+        'bg-[#fff]': (isDarkTheme.value === false)
+    }
+
+})
 
 </script>
 
 <template>
-    <div>
+    <div class="p-5">
 
-        <div class="p-3">
-            <q-input dark color="white" disabled dense v-model="user_details.user_name" label="Ваш логин" />
-            <q-input dark color="white" dense v-model="user_details.first_name" label="Имя" />
-            <q-input dark color="white" dense v-model="user_details.last_name" label="Фамилия" />
-            <q-input dark color="white" dense v-model="user_details.patronymic" label="Отчество (при наличии)" />
+        <div :class="classLogo" class="rounded-lg p-3 mb-3">
+
+            <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Данные аккаунта</div>
+
+            <div class="flex flex-col md:flex-row p-2">
+                <q-input readonly outlined color="primary" class="flex-1" :dark="isDarkTheme" v-model="user_details.login" label="Логин"
+                    lazy-rules />
+                <q-input readonly outlined class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
+                    v-model="user_details.email" label="E-mail" type="email" lazy-rules />
+            </div>
+
+            <div class="flex flex-col md:flex-row p-2">
+                <q-input outlined class="flex-1" :dark="isDarkTheme" v-model="user_details.phone" label="Телефон"
+                    lazy-rules mask="+7(###) ### - ####" fill-mask />
+                <q-input clearable clear-icon="close" outlined class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
+                    v-model="user_details.place_of_work" label="Место работы" lazy-rules />
+            </div>
+
+            <div class="flex flex-col md:flex-row p-2">
+                <q-input clearable clear-icon="close" outlined class="flex-1" :dark="isDarkTheme" v-model="user_details.surname" label="Фамилия"
+                    lazy-rules />
+                <q-input clearable clear-icon="close" outlined class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme" v-model="user_details.name"
+                    label="Имя" lazy-rules />
+            </div>
+
+            <q-input clearable clear-icon="close" outlined class="p-2" :dark="isDarkTheme" v-model="user_details.patronymic"
+                label="Отчество (при наличии)" lazy-rules />
+
+
+            <div class="p-2">
+                <q-btn  label="Сохранить" to="/profile" type="button" color="primary" />
+            </div>
+        </div>
+
+        <div :class="classLogo" class="rounded-lg p-3">
+
+            <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Изменение пароля</div>
+            <q-input outlined class="p-2" :dark="isDarkTheme" v-model="user_details.password"
+                :type="isPwd ? 'password' : 'text'" label="Текущий пароль">
+                <template v-slot:append>
+                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                        @click="isPwd = !isPwd" />
+                </template>
+            </q-input>
+
+            <div class="flex flex-col md:flex-row p-2">
+                <q-input outlined v-model="newPassword" class="flex-1" :dark="isDarkTheme"
+                    :type="isPwdNew ? 'password' : 'text'" label="Новый пароль">
+                    <template v-slot:append>
+                        <q-icon :name="isPwdNew ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                            @click="isPwdNew = !isPwdNew" />
+                    </template>
+                </q-input>
+                <q-input outlined v-model="repeatPassword" class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
+                    :type="isPwdRepeat ? 'password' : 'text'" label="Повторите пароль">
+                    <template v-slot:append>
+                        <q-icon :name="isPwdRepeat ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                            @click="isPwdRepeat = !isPwdRepeat" />
+                    </template>
+                </q-input>
+            </div>
+
+            <div class="p-2">
+                <q-btn  label="Сохранить" to="/profile" type="button" color="primary" />
+            </div>
+        </div>
+
+        <!-- <div class="p-3 rounded-lg" :class="classLogo">
+            <q-input readonly :dark="isDarkTheme" disabled dense v-model="user_details.user_name" label="Логин" />
+            <q-input readonly :dark="isDarkTheme" disabled dense v-model="user_details.user_name" label="Ваш логин" />
+            <q-input :dark="isDarkTheme" dense v-model="user_details.first_name" label="Имя" />
+            <q-input :dark="isDarkTheme" dense v-model="user_details.last_name" label="Фамилия" />
+            <q-input :dark="isDarkTheme" dense v-model="user_details.patronymic" label="Отчество (при наличии)" />
         </div>
 
         <div class="p-3">
-            <q-input dark color="white" disabled dense v-model="user_details.old_password" label="Ваш пароль" />
-            <q-input dark color="white" type="password" dense v-model="user_details.new_password" label="Новый пароль" />
-            <q-input dark color="white" type="password" dense v-model="user_details.new_repeatPassword" label="Повторите пароль" />
+            <q-input :dark="isDarkTheme" disabled dense v-model="user_details.old_password" label="Текущий пароль" />
+            <q-input :dark="isDarkTheme" type="password" dense v-model="user_details.new_password"
+                label="Новый пароль" />
+            <q-input :dark="isDarkTheme" type="password" dense v-model="user_details.new_repeatPassword"
+                label="Повторите новый пароль" />
             <q-btn label="Установить новый пароль" type="button" color="primary" />
-        </div>
+        </div> -->
 
     </div>
 </template>

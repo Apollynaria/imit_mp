@@ -17,30 +17,46 @@ const props = defineProps({
     }
 });
 
+const classDiv = computed(() => {
+    return {
+        'bg-[#142437]': (isDarkTheme.value === true),
+        'bg-[#fff]': (isDarkTheme.value === false)
+    }
+
+})
+
 </script>
 
 <template>
     <div class="w-full">
-        <div class="flex justify-center flex-center z-10 relative h-full " :class="{'h-screen' : isLogin, 'min-h-[700px]': !isLogin}">
+        <div class="flex justify-center flex-center z-10 relative h-full "
+            :class="{ 'h-screen': isLogin, 'min-h-[700px]': !isLogin }">
             <q-card :style="$q.screen.lt.md ? { 'width': '85%' } : { 'width': maxWidth }"
-                class="dark:bg-[#142437] text-[#1f2731] dark:text-[#fff] mt-[50px] mb-[50px]" >
+                class="dark:bg-[#081626] bg-[#e2e2e2] text-[#1f2731] dark:text-[#fff] mt-[50px] mb-[50px]">
                 <q-card-section>
                     <q-avatar size="103px" class="absolute-center shadow-10">
-                        <img class="bg-[#142437]" src="../public/Logo-white.svg">
+                        <img class="bg-[#142437]" src="../Logo-white.svg">
                     </q-avatar>
                 </q-card-section>
                 <q-card-section>
-                    <div class="text-center q-pt-lg">
+                    <div class="text-center mt-[40px]">
                         <div class="col text-h6 ellipsis">
-                            <!-- Научные мероприятия ИМИТ ИГУ -->
+                            Научные мероприятия ИМИТ ИГУ
                             <!-- <q-separator class="m-3" :dark="isDarkTheme" inset /> -->
-                            {{ title }}
                         </div>
                     </div>
                 </q-card-section>
                 <q-card-section>
                     <q-form class="q-gutter-md">
-                       <slot />
+
+                        <div :class="classDiv" class="rounded-lg p-3">
+                            <div class="col text-h6 ellipsis mb-2">
+                                {{ title }}
+                            </div>
+                            <slot name="form" />
+                        </div>
+
+                        <slot name="buttons" />
                     </q-form>
                 </q-card-section>
             </q-card>
@@ -48,6 +64,4 @@ const props = defineProps({
     </div>
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
