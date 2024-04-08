@@ -26,7 +26,7 @@ const props = defineProps({
 
 <template>
     <div class="p-3">
-        <q-card :dark="isDarkTheme" class="bg-[#fff] dark:bg-[#142437] text-[#000] dark:text-[#fff] my-card">
+        <q-card :dark="isDarkTheme" class="bg-[#fff] dark:bg-[#142437] text-[#000] dark:text-[#fff] my-card no-shadow">
             <q-card-section>
                 <Icon class="mb-2 text-[#1976D2]" :name="props.icon" size="50"/>
                 <div class="text-h5">{{ props.title }}</div>

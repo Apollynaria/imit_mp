@@ -11,6 +11,14 @@ const cards_mp = ref([
     { title: 'Конференция 5', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '21.05.2024' },
 ])
 
+const classLogo = computed(() => {
+    return {
+        'bg-[#142437]': (isDarkTheme.value === true),
+        'bg-[#fff]': (isDarkTheme.value === false)
+    }
+
+})
+
 </script>
 
 <template>
@@ -33,44 +41,41 @@ const cards_mp = ref([
         </StarBackground>
 
 
-        <div class="bg-[#fff] dark:bg-[#142437] w-90 mx-auto max-w-screen-xl">
+        <div class="w-90 mx-auto max-w-screen-xl">
 
-            <br>
+            <div :class="classLogo" class="rounded-lg p-3 m-3">
+                <div class="text-h4 text-center text-[#1f2731] dark:text-[#fff] font-medium mb-2">
+                    Научные конференции
+                </div>
 
-            <div class="text-h4 text-center text-[#1f2731] dark:text-[#fff] font-semibold mb-2">
-                Научные конференции
-            </div>
+                <div class="flex flex-row justify-center mb-2">
 
-            <div class="flex flex-row justify-center mb-2">
+                    <img class="w-[600px] p-3" src="../VbwjenOX4WA.jpg">
 
-                <img class="w-[600px] p-3" src="../public/VbwjenOX4WA.jpg">
+                    <div class="w-[600px] text-h6 text-[#1f2731] dark:text-[#fff] p-3 content-center">
+                        <q-card :dark="isDarkTheme" bordered
+                            class="bg-[#fff] dark:bg-[#142437] text-[#000] dark:text-[#fff] my-card no-shadow">
 
-                <div class="w-[600px] text-h6 text-[#1f2731] dark:text-[#fff] p-3 content-center">
-                    <q-card :dark="isDarkTheme"
-                        class="bg-[#fff] dark:bg-[#142437] text-[#000] dark:text-[#fff] my-card">
+                            <q-card-section>
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
+                                odio
+                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
+                                culpa fuga nulla ullam. In, libero.
+                            </q-card-section>
 
-                        <q-card-section>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
-                            odio
-                            iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                            culpa fuga nulla ullam. In, libero.
-                        </q-card-section>
+                            <q-separator :dark="isDarkTheme" inset />
 
-                        <q-separator :dark="isDarkTheme" inset />
-
-                        <q-card-section>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
-                            odio
-                            iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                            culpa fuga nulla ullam. In, libero.
-                        </q-card-section>
-                    </q-card>
+                            <q-card-section>
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
+                                odio
+                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
+                                culpa fuga nulla ullam. In, libero.
+                            </q-card-section>
+                        </q-card>
+                    </div>
                 </div>
             </div>
 
-            <div class="text-h4 text-center text-[#1f2731] dark:text-[#fff] font-semibold mb-2">
-                Текущие конференции
-            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <CardMp v-for="(card, index) in cards_mp" :key="index" :title="card.title"

@@ -18,6 +18,10 @@ const cards_mp = ref([
   { title: 'Мероприятие 5', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '21.05.2024' },
 ])
 
+const themeStore = useThemeStore()
+const isDarkTheme = computed(() => themeStore.isDarkTheme)
+
+
 </script>
 
 
@@ -44,8 +48,11 @@ const cards_mp = ref([
 
     </StarBackground>
 
-    <div class="bg-[#fff] dark:bg-[#142437] w-90 mx-auto max-w-screen-xl">
+    <div class="w-90 mx-auto max-w-screen-xl">
+
+      
       <Carousel></Carousel>
+      
 
       <div class="gap-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center">
         <CardWithText v-for="(card, index) in cards_prospects" :key="index" :title="card.title" :text="card.text"
@@ -53,7 +60,7 @@ const cards_mp = ref([
         </CardWithText>
       </div>
 
-      <CalendarHome></CalendarHome>
+      <CalendarHome class="m-3"></CalendarHome>
 
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

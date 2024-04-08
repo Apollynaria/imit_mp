@@ -22,7 +22,7 @@ const props = defineProps({
 
 <template>
     <div class="p-3 h-full">
-        <q-card :dark="isDarkTheme" bordered class="my-card bg-[#fff] dark:bg-[#142437] h-full flex flex-col">
+        <q-card :dark="isDarkTheme" class="my-card bg-[#fff] dark:bg-[#142437] h-full flex flex-col no-shadow">
             <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
                 <div class="absolute-bottom text-h6">
                     {{ props.title }}
