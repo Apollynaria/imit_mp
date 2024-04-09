@@ -38,21 +38,18 @@ const classDiv = computed(() => {
                         <img class="bg-[#142437]" src="../Logo-white.svg">
                     </q-avatar>
                 </q-card-section>
-                <q-card-section>
-                    <div class="text-center mt-[40px]">
-                        <div class="col text-h6 ellipsis">
-                            Научные мероприятия ИМИТ ИГУ
-                            <!-- <q-separator class="m-3" :dark="isDarkTheme" inset /> -->
-                        </div>
+                <div class="text-center mt-[40px]">
+                    <div class="col text-h6 ellipsis">
+                        Научные мероприятия ИМИТ ИГУ
                     </div>
-                </q-card-section>
+                    <div class="col text-h6 ellipsis">
+                        {{ title }}
+                    </div>
+                </div>
                 <q-card-section>
                     <q-form class="q-gutter-md">
 
                         <div :class="classDiv" class="rounded-lg p-3">
-                            <div class="col text-h6 ellipsis mb-2">
-                                {{ title }}
-                            </div>
                             <slot name="form" />
                         </div>
 

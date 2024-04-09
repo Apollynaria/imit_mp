@@ -2,7 +2,6 @@
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
 
-
 definePageMeta({
     layout: 'star'
 })
@@ -26,7 +25,7 @@ const repeatPassword = ref('');
 
 <template>
     <div class="flex bg-image flex-center">
-        <form-login-and-register title="Регистрация в системе" maxWidth="80%" :is-login="false">
+        <form-login-and-register title="Регистрация" maxWidth="80%" :is-login="false">
 
             <template v-slot:form>
                 <div class="flex flex-col md:flex-row p-2">

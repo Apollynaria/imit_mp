@@ -6,15 +6,6 @@ definePageMeta({
     layout: 'star'
 })
 
-// const classLogo = computed(() => {
-//     console.log('g')
-//     return{
-//         'bg-[#142437]': (isDarkTheme.value === true),
-//         'bg-[#1976D2]' : (isDarkTheme.value === false)
-//     }
-
-// })
-
 const isPwd = ref(true);
 const user = reactive({
     login: null,
@@ -27,7 +18,8 @@ const user = reactive({
     <div>
         <form-login-and-register title="Вход в систему">
             <template v-slot:form>
-                <q-input clearable clear-icon="close" class="p-2" :dark="isDarkTheme" outlined v-model="user.login" label="Логин" lazy-rules />
+                <q-input clearable clear-icon="close" class="p-2" :dark="isDarkTheme" outlined v-model="user.login"
+                    label="Логин" lazy-rules />
 
                 <q-input v-model="user.password" class="flex-1 p-2" :dark="isDarkTheme" outlined
                     :type="isPwd ? 'password' : 'text'" label="Пароль">

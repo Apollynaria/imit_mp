@@ -5,7 +5,7 @@ const isDarkTheme = computed(() => themeStore.isDarkTheme)
 
 
 useSeoMeta({
-    title: 'Личный кабинет',
+    title: 'Профиль',
 })
 definePageMeta({
     layout: 'admin'
@@ -104,23 +104,6 @@ const classLogo = computed(() => {
                 <q-btn  label="Сохранить" to="/profile" type="button" color="primary" />
             </div>
         </div>
-
-        <!-- <div class="p-3 rounded-lg" :class="classLogo">
-            <q-input readonly :dark="isDarkTheme" disabled dense v-model="user_details.user_name" label="Логин" />
-            <q-input readonly :dark="isDarkTheme" disabled dense v-model="user_details.user_name" label="Ваш логин" />
-            <q-input :dark="isDarkTheme" dense v-model="user_details.first_name" label="Имя" />
-            <q-input :dark="isDarkTheme" dense v-model="user_details.last_name" label="Фамилия" />
-            <q-input :dark="isDarkTheme" dense v-model="user_details.patronymic" label="Отчество (при наличии)" />
-        </div>
-
-        <div class="p-3">
-            <q-input :dark="isDarkTheme" disabled dense v-model="user_details.old_password" label="Текущий пароль" />
-            <q-input :dark="isDarkTheme" type="password" dense v-model="user_details.new_password"
-                label="Новый пароль" />
-            <q-input :dark="isDarkTheme" type="password" dense v-model="user_details.new_repeatPassword"
-                label="Повторите новый пароль" />
-            <q-btn label="Установить новый пароль" type="button" color="primary" />
-        </div> -->
 
     </div>
 </template>

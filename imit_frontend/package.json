@@ -16,11 +16,13 @@
     "@vueuse/components": "^10.9.0",
     "@vueuse/core": "^10.9.0",
     "gsap": "^3.12.5",
+    "markdown-it": "^14.1.0",
     "nuxt": "^3.10.3",
     "pinia": "^2.1.7",
     "quasar": "^2.14.6",
     "vue": "^3.4.19",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vue3-markdown-it": "^1.0.10"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.18",
