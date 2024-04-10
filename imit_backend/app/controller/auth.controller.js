@@ -15,7 +15,7 @@ exports.register = (req, res) => {
         place_of_work: req.body.place_of_work,
         email: req.body.email,
         phone: req.body.phone,
-        is_admin: req.body.is_admin,
+        is_admin: false,
     })
         .then(() => {
             var result = {
@@ -44,7 +44,7 @@ exports.login = (req, res) => {
                 req.body.password,
                 user.password
             );
-            if (!passwordIsValid) {
+            if (req.body.password !== user.password) {
                 res.status(401).send({
                     accessToken: null,
                     message: "Неверно введенный логин и/или пароль"
@@ -59,12 +59,6 @@ exports.login = (req, res) => {
             var object = {
                 id: user.id,
                 login: user.login,
-                name: user.name,
-                surname: user.surname,
-                patronymic: user.patronymic,
-                place_of_work: user.place_of_work,
-                email: user.email,
-                phone: user.phone,
                 is_admin: user.is_admin,
                 accessToken: token
             };

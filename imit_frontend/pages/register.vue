@@ -21,6 +21,19 @@ const newUser = reactive({
 
 const repeatPassword = ref('');
 
+import AuthService from '../services/auth.service';
+
+const handleLogin = () => {
+    AuthService.register(newUser) // обращаемся к методу login, который определён в auth.service.js
+        .then(() => {
+            console.log("registered") // авторизация прошла успешно, переходим к главной странице. Используем такую конструкцию, а не this.$router.push, так как требуется перезагрузить страницу для обновления локального хранилища
+        })
+        .catch(e => {
+            console.log(e.response.data.message);
+        }
+        );
+}
+
 </script>
 
 <template>
@@ -72,7 +85,7 @@ const repeatPassword = ref('');
 
             <template v-slot:buttons>
                 <div>
-                    <q-btn label="Зарегистрироваться" to="/profile" type="button" color="primary" />
+                    <q-btn @click="handleLogin" label="Зарегистрироваться" type="button" color="primary" />
                 </div>
                 <div>
                     <nuxt-link to="/login"
