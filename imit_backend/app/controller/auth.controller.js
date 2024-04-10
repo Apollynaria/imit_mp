@@ -44,7 +44,8 @@ exports.login = (req, res) => {
                 req.body.password,
                 user.password
             );
-            if (req.body.password !== user.password) {
+
+            if (!passwordIsValid) {
                 res.status(401).send({
                     accessToken: null,
                     message: "Неверно введенный логин и/или пароль"

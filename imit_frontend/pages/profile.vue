@@ -43,32 +43,44 @@ const classLogo = computed(() => {
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Данные аккаунта</div>
 
             <div class="flex flex-col md:flex-row p-2">
-                <q-input readonly outlined color="primary" class="flex-1" :dark="isDarkTheme" v-model="user_details.login" label="Логин"
-                    lazy-rules />
+                <q-input readonly outlined color="primary" class="flex-1" :dark="isDarkTheme"
+                    v-model="user_details.login" label="Логин" lazy-rules>
+                    <template v-slot:prepend>
+                        <q-icon name="person" />
+                    </template>
+                </q-input>
                 <q-input readonly outlined class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
-                    v-model="user_details.email" label="E-mail" type="email" lazy-rules />
+                    v-model="user_details.email" label="E-mail" type="email" lazy-rules>
+                    <template v-slot:prepend>
+                        <q-icon name="email" />
+                    </template>
+                </q-input>
             </div>
 
             <div class="flex flex-col md:flex-row p-2">
                 <q-input outlined class="flex-1" :dark="isDarkTheme" v-model="user_details.phone" label="Телефон"
-                    lazy-rules mask="+7(###) ### - ####" fill-mask />
+                    lazy-rules mask="+7(###) ### - ####" fill-mask>
+                    <template v-slot:prepend>
+                        <q-icon name="phone" />
+                    </template>
+                </q-input>
                 <q-input clearable clear-icon="close" outlined class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
                     v-model="user_details.place_of_work" label="Место работы" lazy-rules />
             </div>
 
             <div class="flex flex-col md:flex-row p-2">
-                <q-input clearable clear-icon="close" outlined class="flex-1" :dark="isDarkTheme" v-model="user_details.surname" label="Фамилия"
-                    lazy-rules />
-                <q-input clearable clear-icon="close" outlined class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme" v-model="user_details.name"
-                    label="Имя" lazy-rules />
+                <q-input clearable clear-icon="close" outlined class="flex-1" :dark="isDarkTheme"
+                    v-model="user_details.surname" label="Фамилия" lazy-rules />
+                <q-input clearable clear-icon="close" outlined class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
+                    v-model="user_details.name" label="Имя" lazy-rules />
             </div>
 
-            <q-input clearable clear-icon="close" outlined class="p-2" :dark="isDarkTheme" v-model="user_details.patronymic"
-                label="Отчество (при наличии)" lazy-rules />
+            <q-input clearable clear-icon="close" outlined class="p-2" :dark="isDarkTheme"
+                v-model="user_details.patronymic" label="Отчество (при наличии)" lazy-rules />
 
 
             <div class="p-2">
-                <q-btn  label="Сохранить" to="/profile" type="button" color="primary" />
+                <q-btn label="Сохранить" to="/profile" type="button" color="primary" />
             </div>
         </div>
 
@@ -80,6 +92,9 @@ const classLogo = computed(() => {
                 <template v-slot:append>
                     <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
                         @click="isPwd = !isPwd" />
+                </template>
+                <template v-slot:prepend>
+                    <q-icon name="lock" />
                 </template>
             </q-input>
 
@@ -101,7 +116,7 @@ const classLogo = computed(() => {
             </div>
 
             <div class="p-2">
-                <q-btn  label="Сохранить" to="/profile" type="button" color="primary" />
+                <q-btn label="Изменить пароль" to="/profile" type="button" color="positive" />
             </div>
         </div>
 

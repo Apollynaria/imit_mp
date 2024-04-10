@@ -14,6 +14,14 @@ const props = defineProps({
     isLogin: {
         type: Boolean,
         default: true
+    },
+    sumbit_title: {
+        type: String,
+        default: 'Отправить'
+    },
+    loading:{
+        type: Boolean,
+        default: false
     }
 });
 
@@ -24,6 +32,9 @@ const classDiv = computed(() => {
     }
 
 })
+
+const emit = defineEmits(['onSubmit']);
+
 
 </script>
 
@@ -47,12 +58,17 @@ const classDiv = computed(() => {
                     </div>
                 </div>
                 <q-card-section>
-                    <q-form class="q-gutter-md">
+                    <q-form class="q-gutter-md" @submit.prevent="emit('onSubmit')">
 
                         <div :class="classDiv" class="rounded-lg p-3">
                             <slot name="form" />
                         </div>
 
+                        <div>
+                            <q-btn :loading="loading" :disable="loading" color="primary" type="submit">
+                                {{ sumbit_title }}
+                            </q-btn>
+                        </div>
                         <slot name="buttons" />
                     </q-form>
                 </q-card-section>

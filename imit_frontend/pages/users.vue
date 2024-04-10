@@ -8,6 +8,8 @@ if (user && user.accessToken) {
   token = user.accessToken;
 
 }
+
+console.log(token)
 // Access public variables
 const users = await $fetch(`/users`, {
   baseURL: config.public.apiBase,

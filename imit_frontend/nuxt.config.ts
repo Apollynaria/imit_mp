@@ -23,17 +23,21 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light'
   },
-  modules: ['nuxt-icon', 'nuxt-bootstrap-icons', 'nuxt-quasar-ui', '@nuxt/ui', '@pinia/nuxt', ],
+  modules: ['nuxt-icon', 'nuxt-bootstrap-icons', 'nuxt-quasar-ui', '@nuxt/ui', '@pinia/nuxt',],
   quasar: {
-    cssAddon: false
+    cssAddon: false,
+    plugins: [
+      'Notify'
+    ],
+
   },
   hooks: {
     'pages:extend'(pages) {
-        pages.push({
-            name: 'home',
-            path: '/home',
-            file: '~/pages/index.vue'
-        })
+      pages.push({
+        name: 'home',
+        path: '/home',
+        file: '~/pages/index.vue'
+      })
     }
-}
+  }
 })

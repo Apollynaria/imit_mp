@@ -21,24 +21,24 @@ module.exports = (sequelize, Sequelize) => {
                 allowNull: false
             },
             date_begin: {
-                type: Sequelize.DATE,
+                type: Sequelize.STRING(10),
                 allowNull: false
             },
             date_end: {
-                type: Sequelize.DATE,
+                type: Sequelize.STRING(10),
                 allowNull: false
             },
             date_for_request_begin: {
-                type: Sequelize.DATE,
+                type: Sequelize.STRING(10),
             },
             date_for_request_end: {
-                type: Sequelize.DATE,
+                type: Sequelize.STRING(10),
             },
             date_for_tesis_begin: {
-                type: Sequelize.DATE,
+                type: Sequelize.STRING(10),
             },
             date_for_tesis_end: {
-                type: Sequelize.DATE,
+                type: Sequelize.STRING(10),
             },
             location: {
                 type: Sequelize.STRING(100),

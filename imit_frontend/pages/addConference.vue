@@ -81,9 +81,17 @@ const dateForTesisToString = computed(() => {
 
             <div class="flex flex-col md:flex-row p-2">
                 <q-input clearable clear-icon="close" outlined class="flex-1" :dark="isDarkTheme"
-                    v-model="conference.name" label="Название конференции" lazy-rules />
+                    v-model="conference.name" label="Название конференции" lazy-rules>
+                    <template v-slot:prepend>
+                        <q-icon name="badge" />
+                    </template>
+                </q-input>
                 <q-input clearable clear-icon="close" outlined class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
-                    v-model="conference.location" label="Место проведения" lazy-rules />
+                    v-model="conference.location" label="Место проведения" lazy-rules>
+                    <template v-slot:prepend>
+                        <q-icon name="place" />
+                    </template>
+                </q-input>
             </div>
 
             <div class="flex flex-col md:flex-row p-2">

@@ -36,14 +36,13 @@
             <q-drawer v-model="leftDrawerOpen" show-if-above
                 class="shadow-[0_25px_20px_-15px_rgba(0,0,0,0.8)] bg-[#142437] text-[#fff]">
                 <div class="flex justify-center mb-2">
-                    <img src="../imit_nobackground.png" class="w-[100px] mt-3 circle"
-                        alt="">
+                    <img src="../imit_nobackground.png" class="w-[100px] mt-3 circle" alt="">
                 </div>
                 <div class="text-h6 text-center text-[#fff] mb-2">
                     Научные мероприятия <br>ИМИТ ИГУ
                 </div>
                 <q-list>
-                    <q-item to="/profile" active-class="q-item-no-link-highlighting">
+                    <q-item clickable to="/profile" active-class="q-item-no-link-highlighting">
                         <q-item-section avatar>
                             <q-icon name="person" />
                         </q-item-section>
@@ -52,57 +51,68 @@
                         </q-item-section>
                     </q-item>
 
-                    <q-item to="/profile" active-class="q-item-no-link-highlighting">
-                        <q-item-section avatar>
-                            <q-icon name="article" />
-                        </q-item-section>
-                        <q-item-section>
-                            <q-item-label>ЗАЯВКИ НА МЕРОПРИЯТИЯ</q-item-label>
-                        </q-item-section>
-                    </q-item>
+                    <q-expansion-item icon="article" label="ЗАЯВКИ">
+                        <q-list class="ms-[30px]">
 
-                    <!-- <q-expansion-item icon="pages" label="Pages">
-                        <q-list class="q-pl-lg">
-                            <q-item to="/Login-1" active-class="q-item-no-link-highlighting">
+                            <q-item clickable to="/AddConference" active-class="q-item-no-link-highlighting">
                                 <q-item-section avatar>
-                                    <q-icon name="email" />
+                                    <q-icon name="add_circle" />
                                 </q-item-section>
-                                <q-item-section>
-                                    <q-item-label>Login-1</q-item-label>
+                                <q-item-section class="flex">
+                                    <q-item-label>Подать заявку</q-item-label>
                                 </q-item-section>
                             </q-item>
-                            <q-item to="/Pricing" active-class="q-item-no-link-highlighting">
+                            <q-item clickable to="/AddConference" active-class="q-item-no-link-highlighting">
                                 <q-item-section avatar>
-                                    <q-icon name="list" />
+                                    <q-icon name="checklist_rtl" />
                                 </q-item-section>
                                 <q-item-section>
-                                    <q-item-label>Pricing</q-item-label>
-                                </q-item-section>
-                            </q-item>
-                            <q-item-label header
-                                class="text-weight-bolder text-[#000] dark:text-[#fff]">Generic</q-item-label>
-                            <q-item to="/Profile" active-class="q-item-no-link-highlighting">
-                                <q-item-section avatar>
-                                    <q-icon name="person" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label>User Profile</q-item-label>
-                                </q-item-section>
-                            </q-item>
-                            <q-item to="/Maintenance" active-class="q-item-no-link-highlighting">
-                                <q-item-section avatar>
-                                    <q-icon name="settings" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label>Maintenance</q-item-label>
+                                    <q-item-label>Мои заявки</q-item-label>
                                 </q-item-section>
                             </q-item>
                         </q-list>
-                    </q-expansion-item> -->
+                    </q-expansion-item>
+
+                    <q-expansion-item icon="settings" label="КОНФЕРЕНЦИИ">
+                        <q-list class="ms-[30px]">
+                            <q-item clickable to="/Login-1" active-class="q-item-no-link-highlighting">
+                                <q-item-section avatar>
+                                    <q-icon name="admin_panel_settings" />
+                                </q-item-section>
+                                <q-item-section>
+                                    <q-item-label>Администраторы</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                            <q-item clickable to="/AddConference" active-class="q-item-no-link-highlighting">
+                                <q-item-section avatar>
+                                    <q-icon name="add_circle" />
+                                </q-item-section>
+                                <q-item-section>
+                                    <q-item-label>Создать конференцию</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                            <q-item clickable to="/AddConference" active-class="q-item-no-link-highlighting">
+                                <q-item-section avatar>
+                                    <q-icon name="change_circle" />
+                                </q-item-section>
+                                <q-item-section class="flex">
+                                    <q-item-label>Изменить конференцию</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                            <q-item clickable to="/AddConference" active-class="q-item-no-link-highlighting">
+                                <q-item-section avatar>
+                                    <q-icon name="checklist_rtl" />
+                                </q-item-section>
+                                <q-item-section>
+                                    <q-item-label>Заявки</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-expansion-item>
 
                 </q-list>
 
-                <q-item to="/home" active-class="q-item-no-link-highlighting">
+                <q-item clickable to="/home" active-class="q-item-no-link-highlighting">
                     <q-item-section avatar>
                         <q-icon name="reply" />
                     </q-item-section>
@@ -111,16 +121,16 @@
                     </q-item-section>
                 </q-item>
 
-                <q-item to="/login" active-class="q-item-no-link-highlighting">
+                <q-item clickable type="button" to="/login" active-class="q-item-no-link-highlighting">
                     <q-item-section avatar>
                         <q-icon name="logout" />
                     </q-item-section>
-                    <q-item-section>
+                    <q-item-section @click="logOut">
                         <q-item-label>ВЫХОД</q-item-label>
                     </q-item-section>
                 </q-item>
 
-                <q-item to="/help" active-class="q-item-no-link-highlighting">
+                <q-item clickable to="/help" active-class="q-item-no-link-highlighting">
                     <q-item-section avatar>
                         <q-icon name="help" />
                     </q-item-section>
@@ -156,6 +166,11 @@ const toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
+import AuthService from '../services/auth.service';
+const logOut = () => {
+    AuthService.logout()
+    console.log('logout')
+}
 </script>
 
 <style>
