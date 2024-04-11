@@ -23,7 +23,8 @@ const authStore = useAuthStore()
 const loggedIn = computed(() => toRef(authStore.getLoggedIn))
 const router = useRouter()
 
-if(loggedIn.value){
+if(loggedIn.value === true){
+    console.log(loggedIn.value)
     router.push({ path: '/profile'})
 }
 
@@ -36,7 +37,7 @@ const handleLogin = () => {
             router.push({ path: '/profile'})
         })
         .catch(e => {
-            console.log(e.response)
+            // console.log(e.response)
             color_input.value = 'red'
             showNotif(e.response._data.message, 'red', $q)
         })

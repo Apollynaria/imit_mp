@@ -2,9 +2,10 @@ import AuthService from '../services/auth.service'
 import { defineStore } from 'pinia'
 
 let initialState = {}
+let user = {}
 
 if (process.client) {
-    const user = JSON.parse(localStorage.getItem('user'));
+    user = JSON.parse(localStorage.getItem('user'));
     initialState = user // состояния: авторизованный или неавторизованный пользователь
         ? { status: { loggedIn: true }, user }
         : { status: { loggedIn: false }, user: null };
@@ -16,17 +17,17 @@ export const useAuthStore = defineStore('auth', () => {
 
     function loginSuccess(loggedInUser) {
         state.status.loggedIn = true
-        Object.keys(loggedInUser).forEach(key => user[key] = loggedInUser[key])
+        Object.keys(loggedInUser).forEach(key => state.user[key] = loggedInUser[key])
     }
 
     function loginFailure() {
         state.status.loggedIn = false
-        Object.assign(user, {})
+        Object.assign(state.user, {})
     }
 
     function logoutUser() {
         state.status.loggedIn = false
-        Object.assign(user, {})
+        Object.assign(state.user, {})
     }
 
     function registerSuccess() {

@@ -18,10 +18,6 @@ const cards_mp = ref([
   { title: 'Мероприятие 5', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '21.05.2024' },
 ])
 
-const themeStore = useThemeStore()
-const isDarkTheme = computed(() => themeStore.isDarkTheme)
-const authStore = useAuthStore()
-
 </script>
 
 
