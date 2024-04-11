@@ -38,7 +38,7 @@ async function refreshToken(user) {
         baseURL: config.public.apiBase,
         method: 'POST',
         body: data
-    });
+    })
 
     if (res.accessToken) {
         localStorage.setItem('user', JSON.stringify(res));
@@ -86,15 +86,15 @@ async function register(user) {
         place_of_work: user.place_of_work,
         email: user.email,
         phone: user.phone,
-    };
+    }
 
     const res = await $fetch('/register', {
         baseURL: config.public.apiBase,
         method: 'POST',
         body: data
-    });
+    })
 
-    return res;
+    return res
 }
 
 export default {

@@ -26,13 +26,20 @@ const $q = useQuasar()
 const color_input = ref('grey-8')
 const router = useRouter()
 const loading = ref(false);
+const authStore = useAuthStore()
+const loggedIn = computed(() => toRef(authStore.getLoggedIn))
+
+if(loggedIn.value === true){
+    console.log(loggedIn.value)
+    router.push({ path: '/profile'})
+}
 
 const handleRegister = () => {
     if(repeatPassword.value !== newUser.password){
         showNotif("Пароли не совпадают!", 'red', $q)
         return
     }
-    AuthService.register(newUser)
+    authStore.register(newUser)
         .then(() => {
             showNotif("Пользователь зарегистрирован!", 'green', $q, 'done')
             router.push({ path: '/login', query: { login: newUser.login } })

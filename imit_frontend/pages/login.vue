@@ -20,12 +20,12 @@ const $q = useQuasar()
 const color_input = ref('grey-6')
 
 const authStore = useAuthStore()
-const loggedIn = computed(() => toRef(authStore.getLoggedIn))
+const loggedIn = computed(() => authStore.getLoggedIn)
 const router = useRouter()
 
 if(loggedIn.value === true){
     console.log(loggedIn.value)
-    router.push({ path: '/profile'})
+    router.push({ path: `/profile/${authStore.getUserId}`})
 }
 
 const handleLogin = () => {
@@ -37,7 +37,7 @@ const handleLogin = () => {
             router.push({ path: '/profile'})
         })
         .catch(e => {
-            // console.log(e.response)
+            console.log(e.response)
             color_input.value = 'red'
             showNotif(e.response._data.message, 'red', $q)
         })

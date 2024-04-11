@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-import {classDarkTheme} from '../services/DarkTheme'
+import { classDarkTheme } from '../services/DarkTheme'
 
 useSeoMeta({
     title: 'Профиль',
@@ -14,26 +14,20 @@ const isDarkTheme = computed(() => themeStore.isDarkTheme)
 const isPwd = ref(true);
 const isPwdNew = ref(true);
 const isPwdRepeat = ref(true);
-const user_details = reactive({
-    login: 'ivanov2002',
-    name: 'Иван',
-    surname: 'Иванов',
-    patronymic: 'Иванович',
-    password: '',
-    place_of_work: 'ИМИТ ИГУ, 02471-ДБ',
-    email: '123@mail.ru',
-    phone: '9500885977',
-})
-
+const config = useRuntimeConfig()
+const router = useRouter()
 const authStore = useAuthStore()
-
-console.log(authStore.getLoggedIn)
 const loggedIn = computed(() => authStore.getLoggedIn)
 
-if(loggedIn){
-    // window.location.href = '/profile';
-    console.log(loggedIn.value)
-}
+const { id } = useRoute().params;
+
+
+// сделать проверку userBoard
+const { data: user_details } = await useAsyncData(
+    'user_details',
+    () => $fetch(`${config.public.apiBase}/user/${id}`)
+)
+
 </script>
 
 <template>
@@ -88,8 +82,8 @@ if(loggedIn){
         <div :class="classDarkTheme" class="rounded-lg p-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Изменение пароля</div>
-            <q-input outlined class="p-2" :dark="isDarkTheme" v-model="user_details.password"
-                :type="isPwd ? 'password' : 'text'" label="Текущий пароль">
+            <q-input outlined class="p-2" :dark="isDarkTheme" v-model="newPassword" :type="isPwd ? 'password' : 'text'"
+                label="Текущий пароль">
                 <template v-slot:append>
                     <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
                         @click="isPwd = !isPwd" />

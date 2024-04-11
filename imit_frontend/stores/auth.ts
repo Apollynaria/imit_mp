@@ -6,7 +6,7 @@ let user = {}
 
 if (process.client) {
     user = JSON.parse(localStorage.getItem('user'));
-    initialState = user // состояния: авторизованный или неавторизованный пользователь
+    initialState = user
         ? { status: { loggedIn: true }, user }
         : { status: { loggedIn: false }, user: null };
 }
@@ -22,12 +22,16 @@ export const useAuthStore = defineStore('auth', () => {
 
     function loginFailure() {
         state.status.loggedIn = false
-        Object.assign(state.user, {})
+        Object.keys(state.user).forEach(key => {
+            state.user[key] = null; 
+        });
     }
 
     function logoutUser() {
         state.status.loggedIn = false
-        Object.assign(state.user, {})
+        Object.keys(state.user).forEach(key => {
+            state.user[key] = null; 
+        });
     }
 
     function registerSuccess() {
@@ -41,6 +45,8 @@ export const useAuthStore = defineStore('auth', () => {
     const getState = computed(() => state)
 
     const getLoggedIn = computed(() => state.status.loggedIn)
+
+    const getUserId = computed(() => state.user.id)
 
     async function login(_user) {
         try {
@@ -70,7 +76,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     return {
-        state, login, logout, register, loginSuccess, loginFailure, logoutUser, registerSuccess, registerFailure, getState, getLoggedIn
+        state, login, logout, register, loginSuccess, loginFailure, logoutUser, registerSuccess, registerFailure, getState, getLoggedIn, getUserId
     }
 
 })
