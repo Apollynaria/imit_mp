@@ -1,6 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: false,
+
+  // ssr: false,
+  routeRules: {
+    '/': { prerender: true },
+    '/home' : { prerender: true },
+    '/conferences' : {prerender: true},
+    '/login' : {ssr: false},
+    '/register' : {ssr: false},
+    '/profile': { prerender: true },
+    '/addConference' : {ssr: false},
+  },
   devServer: {
     port: 4200,
   },

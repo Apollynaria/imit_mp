@@ -115,21 +115,12 @@ const handleRegister = () => {
                 </div>
             </template>
 
-
             <template v-slot:buttons>
                 <div>
-                    <nuxt-link to="/login"
-                        class="text-[16px] transition-all duration-400 pb-[1px] border-b border-transparent hover:border-[#000] text-[#000] dark:hover:border-[#fff] dark:text-[#fff]"
-                        type="button">
-                        Есть аккаунт? Войти
-                    </nuxt-link>
+                    <button-underline title="Есть аккаунт? Войти" link="/login" />
                 </div>
                 <div>
-                    <nuxt-link to="/home"
-                        class="text-[16px] transition-all duration-400 pb-[1px] border-b border-transparent hover:border-[#000] text-[#000] dark:hover:border-[#fff] dark:text-[#fff]"
-                        type="button">
-                        На главную
-                    </nuxt-link>
+                    <button-underline title="На главную" link="/home" />
                 </div>
             </template>
 

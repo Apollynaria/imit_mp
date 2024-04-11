@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import Messages from "./Messages.vue";
+import { useQuasar } from "quasar";
+import { useThemeStore } from '@/stores/theme'
+import AuthService from '../services/auth.service';
+
+const themeStore = useThemeStore()
+const authStore = useAuthStore()
+const leftDrawerOpen = ref(false)
+const $q = useQuasar()
+
+const toggleLeftDrawer = () => {
+    leftDrawerOpen.value = !leftDrawerOpen.value
+}
+
+const logOut = () => {
+    authStore.logout()
+}
+</script>
+
 <template>
     <div :class="themeStore.getTheme">
         <q-layout view="lHh Lpr lFf" class="bg-[#e2e2e2] dark:bg-[#081626]">
@@ -147,31 +167,6 @@
         </q-layout>
     </div>
 </template>
-
-<script setup lang="ts">
-import Messages from "./Messages.vue";
-// import * as Logo from "../public/Logo.svg"
-import { defineComponent, ref } from 'vue'
-import { useQuasar } from "quasar";
-import { useThemeStore } from '@/stores/theme'
-const themeStore = useThemeStore()
-
-
-const leftDrawerOpen = ref(false)
-const $q = useQuasar()
-console.log($q.fullscreen?.isActive)
-
-
-const toggleLeftDrawer = () => {
-    leftDrawerOpen.value = !leftDrawerOpen.value
-}
-
-import AuthService from '../services/auth.service';
-const logOut = () => {
-    AuthService.logout()
-    console.log('logout')
-}
-</script>
 
 <style>
 /* FONT AWESOME GENERIC BEAT */

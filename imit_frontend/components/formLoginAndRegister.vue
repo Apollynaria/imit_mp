@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const themeStore = useThemeStore()
-const isDarkTheme = computed(() => themeStore.isDarkTheme)
+import {classDarkTheme} from "../services/DarkTheme"
 
 const props = defineProps({
     title: {
@@ -25,16 +24,7 @@ const props = defineProps({
     }
 });
 
-const classDiv = computed(() => {
-    return {
-        'bg-[#142437]': (isDarkTheme.value === true),
-        'bg-[#fff]': (isDarkTheme.value === false)
-    }
-
-})
-
 const emit = defineEmits(['onSubmit']);
-
 
 </script>
 
@@ -60,7 +50,7 @@ const emit = defineEmits(['onSubmit']);
                 <q-card-section>
                     <q-form class="q-gutter-md" @submit.prevent="emit('onSubmit')">
 
-                        <div :class="classDiv" class="rounded-lg p-3">
+                        <div :class="classDarkTheme" class="rounded-lg p-3">
                             <slot name="form" />
                         </div>
 

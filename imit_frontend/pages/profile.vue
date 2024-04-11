@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-const themeStore = useThemeStore()
-const isDarkTheme = computed(() => themeStore.isDarkTheme)
-
+import { useAuthStore } from '@/stores/auth'
+import {classDarkTheme} from '../services/DarkTheme'
 
 useSeoMeta({
     title: 'Профиль',
@@ -11,6 +9,8 @@ definePageMeta({
     layout: 'admin'
 })
 
+const themeStore = useThemeStore()
+const isDarkTheme = computed(() => themeStore.isDarkTheme)
 const isPwd = ref(true);
 const isPwdNew = ref(true);
 const isPwdRepeat = ref(true);
@@ -25,20 +25,21 @@ const user_details = reactive({
     phone: '9500885977',
 })
 
-const classLogo = computed(() => {
-    return {
-        'bg-[#142437]': (isDarkTheme.value === true),
-        'bg-[#fff]': (isDarkTheme.value === false)
-    }
+const authStore = useAuthStore()
 
-})
+console.log(authStore.getLoggedIn)
+const loggedIn = computed(() => authStore.getLoggedIn)
 
+if(loggedIn){
+    // window.location.href = '/profile';
+    console.log(loggedIn.value)
+}
 </script>
 
 <template>
     <div class="p-5">
 
-        <div :class="classLogo" class="rounded-lg p-3 mb-3">
+        <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Данные аккаунта</div>
 
@@ -84,7 +85,7 @@ const classLogo = computed(() => {
             </div>
         </div>
 
-        <div :class="classLogo" class="rounded-lg p-3">
+        <div :class="classDarkTheme" class="rounded-lg p-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Изменение пароля</div>
             <q-input outlined class="p-2" :dark="isDarkTheme" v-model="user_details.password"

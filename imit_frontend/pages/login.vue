@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AuthService from '../services/auth.service';
 import { NOT_NULL_RULES } from "../services/DataRules"
 import { showNotif } from "../services/Notify"
 
@@ -9,6 +8,7 @@ definePageMeta({
 
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
+
 const loginFromRoute = ref(useRoute().query.login);
 const isPwd = ref(true);
 const loading = ref(false);
@@ -17,15 +17,23 @@ const user = reactive({
     password: null,
 })
 const $q = useQuasar()
-const color_input = ref('grey-8')
+const color_input = ref('grey-6')
+
+const authStore = useAuthStore()
+const loggedIn = computed(() => toRef(authStore.getLoggedIn))
+const router = useRouter()
+
+if(loggedIn.value){
+    router.push({ path: '/profile'})
+}
 
 const handleLogin = () => {
     loading.value = true
 
-    AuthService.login(user)
+    authStore.login(user)
         .then(() => {
             showNotif("Авторизация прошла успешно!", 'green', $q, 'done')
-            window.location.href = '/profile'
+            router.push({ path: '/profile'})
         })
         .catch(e => {
             console.log(e.response)
@@ -64,18 +72,10 @@ const handleLogin = () => {
             </template>
             <template v-slot:buttons>
                 <div>
-                    <nuxt-link to="/register"
-                        class="text-[16px] transition-all duration-400 pb-[1px] border-b border-transparent hover:border-[#000] text-[#000] dark:hover:border-[#fff] dark:text-[#fff]"
-                        type="button">
-                        Регистрация
-                    </nuxt-link>
+                    <button-underline title="Регистрация" link="/register" />
                 </div>
                 <div>
-                    <nuxt-link to="/home"
-                        class="text-[16px] transition-all duration-400 pb-[1px] border-b border-transparent hover:border-[#000] text-[#000] dark:hover:border-[#fff] dark:text-[#fff]"
-                        type="button">
-                        На главную
-                    </nuxt-link>
+                    <button-underline title="На главную" link="/home" />
                 </div>
             </template>
         </form-login-and-register>

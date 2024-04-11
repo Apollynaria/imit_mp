@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-const themeStore = useThemeStore()
-const isDarkTheme = computed(() => themeStore.isDarkTheme)
 import Markdown from 'vue3-markdown-it';
+import {classDarkTheme} from '../services/DarkTheme'
+import {createFormattedDate} from '../services/DataRules'
 
 useSeoMeta({
     title: 'Создание конференции',
@@ -11,9 +10,9 @@ definePageMeta({
     layout: 'admin'
 })
 
-const isPwd = ref(true);
-const isPwdNew = ref(true);
-const isPwdRepeat = ref(true);
+const themeStore = useThemeStore()
+const isDarkTheme = computed(() => themeStore.isDarkTheme)
+
 const conference = reactive({
     name: null,
     short_description: null,
@@ -38,44 +37,16 @@ const conference = reactive({
     location: null
 })
 
-const classLogo = computed(() => {
-    return {
-        'bg-[#142437]': (isDarkTheme.value === true),
-        'bg-[#fff]': (isDarkTheme.value === false)
-    }
-
-})
-
-const dateToString = computed(() => {
-    if (conference.dateRange.from && conference.dateRange.to) {
-        return `${conference.dateRange.from} - ${conference.dateRange.to}`;
-    } else {
-        return '';
-    }
-});
-
-const dateForRequestToString = computed(() => {
-    if (conference.dateForRequestRange.from && conference.dateForRequestRange.to) {
-        return `${conference.dateForRequestRange.from} - ${conference.dateForRequestRange.to}`;
-    } else {
-        return '';
-    }
-});
-
-const dateForTesisToString = computed(() => {
-    if (conference.dateForTesisRange.from && conference.dateForTesisRange.to) {
-        return `${conference.dateForTesisRange.from} - ${conference.dateForTesisRange.to}`;
-    } else {
-        return '';
-    }
-});
+const dateToString = computed(() => createFormattedDate(conference.dateRange));
+const dateForRequestToString = computed(() => createFormattedDate(conference.dateForRequestRange));
+const dateForTesisToString = computed(() => createFormattedDate(conference.dateForTesisRange));
 
 </script>
 
 <template>
     <div class="p-5">
 
-        <div :class="classLogo" class="rounded-lg p-3 mb-3">
+        <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Новая конференция</div>
 
@@ -140,7 +111,7 @@ const dateForTesisToString = computed(() => {
             </div>
         </div>
 
-        <div :class="classLogo" class="rounded-lg p-3 mb-3">
+        <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Описание конференции</div>
 
@@ -156,7 +127,7 @@ const dateForTesisToString = computed(() => {
 
         </div>
 
-        <div :class="classLogo" class="rounded-lg p-3 mb-3">
+        <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Секции</div>
 
@@ -164,7 +135,7 @@ const dateForTesisToString = computed(() => {
 
         </div>
 
-        <div :class="classLogo" class="rounded-lg p-3 mb-3">
+        <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Организационный комитет</div>
 
@@ -172,7 +143,7 @@ const dateForTesisToString = computed(() => {
 
         </div>
 
-        <div :class="classLogo" class="rounded-lg p-3 mb-3">
+        <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Программный комитет</div>
 

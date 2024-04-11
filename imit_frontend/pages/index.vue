@@ -20,7 +20,7 @@ const cards_mp = ref([
 
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
-
+const authStore = useAuthStore()
 
 </script>
 

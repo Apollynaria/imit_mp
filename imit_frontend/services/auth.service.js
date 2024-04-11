@@ -1,6 +1,5 @@
-const config = useRuntimeConfig()
-
 async function login(user) {
+    const config = useRuntimeConfig()
     var data = {
         login: user.login,
         password: user.password
@@ -28,6 +27,8 @@ function logout() {
 // на стороне сервера установили время действия токена, если после указанного времени пользователь всё ещё работает в системе,
 // то нужно сгенерировать другой токен
 async function refreshToken(user) {
+
+    const config = useRuntimeConfig()
 
     var data = {
         login: user.login
@@ -73,6 +74,9 @@ function tokenAlive(exp) {
 }
 
 async function register(user) {
+
+    const config = useRuntimeConfig()
+
     var data = {
         login: user.login,
         name: user.name,

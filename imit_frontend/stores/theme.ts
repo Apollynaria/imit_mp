@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
-export const useThemeStore = defineStore('theme',() => {
-  const theme = ref('light');
+export const useThemeStore = defineStore('theme', () => {
+  const theme = ref('dark');
 
   const setDark = () => {
     theme.value = 'dark';
@@ -12,7 +12,7 @@ export const useThemeStore = defineStore('theme',() => {
   }
 
   const switchTheme = () => {
-    theme.value === 'light'? setDark() : setLight()
+    theme.value === 'light' ? setDark() : setLight()
   }
 
   const getTheme = computed(() => theme.value)

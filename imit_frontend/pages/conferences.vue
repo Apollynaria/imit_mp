@@ -87,12 +87,8 @@ const classLogo = computed(() => {
                 <q-btn color="primary" label="Загрузить еще" />
             </div>
 
-            <div class="flex justify-center ">
-                <button
-                    class="text-[16px] mb-3 transition-all duration-400 pb-[1px] border-b border-transparent hover:border-[#000] text-[#000] dark:hover:border-[#fff] dark:text-[#fff]"
-                    type="button">
-                    АРХИВ
-                </button>
+            <div class="flex justify-center mb-2">
+                <button-underline title="АРХИВ" link="/archive" />
             </div>
         </div>
     </div>
