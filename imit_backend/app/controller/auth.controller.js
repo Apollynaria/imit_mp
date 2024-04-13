@@ -57,13 +57,30 @@ exports.login = (req, res) => {
                 expiresIn: 28800
             });
 
-            var object = {
-                id: user.id,
-                login: user.login,
-                is_admin: user.is_admin,
-                accessToken: token
-            };
-            globalFunctions.sendResult(res, object);
+            User.update({
+                access_token: token,
+            },
+                {
+                    where: {
+                        id: user.id
+                    }
+                }
+            ).then(object => {
+
+                var object = {
+                    id: user.id,
+                    login: user.login,
+                    is_admin: user.is_admin,
+                    accessToken: token
+                };
+
+                globalFunctions.sendResult(res, object);
+
+            }).catch(err => {
+                globalFunctions.sendError(res, err);
+            })
+
+
         })
         .catch(err => {
             globalFunctions.sendError(res, err);
@@ -91,6 +108,33 @@ exports.refreshToken = (req, res) => {
                 accessToken: token
             };
             globalFunctions.sendResult(res, object);
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        });
+};
+
+exports.logout = (req, res) => {
+
+    User.findOne({
+        where: {
+            login: req.body.login
+        }
+    })
+        .then(user => {
+            User.update({
+                access_token: null,
+            },
+                {
+                    where: {
+                        id: user.id
+                    }
+                }
+            ).then(() => {
+                globalFunctions.sendResult(res, "Успешный выход с аккаунта");
+            }).catch(err => {
+                globalFunctions.sendError(res, err);
+            })
         })
         .catch(err => {
             globalFunctions.sendError(res, err);

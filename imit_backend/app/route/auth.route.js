@@ -15,5 +15,7 @@ module.exports = (app) => {
 
     app.post("/api/login", auth.login);
 
+    app.post("/api/logout", auth.logout);
+
     app.get("/api/userBoard", [authJwt.verifyToken], auth.userBoard);
 };

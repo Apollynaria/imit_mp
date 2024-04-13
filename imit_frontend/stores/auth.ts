@@ -23,14 +23,14 @@ export const useAuthStore = defineStore('auth', () => {
     function loginFailure() {
         state.status.loggedIn = false
         Object.keys(state.user).forEach(key => {
-            state.user[key] = null; 
+            state.user[key] = null;
         });
     }
 
     function logoutUser() {
         state.status.loggedIn = false
         Object.keys(state.user).forEach(key => {
-            state.user[key] = null; 
+            state.user[key] = null;
         });
     }
 
@@ -60,7 +60,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     async function logout() {
-        AuthService.logout()
+        AuthService.logout(user)
         logoutUser()
     }
 

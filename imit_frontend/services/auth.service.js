@@ -19,7 +19,19 @@ async function login(user) {
 
 }
 
-function logout() {
+async function logout(user) {
+    const config = useRuntimeConfig()
+    
+    var data = {
+        login: user.login
+    };
+
+    const res = await $fetch('/logout', {
+        baseURL: config.public.apiBase,
+        method: 'POST',
+        body: data
+    });
+
     localStorage.removeItem('user'); // при нажатии кнопки "Выйти" удаляем данные пользователя из локального хранилища
 }
 
