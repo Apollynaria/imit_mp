@@ -5,17 +5,23 @@ useSeoMeta({
 })
 
 const cards_prospects = ref([
-  { title: 'Конференции', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'guidance:conference-room' },
-  { title: 'Олимпиады', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'clarity:note-edit-line' },
-  { title: 'Семинары', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'fluent:people-community-32-regular' },
+  { title: 'Конференции', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'groups', color: 'primary' },
+  { title: 'Олимпиады', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'edit_note', color: 'purple' },
+  { title: 'Семинары', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'connect_without_contact', color: 'secondary' },
 ])
 
 const cards_mp = ref([
-  { title: 'Мероприятие 1', description: 'Lorem ipsum dolor sit amet.', date: '12.05.2024' },
-  { title: 'Мероприятие 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '15.05.2024' },
-  { title: 'Мероприятие 3', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '17.05.2024' },
-  { title: 'Мероприятие 4', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '19.05.2024' },
-  { title: 'Мероприятие 5', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '21.05.2024' },
+  { title: 'Мероприятие 1', short_description: 'Lorem ipsum dolor sit amet.', date: '12.05.2024 - 13.05.2024', date_request: '12.02.2023 - 23.05.2023', page_link: '/conference/1', register_link: '/addRequest/conference/2' },
+  { title: 'Мероприятие 2', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '15.05.2024' },
+  { title: 'Мероприятие 3', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '17.05.2024' },
+  { title: 'Мероприятие 4', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '19.05.2024' },
+  { title: 'Мероприятие 5', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '21.05.2024' },
+])
+
+const cards_3 = ref([
+  { title: 'Мероприятие 1', short_description: 'Lorem ipsum dolor sit amet.', date: '12.05.2024 - 13.05.2024', date_request: '12.02.2023 - 23.05.2023', page_link: '/conference/1', register_link: '/addRequest/conference/2' },
+  { title: 'Мероприятие 2', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '15.05.2024' },
+  { title: 'Мероприятие 3', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '17.05.2024' },
 ])
 
 </script>
@@ -47,12 +53,12 @@ const cards_mp = ref([
     <div class="w-90 mx-auto max-w-screen-xl">
 
       
-      <Carousel></Carousel>
+      <Carousel :slides="cards_3"></Carousel>
       
 
       <div class="gap-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center">
         <CardWithText v-for="(card, index) in cards_prospects" :key="index" :title="card.title" :text="card.text"
-          :icon="card.icon">
+          :icon="card.icon" :color="card.color">
         </CardWithText>
       </div>
 
@@ -60,8 +66,8 @@ const cards_mp = ref([
 
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <CardMp v-for="(card, index) in cards_mp" :key="index" :title="card.title" :description="card.description"
-          :date="card.date">
+        <CardMp v-for="(card, index) in cards_mp" :key="index" :title="card.title" :short_description="card.short_description" 
+          :date="card.date" :date_request="card.date_request" :page_link="card.page_link" :register_link="card.register_link">
         </CardMp>
       </div>
 

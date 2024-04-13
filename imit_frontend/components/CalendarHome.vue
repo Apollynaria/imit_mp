@@ -48,8 +48,10 @@ const classLogo = computed(() => {
                 <q-card bordered :dark="isDarkTheme" class="no-shadow">
                     <q-tab-panels class="dark:bg-[#142437] rounded " v-model="date" animated transition-prev="jump-up"
                         transition-next="jump-up">
+
+                        <!-- Вот это брать -->
                         <q-tab-panel dark name="2019/02/02">
-                            <div class="text-h5 q-mb-md">Мероприятия на 01.02.2019</div>
+                            <div class="text-h5 q-mb-md text-secondary text-bold">Мероприятия на 01.02.2019</div>
                             <p>Мероприятия отсутствуют.</p>
                         </q-tab-panel>
 

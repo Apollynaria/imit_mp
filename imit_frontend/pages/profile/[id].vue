@@ -111,7 +111,7 @@ const { data: user_details } = await useAsyncData(
             </div>
 
             <div class="p-2">
-                <q-btn label="Изменить пароль" to="/profile" type="button" color="positive" />
+                <q-btn label="Изменить пароль" to="/profile" type="button" color="primary" />
             </div>
         </div>
 

@@ -3,13 +3,27 @@ export default defineNuxtConfig({
 
   // ssr: false,
   routeRules: {
+
     '/': { prerender: true },
     '/home' : { prerender: true },
     '/conferences' : {prerender: true},
+    '/conference/:id' : { prerender: true },
     '/login' : {ssr: false},
     '/register' : {ssr: false},
-    '/profile': { prerender: true },
+
+    '/profile/:id': { prerender: true },
+
+    '/addUserRequest' : {ssr: false},
+    '/userRequests': { prerender: true },
+
+    '/setAdmins' : {ssr: false},
     '/addConference' : {ssr: false},
+    '/changeConference' : { prerender: true },
+    '/adminConference/:id' : { prerender: true },
+    '/request/:id': { prerender: true },
+
+    '/contacts' : {ssr: false},
+
   },
   devServer: {
     port: 4200,

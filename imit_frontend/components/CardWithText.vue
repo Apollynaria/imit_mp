@@ -17,8 +17,8 @@ const props = defineProps({
         default: ""
     },
     color: {
-        type: Array,
-        default: []
+        type: String,
+        default: "primary"
     }
 });
 
@@ -28,7 +28,8 @@ const props = defineProps({
     <div class="p-3">
         <q-card :dark="isDarkTheme" class="bg-[#fff] dark:bg-[#142437] text-[#000] dark:text-[#fff] my-card no-shadow">
             <q-card-section>
-                <Icon class="mb-2 text-[#1976D2]" :name="props.icon" size="50"/>
+                <q-icon left :name="icon" size="50px" :color="props.color" />
+                <!-- <Icon :class="`mb-2 text-#{color}`" :name="icon" size="50"/> -->
                 <div class="text-h5">{{ props.title }}</div>
             </q-card-section>
 
@@ -39,7 +40,7 @@ const props = defineProps({
             </q-card-section>
 
             <q-card-actions class="p-3">
-                <q-btn class="w-full" color="primary" label="ПОДРОБНЕЕ"></q-btn>
+                <q-btn class="w-full" :color="color" label="ПОДРОБНЕЕ"></q-btn>
             </q-card-actions>
         </q-card>
     </div>

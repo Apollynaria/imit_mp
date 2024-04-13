@@ -8,6 +8,7 @@ const themeStore = useThemeStore()
 const authStore = useAuthStore()
 const leftDrawerOpen = ref(false)
 const $q = useQuasar()
+const router = useRouter()
 
 const toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value
@@ -15,7 +16,15 @@ const toggleLeftDrawer = () => {
 
 const logOut = () => {
     authStore.logout()
+    router.push({ path: '/login'})
 }
+
+const user_id = ref('')
+
+onMounted(() => {
+    user_id.value = authStore.getUserId
+});
+
 </script>
 
 <template>
@@ -24,31 +33,15 @@ const logOut = () => {
             <q-header elevated>
                 <q-toolbar class="bg-[#FBFAFC] dark:bg-[#142437] text-[#000] dark:text-[#fff]">
                     <q-btn flat dense round @click="toggleLeftDrawer" icon="menu" aria-label="Menu" />
-                    <q-toolbar-title>
-                        Личный кабинет
-                    </q-toolbar-title>
                     <q-space />
                     <div class="q-gutter-sm row items-center no-wrap">
                         <q-btn round dense flat @click="themeStore.switchTheme"
                             :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'"
                             :icon="themeStore.getTheme == 'light' ? 'dark_mode' : 'light_mode'" />
-                        <q-btn round dense flat :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'"
-                            icon="notifications">
-                            <!-- <q-badge color="red" text-color="white" floating>
-                                5
-                            </q-badge> -->
-                            <q-menu>
-                                <q-list style="min-width: 100px">
-                                    <messages></messages>
-                                    <q-card class="text-center no-shadow no-border">
-                                        <q-btn label="View All" style="max-width: 120px !important;" flat dense
-                                            class="text-indigo-8"></q-btn>
-                                    </q-card>
-                                </q-list>
-                            </q-menu>
-                        </q-btn>
-                        <q-btn round dense flat to="/profile"
+                        <q-btn round dense flat :to="'/profile/' + user_id"
                             :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'" icon='person' />
+                        <q-btn round dense flat @click="logOut"
+                            :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'" icon='logout' />
                     </div>
                 </q-toolbar>
             </q-header>
@@ -62,7 +55,7 @@ const logOut = () => {
                     Научные мероприятия <br>ИМИТ ИГУ
                 </div>
                 <q-list>
-                    <q-item clickable to="/profile" active-class="q-item-no-link-highlighting">
+                    <q-item clickable :to="'/profile/' + user_id" active-class="q-item-no-link-highlighting">
                         <q-item-section avatar>
                             <q-icon name="person" />
                         </q-item-section>
@@ -74,7 +67,7 @@ const logOut = () => {
                     <q-expansion-item icon="article" label="ЗАЯВКИ">
                         <q-list class="ms-[30px]">
 
-                            <q-item clickable to="/AddConference" active-class="q-item-no-link-highlighting">
+                            <q-item clickable to="/addUserRequest" active-class="q-item-no-link-highlighting">
                                 <q-item-section avatar>
                                     <q-icon name="add_circle" />
                                 </q-item-section>
@@ -82,7 +75,7 @@ const logOut = () => {
                                     <q-item-label>Подать заявку</q-item-label>
                                 </q-item-section>
                             </q-item>
-                            <q-item clickable to="/AddConference" active-class="q-item-no-link-highlighting">
+                            <q-item clickable to="/userRequests" active-class="q-item-no-link-highlighting">
                                 <q-item-section avatar>
                                     <q-icon name="checklist_rtl" />
                                 </q-item-section>
@@ -95,7 +88,7 @@ const logOut = () => {
 
                     <q-expansion-item icon="settings" label="КОНФЕРЕНЦИИ">
                         <q-list class="ms-[30px]">
-                            <q-item clickable to="/Login-1" active-class="q-item-no-link-highlighting">
+                            <q-item clickable to="/setAdmins" active-class="q-item-no-link-highlighting">
                                 <q-item-section avatar>
                                     <q-icon name="admin_panel_settings" />
                                 </q-item-section>
@@ -103,7 +96,7 @@ const logOut = () => {
                                     <q-item-label>Администраторы</q-item-label>
                                 </q-item-section>
                             </q-item>
-                            <q-item clickable to="/AddConference" active-class="q-item-no-link-highlighting">
+                            <q-item clickable to="/addConference" active-class="q-item-no-link-highlighting">
                                 <q-item-section avatar>
                                     <q-icon name="add_circle" />
                                 </q-item-section>
@@ -111,7 +104,7 @@ const logOut = () => {
                                     <q-item-label>Создать конференцию</q-item-label>
                                 </q-item-section>
                             </q-item>
-                            <q-item clickable to="/AddConference" active-class="q-item-no-link-highlighting">
+                            <q-item clickable to="/changeConference" active-class="q-item-no-link-highlighting">
                                 <q-item-section avatar>
                                     <q-icon name="change_circle" />
                                 </q-item-section>
@@ -119,7 +112,7 @@ const logOut = () => {
                                     <q-item-label>Изменить конференцию</q-item-label>
                                 </q-item-section>
                             </q-item>
-                            <q-item clickable to="/AddConference" active-class="q-item-no-link-highlighting">
+                            <q-item clickable to="/requests" active-class="q-item-no-link-highlighting">
                                 <q-item-section avatar>
                                     <q-icon name="checklist_rtl" />
                                 </q-item-section>
@@ -141,7 +134,7 @@ const logOut = () => {
                     </q-item-section>
                 </q-item>
 
-                <q-item clickable type="button" to="/login" active-class="q-item-no-link-highlighting">
+                <q-item clickable type="button" active-class="q-item-no-link-highlighting">
                     <q-item-section avatar>
                         <q-icon name="logout" />
                     </q-item-section>
@@ -150,7 +143,7 @@ const logOut = () => {
                     </q-item-section>
                 </q-item>
 
-                <q-item clickable to="/help" active-class="q-item-no-link-highlighting">
+                <q-item clickable to="/contacts" active-class="q-item-no-link-highlighting">
                     <q-item-section avatar>
                         <q-icon name="help" />
                     </q-item-section>

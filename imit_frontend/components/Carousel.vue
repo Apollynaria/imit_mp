@@ -1,53 +1,28 @@
 <script setup lang="ts">
 const slide = ref(1);
 const autoplay = ref(true);
+
+const props = defineProps({
+    slides: {
+        type: Array,
+        default: []
+    }
+});
+
 </script>
+
 
 
 <template>
     <div class="q-pa-md">
-        <q-carousel
-            animated
-            v-model="slide"
-            infinite
-            navigation
-            navigation-position="top"
-            :autoplay="autoplay"
-            arrows
-            transition-prev="slide-right"
-            transition-next="slide-left"
-            @mouseenter="autoplay = false"
-            @mouseleave="autoplay = true"
-            >
-            <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg">
-                <div class="absolute-bottom custom-caption">
-                    <div class="text-[40px] text-white text-bold m-3 flex justify-between items-end">
-                        Конференция
-                        <q-btn color="purple" class="h-[15px]" size="15px" no-caps>
-                            <Icon class="me-2" name="svg-spinners:pulse-2" color="white" size="20" />Идет регистрация
-                        </q-btn>
-                    </div>
-                    <div class="text-subtitle1 text-white m-3 flex justify-between items-center z-10">
-                        Небольшое описание конференции
-                        <q-btn color="primary" size="15px" label="Подробнее" no-caps/>
-                    </div>
-                </div>
-            </q-carousel-slide>
+        <q-carousel animated v-model="slide" infinite navigation navigation-position="top" :autoplay="autoplay" arrows
+            transition-prev="slide-right" transition-next="slide-left" @mouseenter="autoplay = false"
+            @mouseleave="autoplay = true">
+            <carousel-slide v-for="(slide, index) in slides" :key="index" :name="index + 1" :img_src="slide.img_src"
+                :title="slide.title" :short_description="slide.short_description" :date="slide.date"
+                :date_request="slide.date_request" :page_link="slide.page_link" :register_link="slide.register_link">
 
-            <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg">
-                <div class="absolute-bottom custom-caption">
-                    <div class="text-[40px] text-white text-bold m-3 flex justify-between items-end">
-                        Конференция2
-                        <q-btn color="purple" class="h-[15px]" size="15px" no-caps>
-                            <Icon class="me-2" name="svg-spinners:pulse-2" color="white" size="20" />Идет регистрация
-                        </q-btn>
-                    </div>
-                    <div class="text-subtitle1 text-white m-3 flex justify-between items-center z-10">
-                        Небольшое описание конференции
-                        <q-btn color="primary" size="15px" label="Подробнее" no-caps/>
-                    </div>
-                </div>
-            </q-carousel-slide>
+            </carousel-slide>
 
         </q-carousel>
     </div>
