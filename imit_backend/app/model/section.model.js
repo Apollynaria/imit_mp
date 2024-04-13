@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
                 allowNull: false
             },
             name: {
-                type: Sequelize.STRING(50),
+                type: Sequelize.STRING(200),
                 allowNull: false
             },
             description: {
@@ -23,7 +23,15 @@ module.exports = (sequelize, Sequelize) => {
         });
 
     Section.associate = (models) => {
+
         Section.hasMany(models.user_section, {
+            foreignKey: 'section_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            sourceKey: 'id'
+        });
+
+        Section.hasMany(models.user_request, {
             foreignKey: 'section_id',
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',

@@ -3,13 +3,13 @@ module.exports = (sequelize, Sequelize) => {
         'user',
         {
             id: {
-                type: Sequelize.INTEGER(10), // тип данных INTEGER
-                autoIncrement: true, // включение автоматической нумерации
-                primaryKey: true, // поле является первичным ключом
-                allowNull: false // настройка allowNull со значением false запрещает запись в поле значений NULL (для поля с настройкой автоинкремента можно не указывать)
+                type: Sequelize.INTEGER(10),
+                autoIncrement: true, 
+                primaryKey: true,
+                allowNull: false
             },
             login: {
-                type: Sequelize.STRING(50),  // тип данных STRING (в MySQL — VARCHAR)
+                type: Sequelize.STRING(150),
                 allowNull: false
             },
             password: {
@@ -28,7 +28,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING(50),
             },
             place_of_work: {
-                type: Sequelize.STRING(50),
+                type: Sequelize.STRING(150),
             },
             email: {
                 type: Sequelize.STRING(50),
@@ -47,6 +47,27 @@ module.exports = (sequelize, Sequelize) => {
  
     User.associate = (models) => {
         User.hasMany(models.admin_conference, {
+            foreignKey: 'user_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            sourceKey: 'id'
+        });
+
+        User.hasMany(models.program_user_conference, {
+            foreignKey: 'user_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            sourceKey: 'id'
+        });
+
+        User.hasMany(models.user_section, {
+            foreignKey: 'user_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            sourceKey: 'id'
+        });
+
+        User.hasMany(models.user_request, {
             foreignKey: 'user_id',
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',

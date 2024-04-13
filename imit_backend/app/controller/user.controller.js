@@ -1,9 +1,16 @@
 var db = require('../config/db.config.js');
 var User = db.user;
 var globalFunctions = require('../config/global.functions.js');
+var bcrypt = require("bcryptjs");
 
 exports.findAll = (req, res) => {
-    User.findAll()
+    db.sequelize.query(
+        `SELECT * 
+        FROM user
+        ORDER BY user.surname`,
+        {
+            type: db.sequelize.QueryTypes.SELECT,
+        })
         .then(objects => {
             globalFunctions.sendResult(res, objects);
         })
@@ -15,14 +22,14 @@ exports.findAll = (req, res) => {
 exports.create = (req, res) => {
     User.create({
         login: req.body.login,
-        password: req.body.password,
+        password: bcrypt.hashSync(req.body.password, 10),
         name: req.body.name,
         surname: req.body.surname,
         patronymic: req.body.patronymic,
         place_of_work: req.body.place_of_work,
         email: req.body.email,
         phone: req.body.phone,
-        is_admin: req.body.is_admin,
+        is_admin: false,
     }).then(object => {
         globalFunctions.sendResult(res, object);
     }).catch(err => {
@@ -30,17 +37,29 @@ exports.create = (req, res) => {
     })
 };
 
-exports.update = (req, res) => {
+exports.updateUserData = (req, res) => {
     User.update({
-        login: req.body.login,
-        password: req.body.password,
         name: req.body.name,
         surname: req.body.surname,
         patronymic: req.body.patronymic,
         place_of_work: req.body.place_of_work,
-        email: req.body.email,
         phone: req.body.phone,
-        is_admin: req.body.is_admin,
+    },
+        {
+            where: {
+                id: req.params.id
+            }
+        }
+    ).then(object => {
+        globalFunctions.sendResult(res, object);
+    }).catch(err => {
+        globalFunctions.sendError(res, err);
+    })
+};
+
+exports.updateUserPassword = (req, res) => {
+    User.update({
+        password: bcrypt.hashSync(req.body.password, 10),
     },
         {
             where: {
@@ -76,10 +95,10 @@ exports.findById = (req, res) => {
         })
 };
 
-exports.findBySurname = (req, res) => {
+exports.findByLogin = (req, res) => {
     User.findAll({
         where: {
-            surname: req.params.surname
+            login: req.params.login
         }
     }).then(objects => {
         globalFunctions.sendResult(res, objects);

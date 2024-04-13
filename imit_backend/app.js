@@ -23,5 +23,11 @@ app.use(cors(corsOptions));
 var user = require('./app/route/user.route.js');
 user(app);
 
+var conference = require('./app/route/conference.route.js');
+conference(app);
+
+var file = require('./app/route/file.route.js');
+file(app);
+
 var auth = require('./app/route/auth.route.js');
 auth(app);

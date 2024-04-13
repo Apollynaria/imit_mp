@@ -70,6 +70,33 @@ exports.login = (req, res) => {
         });
 };
 
+exports.refreshToken = (req, res) => {
+    User.findOne({
+        where: {
+            login: req.body.login
+        }
+    })
+        .then(user => {
+            if (!user) {
+                globalFunctions.sendError(res, "Неверно введенный логин и/или пароль");
+            }
+
+            var token = jwt.sign({ id: user.id }, config.secret, {
+                expiresIn: 3600 // 1 часо — время действия токена в секундах
+            });
+            var object = {
+                id: user.id,
+                login: user.login,
+                is_admin: user.is_admin,
+                accessToken: token
+            };
+            globalFunctions.sendResult(res, object);
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        });
+};
+
 exports.userBoard = (req, res) => {
     globalFunctions.sendResult(res, "Пользователь авторизован");
 };

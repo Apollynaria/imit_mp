@@ -19,6 +19,7 @@ module.exports = (sequelize, Sequelize) => {
         });
 
     UserSection.associate = (models) => {
+        
         UserSection.belongsTo(models.user, {
             foreignKey: 'user_id'
         });

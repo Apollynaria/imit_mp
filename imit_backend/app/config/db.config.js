@@ -1,14 +1,14 @@
 var dbProperties = {
-    database: 'imit_mp', // название базы данных
-    username: 'root', // имя пользователя, для которого настроены права к базе данных, 'root' задаётся по умолчанию
-    password: '', // пароль пользователя, по умолчанию пароль пустой
-    host: 'localhost', // имя сервера, на котором расположена база данных
-    dialect: 'mysql', // используемая СУБД
-    pool: { // параметры соединения
-        max: 5, // максимальное количество одновременно открытых соединений
-        min: 0, // минимальное количество соединений
-        acquire: 30000, // максимальное время в миллисекундах, в течение которого пул (набор соединений к БД) будет пытаться установить соединение, прежде чем выдаст ошибку
-        idle: 10000 // время в миллисекундах, в течение которого соединение может простаивать, прежде чем оно будет удалено
+    database: 'imit_mp', 
+    username: 'root',
+    password: '',
+    host: 'localhost', 
+    dialect: 'mysql', 
+    pool: { 
+        max: 5, 
+        min: 0, 
+        acquire: 30000, 
+        idle: 10000
     }
 };
 
@@ -47,9 +47,12 @@ db.sequelize = sequelize;
 
 // Подключение моделей
 db.admin_conference = require('../model/admin_conference.model.js')(sequelize, Sequelize);
+db.check = require('../model/check.model.js')(sequelize, Sequelize);
 db.conference = require('../model/conference.model.js')(sequelize, Sequelize);
 db.program_user_conference = require('../model/program_user_conference.model.js')(sequelize, Sequelize);
+db.file = require('../model/file.model.js')(sequelize, Sequelize);
 db.section = require('../model/section.model.js')(sequelize, Sequelize);
+db.user_request = require('../model/user_request.model.js')(sequelize, Sequelize);
 db.user = require('../model/user.model.js')(sequelize, Sequelize);
 db.user_section = require('../model/user_section.model.js')(sequelize, Sequelize);
 

@@ -16,35 +16,40 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING(100), 
                 allowNull: false
             },
+            date_begin: {
+                type: Sequelize.DATE,
+                allowNull: false
+            },
+            date_end: {
+                type: Sequelize.DATE,
+                allowNull: false
+            },
+            date_for_request_begin: {
+                type: Sequelize.DATE,
+            },
+            date_for_request_end: {
+                type: Sequelize.DATE,
+            },
+            schedule_file_id: {
+                type: Sequelize.INTEGER(10),
+            },
             full_description: {
                 type: Sequelize.STRING, 
                 allowNull: false
             },
-            date_begin: {
-                type: Sequelize.STRING(10),
-                allowNull: false
-            },
-            date_end: {
-                type: Sequelize.STRING(10),
-                allowNull: false
-            },
-            date_for_request_begin: {
-                type: Sequelize.STRING(10),
-            },
-            date_for_request_end: {
-                type: Sequelize.STRING(10),
-            },
-            date_for_tesis_begin: {
-                type: Sequelize.STRING(10),
-            },
-            date_for_tesis_end: {
-                type: Sequelize.STRING(10),
-            },
             location: {
-                type: Sequelize.STRING(100),
+                type: Sequelize.STRING(200),
                 allowNull: false
             },
-
+            collection_file_id: {
+                type: Sequelize.INTEGER(10),
+            },
+            result_text: {
+                type: Sequelize.STRING
+            },
+            title_file_id: {
+                type: Sequelize.INTEGER(10),
+            },
         });
 
     Conference.associate = (models) => {
@@ -68,6 +73,14 @@ module.exports = (sequelize, Sequelize) => {
             onUpdate: 'CASCADE',
             sourceKey: 'id'
         });
+
+        Conference.hasMany(models.user_request, {
+            foreignKey: 'conference_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            sourceKey: 'id'
+        });
+
     };
     return Conference;
 };

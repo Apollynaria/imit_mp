@@ -22,6 +22,7 @@ module.exports = (sequelize, Sequelize) => {
         });
 
     ProgramUserConference.associate = (models) => {
+        
         ProgramUserConference.belongsTo(models.user, {
             foreignKey: 'user_id'
         });
