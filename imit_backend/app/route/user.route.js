@@ -20,6 +20,7 @@ module.exports = (app) => {
     
     app.post('/api/updateUserData/:id', user.updateUserData);
     app.post('/api/updateUserPassword/:id', user.updateUserPassword);
+    app.post('/api/updateUserAdmin/:id', user.updateUserAdmin);
 
     app.post('/api/deleteUser/:id', user.delete);
     

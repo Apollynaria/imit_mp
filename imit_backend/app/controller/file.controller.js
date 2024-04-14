@@ -39,6 +39,7 @@ exports.create = async (req, res) => {
             File.create({
                 path: link,
                 mime_type: mimeType,
+                is_public: is_public 
             }).then(object => {
                 globalFunctions.sendResult(res, object);
             }).catch(err => {

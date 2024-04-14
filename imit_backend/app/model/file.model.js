@@ -16,6 +16,10 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING(200),
                 allowNull: false
             },
+            is_public: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false
+            }
         });
 
     return File;

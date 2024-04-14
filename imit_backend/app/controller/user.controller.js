@@ -30,6 +30,7 @@ exports.create = (req, res) => {
         email: req.body.email,
         phone: req.body.phone,
         is_admin: false,
+        is_super_admin: false
     }).then(object => {
         globalFunctions.sendResult(res, object);
     }).catch(err => {
@@ -58,8 +59,42 @@ exports.updateUserData = (req, res) => {
 };
 
 exports.updateUserPassword = (req, res) => {
+    User.findByPk(req.params.id)
+        .then(user => {
+            var passwordIsValid = bcrypt.compareSync(
+                req.body.password,
+                user.password
+            );
+
+            if (!passwordIsValid) {
+                return res.status(401).send({
+                    accessToken: null,
+                    message: "Неверный пароль"
+                });
+            }
+
+            User.update({
+                password: bcrypt.hashSync(req.body.newPassword, 10),
+            }, {
+                where: {
+                    id: req.params.id
+                }
+            })
+                .then(() => {
+                    globalFunctions.sendResult(res, 'Пароль успешно изменен!');
+                })
+                .catch(err => {
+                    globalFunctions.sendError(res, err);
+                });
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        });
+};
+
+exports.updateUserAdmin = (req, res) => {
     User.update({
-        password: bcrypt.hashSync(req.body.password, 10),
+        is_admin: req.body.is_admin,
     },
         {
             where: {

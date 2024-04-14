@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { classDarkTheme } from '../services/DarkTheme'
 import { showNotif } from "../services/Notify"
+import { setAdmin } from '../services/user.service'
 
 useSeoMeta({
     title: 'Назначить администраторов',
@@ -15,24 +16,53 @@ const isDarkTheme = computed(() => themeStore.isDarkTheme)
 const stringOptions = [
     'Иванов Иван Иванович', 'Владиславов Владислав Владислвавович', 'Петров Денис Игоревич', 'Всем привет своим'
 ]
-const options = ref(['Иванов Иван Иванович', 'Владиславов Владислав Владислвавович', 'Петров Денис Игоревич', 'Всем привет своим'])
+let options = []
 const model = ref(null)
-const filterFn = (val, update, abort) => {
-    update(() => {
-        const needle = val.toLowerCase()
-        options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-    })
-}
+// const filterFn = (val, update, abort) => {
+//     update(() => {
+//         const needle = val.toLowerCase()
+//         options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+//     })
+// }
 
 const $q = useQuasar()
 
 const is_admin = ref(false);
 const toggle_disable = ref(false);
 
-const switchUserAdmin = () => {
+const config = useRuntimeConfig()
+var token = "";
+var user = JSON.parse(localStorage.getItem('user'));
+if (user && user.accessToken) {
+  token = user.accessToken;
+}
+
+// Access public variables
+const users = await $fetch(`/users`, {
+  baseURL: config.public.apiBase,
+  headers: {
+    "x-access-token": token,
+  },
+  //   headers: {
+  //     // Access a private variable (only available on the server)
+  //     Authorization: `Bearer ${config.apiSecret}`
+  //   }
+})
+
+users.forEach(user => {
+    options.push({
+        id: user.id,
+        label: `${user.surname} ${user.name} ${user.patronymic}`,
+        is_admin: Boolean(user.is_admin)
+    });
+});
+
+
+
+const onSetUserAdmin = () => {
     toggle_disable.value = true
 
-    authStore.login(user)
+    setAdmin(model) 
         .then(() => {
             showNotif("Права пользователя изменены!", 'green', $q, 'done')
         })
@@ -58,7 +88,7 @@ const switchUserAdmin = () => {
             <div class="flex justify-between mt-2 items-center">
                 <q-select clearable clear-icon="close" class="flex-auto ms-2" :dark="isDarkTheme" outlined v-model="model"
                     use-input fill-input hide-selected input-debounce="0" label="Поиск по ФИО" :options="options"
-                    @filter="filterFn">
+                    >
                     <template v-slot:prepend>
                         <q-icon name="search" />
                     </template>
@@ -71,8 +101,8 @@ const switchUserAdmin = () => {
                     </template>
                 </q-select>
             </div>
-            <q-toggle v-if="model" v-model="is_admin" checked-icon="check" color="red" :label="is_admin? 'Убрать права' : 'Назначить администратором'"
-                size="xl" :dark="isDarkTheme" unchecked-icon="clear" :disable="toggle_disable" @click="switchUserAdmin" />
+            <q-toggle v-if="model" v-model="model.is_admin" checked-icon="check" color="red" :label="model.is_admin? 'Убрать права' : 'Назначить администратором'"
+                size="xl" :dark="isDarkTheme" unchecked-icon="clear" :disable="toggle_disable" @click="onSetUserAdmin" />
         </div>
     </div>
 </template>
