@@ -42,9 +42,6 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.BOOLEAN,
                 allowNull: false
             },
-            access_token: {
-                type: Sequelize.STRING(500)
-            },
             is_super_admin: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false

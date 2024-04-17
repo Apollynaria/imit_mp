@@ -48,7 +48,7 @@ exports.updateUserData = (req, res) => {
     },
         {
             where: {
-                id: req.params.id
+                id: req.userId
             }
         }
     ).then(object => {
@@ -59,7 +59,7 @@ exports.updateUserData = (req, res) => {
 };
 
 exports.updateUserPassword = (req, res) => {
-    User.findByPk(req.params.id)
+    User.findByPk(req.userId)
         .then(user => {
             var passwordIsValid = bcrypt.compareSync(
                 req.body.password,
@@ -68,7 +68,6 @@ exports.updateUserPassword = (req, res) => {
 
             if (!passwordIsValid) {
                 return res.status(401).send({
-                    accessToken: null,
                     message: "Неверный пароль"
                 });
             }
@@ -77,7 +76,7 @@ exports.updateUserPassword = (req, res) => {
                 password: bcrypt.hashSync(req.body.newPassword, 10),
             }, {
                 where: {
-                    id: req.params.id
+                    id: req.userId
                 }
             })
                 .then(() => {
@@ -93,19 +92,34 @@ exports.updateUserPassword = (req, res) => {
 };
 
 exports.updateUserAdmin = (req, res) => {
-    User.update({
-        is_admin: req.body.is_admin,
-    },
-        {
-            where: {
-                id: req.params.id
+    User.findByPk(req.userId)
+        .then(user => {
+
+            if (!user.is_super_admin) {
+                return res.status(401).send({
+                    message: "Нет доступа!"
+                });
             }
-        }
-    ).then(object => {
-        globalFunctions.sendResult(res, object);
-    }).catch(err => {
-        globalFunctions.sendError(res, err);
-    })
+
+            User.update({
+                is_admin: req.body.is_admin,
+            },
+                {
+                    where: {
+                        id: req.params.id
+                    }
+                }
+            ).then(object => {
+                globalFunctions.sendResult(res, object);
+            }).catch(err => {
+                globalFunctions.sendError(res, err);
+            })
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        });
+
+
 };
 
 exports.delete = (req, res) => {
@@ -121,7 +135,7 @@ exports.delete = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    User.findByPk(req.params.id)
+    User.findByPk(req.userId)
         .then(object => {
             globalFunctions.sendResult(res, object);
         })

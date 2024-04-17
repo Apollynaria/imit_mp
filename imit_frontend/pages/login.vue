@@ -25,7 +25,7 @@ const router = useRouter()
 
 if(loggedIn.value === true){
     showNotif("Аккаунт авторизован!", 'green', $q, 'done')
-    router.push({ path: `/profile/${authStore.getUserId}`})
+    router.push({ path: `/profile`})
 }
 
 const handleLogin = () => {
@@ -34,7 +34,7 @@ const handleLogin = () => {
     authStore.login(user)
         .then(() => {
             showNotif("Авторизация прошла успешно!", 'green', $q, 'done')
-            router.push({ path: `/profile/${authStore.getUserId}`})
+            router.push({ path: `/profile`})
         })
         .catch(e => {
             console.log(e.response)

@@ -1,5 +1,5 @@
 module.exports = (app) => {
-    var { authJwt, verifySignUp } = require("../middleware");
+    var { authJwt, verifyAccess } = require("../middleware");
     const conference = require('../controller/conference.controller');
     
     app.use((req, res, next) => {
@@ -13,14 +13,14 @@ module.exports = (app) => {
 
     app.get('/api/conferences', conference.findAll);
     app.get('/api/time', conference.time);
-
-    app.get('/api/conferencesSorted', conference.findAllSorted);
-
-    // app.post('/api/addConference', [authJwt.verifyToken], conference.create);
-    // app.post('/api/updateConference/:id', [authJwt.verifyToken], conference.update);
-    app.post('/api/deleteConference/:id', conference.delete);
     app.get('/api/conference/:id', conference.findById);
+    app.get('/api/conferencesSorted', conference.findAllSorted);
     app.get('/api/conferencesSortByData5', conference.get5ConferencesSortByData);
     app.get('/api/conference/name/:name', conference.findByName);
+
+    app.post('/api/addConference', [authJwt.verifyToken, verifyAccess.userIsAdmin], conference.create);
+    // app.post('/api/updateConference/:id', [authJwt.verifyToken], conference.update);
+    app.post('/api/deleteConference/:id', conference.delete);
+    
     // app.get('/api/conference/date/:date', conference.findByDate);
 };

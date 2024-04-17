@@ -47,47 +47,68 @@ exports.findAllSorted = (req, res) => {
         })
 };
 
-// exports.create = async (req, res) => {
-//     var form = new multiparty.Form();
-//     await form.parse(req, async (err, fields, files) => {
-//         if (!err) {
-//             var mimeType, link;
-//             if (fields.fileIsUpload[0] == 1) {
-//                 var mimeType = files.file[0].headers['content-type']; // тип файла указывается так: image/png
+exports.create = async (req, res) => {
 
-//                 var expansion = mimeType.split('/')[1]; // из "image/png" нужно извлечь только расширение
+    Conference.create({
+        name: fields.name[0],
+        short_description: field.short_description[0],
+        date_begin: fields.date_begin[0],
+        date_end: fields.date_end[0],
+        date_for_request_begin: fields.date_for_request_begin[0],
+        date_for_request_end: fields.date_for_request_end[0],
+        // schedule_file_id: null,
+        full_description: fields.full_description[0],
+        location: fields.location[0],
+        // collection_file_id: null,
+        // result_text: fields.result_text[0],
+        title_file_id: null,
+    }).then(object => {
+        globalFunctions.sendResult(res, object);
+    }).catch(err => {
+        globalFunctions.sendError(res, err);
+    })
 
-//                 expansion = mime_expansion.get(expansion);
-//                 var newName = uuid.v4() + "." + expansion; // вызываем функцию v4() для того, чтобы уникальный идентификатор был сгенерирован случайным образом
-//                 link = './files/' + newName;
 
-//                 fs.rename(files.file[0].path, link, (err) => {
-//                     if (err) {
-//                         throw err;
-//                     }
-//                 });
-//             } else {
-//                 link = "";
-//                 mimeType = "";
-//             }
+    // var form = new multiparty.Form();
+    // await form.parse(req, async (err, fields, files) => {
+    //     if (!err) {
+    //         var mimeType, link;
+    //         if (fields.fileIsUpload[0] == 1) {
+    //             var mimeType = files.file[0].headers['content-type']; // тип файла указывается так: image/png
 
-//             Conference.create({
-//                 name: fields.name[0],
-//                 file: link,
-//                 mime_type: mimeType,
-//                 description: fields.description[0],
-//                 date: fields.date[0],
-//                 place: fields.place[0]
-//             }).then(object => {
-//                 globalFunctions.sendResult(res, object);
-//             }).catch(err => {
-//                 globalFunctions.sendError(res, err);
-//             })
-//         } else {
-//             globalFunctions.sendError(res, err);
-//         }
-//     });
-// };
+    //             var expansion = mimeType.split('/')[1]; // из "image/png" нужно извлечь только расширение
+
+    //             expansion = mime_expansion.get(expansion);
+    //             var newName = uuid.v4() + "." + expansion; // вызываем функцию v4() для того, чтобы уникальный идентификатор был сгенерирован случайным образом
+    //             link = './files/' + newName;
+
+    //             fs.rename(files.file[0].path, link, (err) => {
+    //                 if (err) {
+    //                     throw err;
+    //                 }
+    //             });
+    //         } else {
+    //             link = "";
+    //             mimeType = "";
+    //         }
+
+    //         Conference.create({
+    //             name: fields.name[0],
+    //             file: link,
+    //             mime_type: mimeType,
+    //             description: fields.description[0],
+    //             date: fields.date[0],
+    //             place: fields.place[0]
+    //         }).then(object => {
+    //             globalFunctions.sendResult(res, object);
+    //         }).catch(err => {
+    //             globalFunctions.sendError(res, err);
+    //         })
+    //     } else {
+    //         globalFunctions.sendError(res, err);
+    //     }
+    // });
+};
 
 // exports.update = async (req, res) => {
 //     var form = new multiparty.Form();

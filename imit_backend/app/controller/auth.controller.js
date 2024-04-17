@@ -6,6 +6,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.register = (req, res) => {
+    console.log(req.body)
     User.create({
         login: req.body.login,
         password: bcrypt.hashSync(req.body.password, 10),
@@ -16,6 +17,7 @@ exports.register = (req, res) => {
         email: req.body.email,
         phone: req.body.phone,
         is_admin: false,
+        is_super_admin: false
     })
         .then(() => {
             var result = {

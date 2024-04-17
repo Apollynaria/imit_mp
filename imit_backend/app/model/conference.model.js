@@ -81,6 +81,20 @@ module.exports = (sequelize, Sequelize) => {
             sourceKey: 'id'
         });
 
+        Conference.belongsTo(models.file, {
+            foreignKey: 'schedule_file_id',
+            as: 'ScheduleFile'
+        });
+
+        Conference.belongsTo(models.file, {
+            foreignKey: 'collection_file_id',
+            as: 'CollectionFile'
+        });
+
+        Conference.belongsTo(models.file, {
+            foreignKey: 'title_file_id',
+            as: 'TitleFile'
+        });
     };
     return Conference;
 };

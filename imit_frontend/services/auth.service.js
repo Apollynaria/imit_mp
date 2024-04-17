@@ -1,6 +1,6 @@
 async function login(user) {
     const config = useRuntimeConfig()
-    var data = {
+    let data = {
         login: user.login,
         password: user.password
     };
@@ -21,8 +21,8 @@ async function login(user) {
 
 async function logout(user) {
     const config = useRuntimeConfig()
-    
-    var data = {
+
+    let data = {
         login: user.login
     };
 
@@ -42,7 +42,7 @@ async function refreshToken(user) {
 
     const config = useRuntimeConfig()
 
-    var data = {
+    let data = {
         login: user.login
     };
 
@@ -59,19 +59,32 @@ async function refreshToken(user) {
     return res;
 }
 
-// декодируем токен jwt, чтобы в вызывающем методе использовать время (понадобится для проверки срока действия токена)
-function jwtDecrypt(token) {
-    var base64Url = token.split(".")[1];
-    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    var jsonPayload = decodeURIComponent(
-        window.atob(base64)
-            .split("")
-            .map((c) => {
-                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-            })
-            .join("")
-    );
-    return JSON.parse(jsonPayload);
+export const getToken = () => {
+    let token = "";
+    let user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.accessToken) {
+        token = user.accessToken;
+    }
+    return token;
+}
+
+export const jwtDecrypt = () => {
+    try {
+        let base64Url = getToken().split(".")[1];
+        let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        let jsonPayload = decodeURIComponent(
+            window.atob(base64)
+                .split("")
+                .map((c) => {
+                    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+                })
+                .join("")
+        );
+        return JSON.parse(jsonPayload);
+    }
+    catch{
+        return false;
+    }
 }
 
 // проверяем срока действия токена
@@ -89,7 +102,7 @@ async function register(user) {
 
     const config = useRuntimeConfig()
 
-    var data = {
+    let data = {
         login: user.login,
         name: user.name,
         surname: user.surname,
@@ -106,6 +119,7 @@ async function register(user) {
         body: data
     })
 
+    console.log(data)
     return res
 }
 
@@ -113,7 +127,7 @@ export default {
     login: login,
     logout: logout,
     refreshToken: refreshToken,
-    jwtDecrypt: jwtDecrypt,
+    // jwtDecrypt: jwtDecrypt,
     tokenAlive: tokenAlive,
     register: register
 };

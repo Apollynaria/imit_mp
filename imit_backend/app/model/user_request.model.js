@@ -53,6 +53,10 @@ module.exports = (sequelize, Sequelize) => {
             foreignKey: 'section_id'
         });
 
+        UserRequest.belongsTo(models.file, {
+            foreignKey: 'file_id'
+        });
+
     };
     return UserRequest;
 };

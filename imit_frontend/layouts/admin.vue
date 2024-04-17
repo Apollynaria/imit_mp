@@ -19,11 +19,6 @@ const logOut = () => {
     router.push({ path: '/login'})
 }
 
-const user_id = ref('')
-
-onMounted(() => {
-    user_id.value = authStore.getUserId
-});
 
 </script>
 
@@ -38,7 +33,7 @@ onMounted(() => {
                         <q-btn round dense flat @click="themeStore.switchTheme"
                             :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'"
                             :icon="themeStore.getTheme == 'light' ? 'dark_mode' : 'light_mode'" />
-                        <q-btn round dense flat :to="'/profile/' + user_id"
+                        <q-btn round dense flat to='/profile'
                             :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'" icon='person' />
                         <q-btn round dense flat @click="logOut"
                             :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'" icon='logout' />
@@ -55,7 +50,7 @@ onMounted(() => {
                     Научные мероприятия <br>ИМИТ ИГУ
                 </div>
                 <q-list>
-                    <q-item clickable :to="'/profile/' + user_id" active-class="q-item-no-link-highlighting">
+                    <q-item clickable to='/profile' active-class="q-item-no-link-highlighting">
                         <q-item-section avatar>
                             <q-icon name="person" />
                         </q-item-section>

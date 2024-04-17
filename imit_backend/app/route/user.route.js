@@ -1,8 +1,5 @@
-
-
 module.exports = (app) => {
-
-    var { authJwt } = require("../middleware");
+    var { authJwt, verifySignUp, verifyAccess } = require("../middleware");
     const user = require('../controller/user.controller');
 
     app.use((req, res, next) => {
@@ -14,17 +11,16 @@ module.exports = (app) => {
         next();
     });
     
-    app.get('/api/users', [authJwt.verifyToken], user.findAll);
-
-    app.post('/api/addUser', user.create);
+    app.get('/api/users', [authJwt.verifyToken, verifyAccess.userIsAdmin], user.findAll);
+    app.post('/api/addUser',[verifySignUp.checkDuplicateLogin], user.create);
     
-    app.post('/api/updateUserData/:id', user.updateUserData);
-    app.post('/api/updateUserPassword/:id', user.updateUserPassword);
-    app.post('/api/updateUserAdmin/:id', user.updateUserAdmin);
+    app.post('/api/updateUserData', [authJwt.verifyToken], user.updateUserData);
+    app.post('/api/updateUserPassword', [authJwt.verifyToken], user.updateUserPassword);
+    app.post('/api/updateUserAdmin/:id',[authJwt.verifyToken, verifyAccess.userIsSuperAdmin], user.updateUserAdmin);
 
-    app.post('/api/deleteUser/:id', user.delete);
+    // app.post('/api/deleteUser/:id', user.delete);
     
-    app.get('/api/user/:id', user.findById);
-    app.get('/api/user/login/:login', user.findByLogin);
+    app.get('/api/userProfile', [authJwt.verifyToken], user.findById);
+    // app.get('/api/user/login/:login', user.findByLogin);
     
 };

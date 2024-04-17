@@ -11,16 +11,16 @@ export default defineNuxtConfig({
     '/login' : {ssr: false},
     '/register' : {ssr: false},
 
-    '/profile/:id': { prerender: true },
+    '/profile': {ssr: false},
 
     '/addUserRequest' : {ssr: false},
-    '/userRequests': { prerender: true },
+    '/userRequests': {ssr: false},
 
     '/setAdmins' : {ssr: false},
     '/addConference' : {ssr: false},
-    '/changeConference' : { prerender: true },
-    '/adminConference/:id' : { prerender: true },
-    '/request/:id': { prerender: true },
+    '/changeConference' : {ssr: false},
+    '/adminConference/:id' : {ssr: false},
+    '/request/:id': {ssr: false},
 
     '/contacts' : {ssr: false},
 

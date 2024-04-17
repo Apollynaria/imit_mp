@@ -22,5 +22,38 @@ module.exports = (sequelize, Sequelize) => {
             }
         });
 
+
+    File.associate = (models) => {
+
+        File.hasOne(models.conference, {
+            foreignKey: 'schedule_file_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            sourceKey: 'id'
+        });
+
+        File.hasOne(models.conference, {
+            foreignKey: 'collection_file_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            sourceKey: 'id'
+        });
+
+        File.hasOne(models.conference, {
+            foreignKey: 'title_file_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            sourceKey: 'id'
+        });
+
+        File.hasOne(models.user_request, {
+            foreignKey: 'file_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            sourceKey: 'id'
+        });
+
+    };
+
     return File;
 };

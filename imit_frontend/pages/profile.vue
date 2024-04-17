@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-import { classDarkTheme } from '../../services/DarkTheme'
-import { changeUserData, changeUserPassword } from '../../services/user.service'
-import { showNotif } from "../../services/Notify"
-import { NOT_NULL_RULES } from "../../services/DataRules"
+import { classDarkTheme } from '../services/DarkTheme'
+import { changeUserData, changeUserPassword } from '../services/user.service'
+import { showNotif } from "../services/Notify"
+import { NOT_NULL_RULES } from "../services/DataRules"
+import { jwtDecrypt } from "../services/auth.service"
+import { getToken } from '~/services/auth.service';
 
 useSeoMeta({
     title: 'Профиль',
@@ -24,14 +26,17 @@ const oldPassword = ref(null)
 const newPassword = ref(null)
 const repeatPassword = ref(null)
 
-const { id } = useRoute().params;
 const loading = ref(false);
+const router = useRouter()
 
-// сделать проверку userBoard
-const { data: user_details } = await useAsyncData(
+const { pending, data: user_details } = await useAsyncData(
     'user_details',
-    () => $fetch(`${config.public.apiBase}/user/${id}`)
-)
+    () => $fetch(`${config.public.apiBase}/userProfile`, {
+        headers: {
+            'x-access-token': getToken(),
+        }
+    })
+);
 
 const onChangeUserData = (user_details) => {
     loading.value = true;
@@ -78,8 +83,10 @@ const onChangeUserPassword = (user_details) => {
 
 <template>
     <div class="p-5">
-
-        <q-form @submit.prevent="onChangeUserData(user_details)">
+        <div v-if="pending">
+            Loading ...
+        </div>
+        <q-form v-else @submit.prevent="onChangeUserData(user_details)">
             <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
                 <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Данные аккаунта</div>
@@ -100,8 +107,8 @@ const onChangeUserPassword = (user_details) => {
                 </div>
 
                 <div class="flex flex-col md:flex-row p-2">
-                    <q-input :rules="NOT_NULL_RULES" outlined class="flex-1" :dark="isDarkTheme" v-model="user_details.phone" label="Телефон"
-                        lazy-rules mask="+7(###) ### - ####" fill-mask>
+                    <q-input :rules="NOT_NULL_RULES" outlined class="flex-1" :dark="isDarkTheme"
+                        v-model="user_details.phone" label="Телефон" lazy-rules mask="+7(###) ### - ####" fill-mask>
                         <template v-slot:prepend>
                             <q-icon name="phone" />
                         </template>
@@ -146,14 +153,15 @@ const onChangeUserPassword = (user_details) => {
                 </q-input>
 
                 <div class="flex flex-col md:flex-row p-2 mt-4">
-                    <q-input :rules="NOT_NULL_RULES" outlined v-model="newPassword" class="flex-1 mb-2" :dark="isDarkTheme"
-                        :type="isPwdNew ? 'password' : 'text'" label="Новый пароль">
+                    <q-input :rules="NOT_NULL_RULES" outlined v-model="newPassword" class="flex-1 mb-2"
+                        :dark="isDarkTheme" :type="isPwdNew ? 'password' : 'text'" label="Новый пароль">
                         <template v-slot:append>
                             <q-icon :name="isPwdNew ? 'visibility_off' : 'visibility'" class="cursor-pointer"
                                 @click="isPwdNew = !isPwdNew" />
                         </template>
                     </q-input>
-                    <q-input :rules="NOT_NULL_RULES" outlined v-model="repeatPassword" class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
+                    <q-input :rules="NOT_NULL_RULES" outlined v-model="repeatPassword"
+                        class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
                         :type="isPwdRepeat ? 'password' : 'text'" label="Повторите пароль">
                         <template v-slot:append>
                             <q-icon :name="isPwdRepeat ? 'visibility_off' : 'visibility'" class="cursor-pointer"
@@ -163,8 +171,7 @@ const onChangeUserPassword = (user_details) => {
                 </div>
 
                 <div class="p-2">
-                    <q-btn label="Изменить пароль" type="submit"
-                        color="primary" />
+                    <q-btn label="Изменить пароль" type="submit" color="primary" />
                 </div>
             </div>
         </q-form>
