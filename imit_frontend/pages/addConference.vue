@@ -20,18 +20,19 @@ const conference = reactive({
     name: null,
     short_description: null,
     dateRange: {
-        from: '',
-        to: ''
+        from: null,
+        to: null
     },
     dateForRequestRange: {
-        from: '',
-        to: ''
+        from: null,
+        to: null
     },
     full_description: '',
     location: null,
     sections: [],
     org_comm: [],
     progr_comm: [],
+    title_file: null
 })
 const config = useRuntimeConfig()
 const users = ref([]);
@@ -59,14 +60,13 @@ try {
 const dateToString = computed(() => createFormattedDate(conference.dateRange));
 const dateForRequestToString = computed(() => createFormattedDate(conference.dateForRequestRange));
 const $q = useQuasar()
-const file = ref()
 
 const getSection = (section) => {
     if (!conference.sections.find(e => e.name === section.name)) {
         conference.sections.push(section);
         console.log(conference);
     } else {
-        showNotif("Секция уже добавлена", 'green', $q)
+        showNotif("Секция с таким именем уже добавлена", 'red', $q)
     }
 }
 
@@ -75,7 +75,7 @@ const getOrgComm = (secretary) => {
         conference.org_comm.push(secretary);
         console.log(conference);
     } else {
-        showNotif("Пользователь уже добавлен", 'green', $q)
+        showNotif("Пользователь уже добавлен", 'red', $q)
     }
 }
 
@@ -84,9 +84,11 @@ const getProgComm = (secretary) => {
         conference.progr_comm.push(secretary);
         console.log(conference);
     } else {
-        showNotif("Пользователь уже добавлен", 'green', $q)
+        showNotif("Пользователь уже добавлен", 'red', $q)
     }
 }
+
+
 
 </script>
 
@@ -95,7 +97,6 @@ const getProgComm = (secretary) => {
         У вас нет доступа к этому контенту.
     </div>
     <div v-else class="p-5">
-
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Новая конференция</div>
@@ -146,7 +147,7 @@ const getProgComm = (secretary) => {
                 </q-input>
             </div>
 
-            <q-file clearable clear-icon="close" :dark="isDarkTheme" outlined v-model="file"
+            <q-file clearable clear-icon="close" :dark="isDarkTheme" outlined v-model="conference.title_file"
                 label="Фотография конференции .jpg .png" class="p-2">
                 <template v-slot:prepend>
                     <q-icon name="attach_file" />

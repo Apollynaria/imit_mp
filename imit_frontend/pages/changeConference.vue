@@ -14,12 +14,17 @@ const isDarkTheme = computed(() => themeStore.isDarkTheme)
 </script>
 
 <template>
+    <!-- <div class="text-[#1f2731] dark:text-[#fff] p-5" v-if="!is_admin">
+        У вас нет доступа к этому контенту.
+    </div>
+    <div v-else class="p-5"> -->
     <div class="p-5">
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Выберите конференцию</div>
-
+            <nuxt-link class="p-3 underline" to="/adminConference/1">Конференция 1</nuxt-link>
+            
 
         </div>
     </div>
