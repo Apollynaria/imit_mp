@@ -13,4 +13,6 @@ module.exports = (app) => {
 
     app.post('/api/addConference', [authJwt.verifyToken, verifyAccess.userIsAdmin], conference.create);
     app.get('/api/adminConference/:id', [authJwt.verifyToken, verifyAccess.userIsAdminConference], conference.findById);
+
+    app.get('/api/conference/:id', conference.findById);
 };

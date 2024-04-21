@@ -205,10 +205,17 @@ const addConference = async () => {
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Секции</div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-2 ">
-                <q-card v-for="(section, ind) in conference.sections" :key="ind" class="my-card no-shadow border-solid border-[1px] border-sky-500 dark:bg-transparent" :dark="isDarkTheme">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-2">
+                <q-card v-for="(section, ind) in conference.sections" :key="ind"
+                    class="my-card no-shadow border-solid border-[1px] border-sky-500 dark:bg-transparent"
+                    :dark="isDarkTheme">
                     <q-card-section>
-                        <div class="font-bold text-[16px]">{{ section.name }}</div>
+                        <div class="flex justify-between">
+                            <q-btn flat @click="" round size="13px" color="primary" icon="edit" />
+                            <q-btn flat @click="conference.sections.splice(ind, 1)" round size="13px" color="red-4"
+                                icon="delete" />
+                        </div>
+                        <div class="font-bold text-[16px] uppercase">{{ section.name }}</div>
                         <div class="font-medium text-[15px]">{{ section.description }}</div>
                         <q-separator class="my-2" :dark="isDarkTheme" />
                         <ul class="list-disc mx-4 mt-2" v-for="(user, ind) in section.section_users" :key="ind">
@@ -219,37 +226,79 @@ const addConference = async () => {
             </div>
             <add-section class="my-2" :users="users" @on-submit="getSection"></add-section>
         </div>
-        <!-- <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
-            <q-card v-for="(section, ind) in conference.sections" :key="ind" class="my-card w-[200px]"
-                :dark="isDarkTheme">
-
-            </q-card>
-            <add-section :users="users" @on-submit="getSection"></add-section>
-        </div> -->
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Организационный комитет</div>
-
-            <div class="text-h7 text-bold mt-2 text-[#1f2731] dark:text-[#fff]">Председатели</div>
-            {{ conference.org_comm }}
-            <div class="text-h7 text-bold mt-2 text-[#1f2731] dark:text-[#fff]">Заместители</div>
-
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-2 "
+                v-if="conference.org_comm.length !== 0">
+                <q-card class="my-card no-shadow border-solid border-[1px] border-sky-500 dark:bg-transparent"
+                    :dark="isDarkTheme">
+                    <q-card-section>
+                        <div class="font-bold text-[16px]">Председатели</div>
+                        <q-separator class="my-2" :dark="isDarkTheme" />
+                        <ul class="mt-2" v-for="(user, ind) in conference.org_comm" :key="ind">
+                            <li v-if="user.type === 'Председатель'">
+                                <q-btn flat @click="conference.org_comm.splice(ind, 1)" round size="10px"
+                                    color="primary" icon="close" />
+                                {{ user.label }}
+                            </li>
+                        </ul>
+                    </q-card-section>
+                </q-card>
+                <q-card class="my-card no-shadow border-solid border-[1px] border-sky-500 dark:bg-transparent"
+                    :dark="isDarkTheme">
+                    <q-card-section>
+                        <div class="font-bold text-[16px]">Заместители</div>
+                        <q-separator class="my-2" :dark="isDarkTheme" />
+                        <ul class="mt-2" v-for="(user, ind) in conference.org_comm" :key="ind">
+                            <li v-if="user.type !== 'Председатель'">
+                                <q-btn flat @click="conference.org_comm.splice(ind, 1)" round size="10px"
+                                    color="primary" icon="close" />
+                                {{ user.label }}
+                            </li>
+                        </ul>
+                    </q-card-section>
+                </q-card>
+            </div>
             <add-admin-conference :users="users" class="p-2" @on-submit="getOrgComm"
                 title="Секретари организационного комитета"></add-admin-conference>
         </div>
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Программный комитет</div>
-            <div class="text-h7 text-bold mt-2 text-[#1f2731] dark:text-[#fff]">Председатели</div>
-            {{ conference.progr_comm }}
-            <div class="text-h7 text-bold mt-2 text-[#1f2731] dark:text-[#fff]">Заместители</div>
-
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-2 "
+                v-if="conference.progr_comm.length !== 0">
+                <q-card class="my-card no-shadow border-solid border-[1px] border-sky-500 dark:bg-transparent"
+                    :dark="isDarkTheme">
+                    <q-card-section>
+                        <div class="font-bold text-[16px]">Председатели</div>
+                        <q-separator class="my-2" :dark="isDarkTheme" />
+                        <ul class="mt-2" v-for="(user, ind) in conference.progr_comm" :key="ind">
+                            <li v-if="user.type === 'Председатель'">
+                                <q-btn flat @click="conference.progr_comm.splice(ind, 1)" round size="10px"
+                                    color="primary" icon="close" />
+                                {{ user.label }}
+                            </li>
+                        </ul>
+                    </q-card-section>
+                </q-card>
+                <q-card class="my-card no-shadow border-solid border-[1px] border-sky-500 dark:bg-transparent"
+                    :dark="isDarkTheme">
+                    <q-card-section>
+                        <div class="font-bold text-[16px]">Заместители</div>
+                        <q-separator class="my-2" :dark="isDarkTheme" />
+                        <ul class="mt-2" v-for="(user, ind) in conference.progr_comm" :key="ind">
+                            <li v-if="user.type !== 'Председатель'">
+                                <q-btn flat @click="conference.progr_comm.splice(ind, 1)" round size="10px"
+                                    color="primary" icon="close" />
+                                {{ user.label }}
+                            </li>
+                        </ul>
+                    </q-card-section>
+                </q-card>
+            </div>
             <add-admin-conference :users="users" class="p-2" @on-submit="getProgComm"
                 title="Секретари программного комитета"></add-admin-conference>
-        </div>
-
-        <div class="flex justify-center mt-2">
-            <q-btn @click="addConference" label="Добавить конференцию" type="button" color="primary" />
         </div>
 
     </div>

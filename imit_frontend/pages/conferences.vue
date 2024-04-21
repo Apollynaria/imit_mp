@@ -43,7 +43,7 @@ const classLogo = computed(() => {
 
         <div class="w-90 mx-auto max-w-screen-xl">
 
-            <div :class="classLogo" class="rounded-lg p-3 m-3">
+            <div class="rounded-lg p-3 m-3">
                 <div class="text-h4 text-center text-[#1f2731] dark:text-[#fff] font-medium mb-2">
                     Научные конференции
                 </div>
@@ -90,7 +90,80 @@ const classLogo = computed(() => {
             <div class="flex justify-center mb-2">
                 <button-underline title="АРХИВ" link="/archive" />
             </div>
+
+
+            <div class="flex justify-center flex-col md:flex-row text-[#1f2731] dark:text-[#fff]">
+                <div class="rounded-lg p-3 w-full md:w-[75%] md:max-w-[800px]">
+                    <div class="text-h4 text-center text-[#1f2731] dark:text-[#fff] font-medium mb-2">
+                        Как подать заявку?
+                    </div>
+
+                    <div class="rounded-xl flex flex-col lg:flex-row justify-center items-center mt-5"
+                        :class="classLogo">
+                        <div class="w-[300px]">
+                            <img class="p-3" src="../image1.jpg" alt="Step 1">
+                        </div>
+                        <div class="text-[120px] text-primary ">1</div>
+                        <div class="md:w-[350px] text-center mb-5">
+                            <div class="text-h4 text-bold text-primary mb-2">Подача заявки</div>
+                            <div class="text-balance">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-xl flex flex-col lg:flex-row justify-center items-center mt-5"
+                        :class="classLogo">
+                        <div class="text-[120px] text-purple ">2</div>
+                        <div class="md:w-[350px] text-center mb-5">
+                            <div class="text-h4 text-bold text-purple mb-2">Тезисы</div>
+                            <div class="text-balance">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.
+                            </div>
+                        </div>
+                        <div class="w-[300px]">
+                            <img class="p-3" src="../image2.jpg" alt="Step 1">
+                        </div>
+                    </div>
+
+                    <div class="rounded-xl flex flex-col lg:flex-row justify-center items-center mt-5"
+                        :class="classLogo">
+                        <div class="w-[300px]">
+                            <img class="p-3" src="../image3.jpg" alt="Step 1">
+                        </div>
+                        <div class="text-[120px] text-secondary ">3</div>
+                        <div class="md:w-[350px] text-center mb-5">
+                            <div class="text-h4 text-bold text-secondary mb-2">Порядок выступления</div>
+                            <div class="text-balance">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-xl flex flex-col lg:flex-row justify-center items-center mt-5"
+                        :class="classLogo">
+                        <div class="text-[120px] text-orange ">4</div>
+                        <div class="md:w-[350px] text-center mb-5">
+                            <div class="text-h4 text-bold text-orange mb-2">Конференция</div>
+                            <div class="text-balance">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.
+                            </div>
+                        </div>
+                        <div class="w-[300px]">
+                            <img class="p-3" src="../image4.jpg" alt="Step 1">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
         </div>
+
     </div>
 </template>
 

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/stores/theme'
+import { getDateString } from '~/services/Date';
+import Markdown from 'vue3-markdown-it';
+
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
 
@@ -18,7 +21,53 @@ const classLogo = computed(() => {
     }
 
 })
+const config = useRuntimeConfig()
+const route = useRoute();
+const conferenceId = route.params.id;
 
+const conference = reactive({
+    name: null,
+    short_description: null,
+    dateRange: {
+        from: null,
+        to: null
+    },
+    dateForRequestRange: {
+        from: null,
+        to: null
+    },
+    full_description: '',
+    location: null,
+    sections: [],
+    org_comm: [],
+    progr_comm: [],
+    title_file: null
+})
+
+const getConference = await $fetch(`/conference/${conferenceId}`, {
+    baseURL: config.public.apiBase,
+});
+
+conference.name = getConference.name;
+conference.short_description = getConference.short_description;
+conference.dateRange.from = getDateString(getConference.date_begin);
+conference.dateRange.to = getDateString(getConference.date_end);
+conference.dateForRequestRange.from = getDateString(getConference.date_for_request_begin);
+conference.dateForRequestRange.to = getDateString(getConference.date_for_request_end);
+conference.full_description = getConference.full_description;
+conference.location = getConference.location;
+conference.resulst = getConference.result_text;
+
+console.log(conference)
+const dateRange = ref({ from: '2020/07/08', to: '2020/07/17' })
+// sections: [],
+// org_comm: [],
+// progr_comm: [],
+// title_file: null,
+// collection_file: null,
+// schedule_file: null,
+
+console.log(getConference)
 </script>
 
 <template>
@@ -43,55 +92,38 @@ const classLogo = computed(() => {
 
         <div class="w-90 mx-auto max-w-screen-xl">
 
-            <div :class="classLogo" class="rounded-lg p-3 m-3">
-                <div class="text-h4 text-center text-[#1f2731] dark:text-[#fff] font-medium mb-2">
-                    Научные конференции
+            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
+
+                <div>
+                    <div class="text-h5 font-semibold">{{ conference.name }}</div>
+                    <div>{{ conference.short_description }}</div>
+
+                    <q-date v-model="dateRange" range />
+                    <q-date v-model="conference.dateForRequestRange" range />
+                </div>
+                <div>
+
                 </div>
 
-                <div class="flex flex-row justify-center mb-2">
-
-                    <img class="w-[600px] p-3" src="../VbwjenOX4WA.jpg">
-
-                    <div class="w-[600px] text-h6 text-[#1f2731] dark:text-[#fff] p-3 content-center">
-                        <q-card :dark="isDarkTheme" bordered
-                            class="bg-[#fff] dark:bg-[#142437] text-[#000] dark:text-[#fff] my-card no-shadow">
-
-                            <q-card-section>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
-                                odio
-                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                                culpa fuga nulla ullam. In, libero.
-                            </q-card-section>
-
-                            <q-separator :dark="isDarkTheme" inset />
-
-                            <q-card-section>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
-                                odio
-                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                                culpa fuga nulla ullam. In, libero.
-                            </q-card-section>
-                        </q-card>
-                    </div>
+                <div class="text-h5 text-center font-semibold mb-2">
+                    О конференции
                 </div>
+
+                <div class="flex justify-center">
+                    <Markdown class="prose dark:prose-invert p-2"
+                        :source="conference.full_description ? conference.full_description.toString() : ''" />
+                </div>
+
+
             </div>
 
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <CardMp v-for="(card, index) in cards_mp" :key="index" :title="card.title"
-                    :description="card.description" :date="card.date">
-                </CardMp>
-            </div>
-
-            <div class="flex justify-center p-2">
-                <q-btn color="primary" label="Загрузить еще" />
-            </div>
-
-            <div class="flex justify-center mb-2">
-                <button-underline title="АРХИВ" link="/archive" />
-            </div>
         </div>
     </div>
 </template>
 
-<style></style>
+<style>
+.w-fulls{
+    width: 100% !important;
+}
+</style>

@@ -52,18 +52,30 @@ const onSubmitForm = () => {
         showNotif("Чтобы добавить секцию - введите название", 'red', $q)
     }
     else {
+        const uniqueUsers = section.section_users.filter((user, index, self) =>
+            index === self.findIndex((t) => (
+                t.id === user.id
+            ))
+        );
+
+        section.section_users = uniqueUsers;
+
         const data = { ...section };
         emit('onSubmit', data);
+        deleteData();
 
-        section.name = '';
-        section.description = '';
-        section.section_users = [{
-            id: props.users[0].id,
-            label: props.users[0].label
-        }];
         addSection.value = false;
     }
 }
+
+const deleteData = () => {
+    section.name = '';
+    section.description = '';
+    section.section_users = [{
+        id: props.users[0].id,
+        label: props.users[0].label
+    }];
+};
 </script>
 
 <template>
@@ -114,8 +126,9 @@ const onSubmitForm = () => {
                                 class="md:ms-2 md:mt-0 mt-2" size="12px" round color="grey-8" icon="close"
                                 style="max-width: 12px; max-height: 12px;" />
 
-                            <q-btn v-if="index === section.section_users.length - 1" @click="addSectionUser" class="md:ms-2 md:mt-0 mt-2" size="12px" round
-                                color="primary" icon="add" style="max-width: 12px; max-height: 12px;" />
+                            <q-btn v-if="index === section.section_users.length - 1" @click="addSectionUser"
+                                class="md:ms-2 md:mt-0 mt-2" size="12px" round color="primary" icon="add"
+                                style="max-width: 12px; max-height: 12px;" />
 
                         </div>
                     </div>
@@ -126,7 +139,7 @@ const onSubmitForm = () => {
                 <q-separator :dark="isDarkTheme" />
 
                 <q-card-actions align="right">
-                    <q-btn label="Отменить" color="primary" v-close-popup />
+                    <q-btn label="Отменить" color="primary" @click="deleteData" v-close-popup />
                     <q-btn label="Создать" color="secondary" @click="onSubmitForm" />
                 </q-card-actions>
             </q-card>

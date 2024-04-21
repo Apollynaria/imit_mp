@@ -15,11 +15,12 @@ export const getDate = (dateString) => {
     }
 }
 
-export const getDateString = (date) => {
+export const getDateString = (dateString) => {
+    const date = new Date(dateString);
     if (date) {
-        const year = 2020;
-        const month = 12 - 1; // Месяцы в объекте Date начинаются с 0
-        const day = 30;
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
         const newDate = new Date(year, month, day);
         const formattedDate = `${newDate.getFullYear()}/${String(newDate.getMonth() + 1).padStart(2, '0')}/${String(newDate.getDate()).padStart(2, '0')}`;
         return formattedDate;
