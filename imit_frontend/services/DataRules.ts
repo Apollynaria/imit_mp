@@ -3,7 +3,6 @@ export const NOT_NULL_RULES = [
 ]
 
 export const createFormattedDate = (date) => {
-    console.log(date)
     if (date === null || date.from === null || date.to === null){
         return null;
     }

@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
                 allowNull: false
             },
             short_description: {
-                type: Sequelize.STRING(100), 
+                type: Sequelize.TEXT, 
                 allowNull: false
             },
             date_begin: {
@@ -34,7 +34,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.INTEGER(10),
             },
             full_description: {
-                type: Sequelize.STRING, 
+                type: Sequelize.TEXT, 
                 allowNull: false
             },
             location: {
@@ -45,7 +45,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.INTEGER(10),
             },
             result_text: {
-                type: Sequelize.STRING
+                type: Sequelize.TEXT
             },
             title_file_id: {
                 type: Sequelize.INTEGER(10),

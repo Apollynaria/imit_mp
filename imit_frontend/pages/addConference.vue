@@ -4,6 +4,7 @@ import { classDarkTheme } from '../services/DarkTheme'
 import { createFormattedDate } from '../services/DataRules'
 import { getToken } from '~/services/auth.service';
 import { showNotif } from '~/services/Notify';
+import { getDate } from '~/services/Date';
 
 useSeoMeta({
     title: 'Создание конференции',
@@ -60,6 +61,7 @@ try {
 const dateToString = computed(() => createFormattedDate(conference.dateRange));
 const dateForRequestToString = computed(() => createFormattedDate(conference.dateForRequestRange));
 const $q = useQuasar()
+const router = useRouter()
 
 const getSection = (section) => {
     if (!conference.sections.find(e => e.name === section.name)) {
@@ -88,6 +90,41 @@ const getProgComm = (secretary) => {
     }
 }
 
+const addConference = async () => {
+    let formData = new FormData();
+    formData.append('name', conference.name);
+    formData.append('short_description', conference.short_description);
+    formData.append('date_begin', getDate(conference.dateRange.from));
+    formData.append('date_end', getDate(conference.dateRange.to));
+    formData.append('date_for_request_begin', getDate(conference.dateForRequestRange.from));
+    formData.append('date_for_request_end', getDate(conference.dateForRequestRange.to));
+    formData.append('full_description', conference.full_description);
+    formData.append('location', conference.location);
+    formData.append('file', conference.title_file);
+
+    formData.append('sections', JSON.stringify(conference.sections));
+    formData.append('org_comm', JSON.stringify(conference.org_comm));
+    formData.append('progr_comm', JSON.stringify(conference.progr_comm));
+
+    try {
+
+        const addedConference = await $fetch(`/addConference`, {
+            baseURL: config.public.apiBase,
+            method: 'POST',
+            body: formData,
+            headers: {
+                'x-access-token': getToken(),
+            },
+        });
+
+        showNotif(addedConference.message, 'green', $q);
+        router.push({ path: `/adminConference/${addedConference.id}` });
+
+    } catch (error) {
+        console.error(error);
+        showNotif(error, 'red', $q)
+    }
+}
 
 
 </script>
@@ -167,17 +204,28 @@ const getProgComm = (secretary) => {
         </div>
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
-            <q-card v-for="(section, ind) in conference.sections" :key="ind" class="my-card" :dark="isDarkTheme">
-                <q-card-section>
-                    {{ section.name }}
-                    {{ section.description }}
-                    <div v-for="(user, ind) in section.section_users" :key="ind">
-                        {{ user.label }}
-                    </div>
-                </q-card-section>
+            <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Секции</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-2 ">
+                <q-card v-for="(section, ind) in conference.sections" :key="ind" class="my-card no-shadow border-solid border-[1px] border-sky-500 dark:bg-transparent" :dark="isDarkTheme">
+                    <q-card-section>
+                        <div class="font-bold text-[16px]">{{ section.name }}</div>
+                        <div class="font-medium text-[15px]">{{ section.description }}</div>
+                        <q-separator class="my-2" :dark="isDarkTheme" />
+                        <ul class="list-disc mx-4 mt-2" v-for="(user, ind) in section.section_users" :key="ind">
+                            <li>{{ user.label }}</li>
+                        </ul>
+                    </q-card-section>
+                </q-card>
+            </div>
+            <add-section class="my-2" :users="users" @on-submit="getSection"></add-section>
+        </div>
+        <!-- <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
+            <q-card v-for="(section, ind) in conference.sections" :key="ind" class="my-card w-[200px]"
+                :dark="isDarkTheme">
+
             </q-card>
             <add-section :users="users" @on-submit="getSection"></add-section>
-        </div>
+        </div> -->
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Организационный комитет</div>
@@ -201,7 +249,7 @@ const getProgComm = (secretary) => {
         </div>
 
         <div class="flex justify-center mt-2">
-            <q-btn @click="" label="Добавить конференцию" type="button" color="primary" />
+            <q-btn @click="addConference" label="Добавить конференцию" type="button" color="primary" />
         </div>
 
     </div>

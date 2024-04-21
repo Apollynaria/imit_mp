@@ -11,16 +11,6 @@ module.exports = (app) => {
         next();
     });
 
-    app.get('/api/conferences', conference.findAll);
-    app.get('/api/time', conference.time);
-    app.get('/api/conference/:id', conference.findById);
-    app.get('/api/conferencesSorted', conference.findAllSorted);
-    app.get('/api/conferencesSortByData5', conference.get5ConferencesSortByData);
-    app.get('/api/conference/name/:name', conference.findByName);
-
     app.post('/api/addConference', [authJwt.verifyToken, verifyAccess.userIsAdmin], conference.create);
-    // app.post('/api/updateConference/:id', [authJwt.verifyToken], conference.update);
-    app.post('/api/deleteConference/:id', conference.delete);
-    
-    // app.get('/api/conference/date/:date', conference.findByDate);
+    app.get('/api/adminConference/:id', [authJwt.verifyToken, verifyAccess.userIsAdminConference], conference.findById);
 };

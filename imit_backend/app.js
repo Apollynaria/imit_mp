@@ -29,5 +29,8 @@ conference(app);
 var file = require('./app/route/file.route.js');
 file(app);
 
+var section = require('./app/route/section.route.js');
+section(app);
+
 var auth = require('./app/route/auth.route.js');
 auth(app);

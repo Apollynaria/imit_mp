@@ -68,7 +68,6 @@ const onSubmitForm = () => {
 
 <template>
     <div>
-        <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Секции</div>
 
         <q-dialog v-model="addSection" :class="themeStore.getTheme">
             <q-card :dark="isDarkTheme" style="width: 700px; max-width: 80vw;">

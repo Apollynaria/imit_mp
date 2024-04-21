@@ -18,31 +18,11 @@ const isDarkTheme = computed(() => themeStore.isDarkTheme)
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
-            <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Контакты поддержки</div>
+            <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Контакты</div>
 
-            <div class="flex flex-col md:flex-row p-2">
-
-                <q-field outlined color="primary" class="flex-1" stack-label :dark="isDarkTheme" label="Разработчик"
-                    lazy-rules>
-                    <template v-slot:prepend>
-                        <q-icon name="person" />
-                    </template>
-                    <template v-slot:control>
-                        <div class="self-center full-width no-outline" tabindex="0">Дергунова Полина Павловна</div>
-                    </template>
-                </q-field>
-
-                <q-field outlined color="primary" class="flex-1 md:ms-2 md:mt-0 mt-2" stack-label :dark="isDarkTheme" label="E-mail"
-                    lazy-rules>
-                    <template v-slot:prepend>
-                        <q-icon name="email" />
-                    </template>
-                    <template v-slot:control>
-                        <div class="self-center full-width no-outline" tabindex="0">a.polly.narii@gmail.com</div>
-                    </template>
-                </q-field>
-            </div>
-
+            <div class="text-h7 q-mt-sm q-mb-xs ms-2">Разработчик: Дергунова Полина Павловна</div>
+            <div class="text-h7 q-mt-sm q-mb-xs ms-2">Группа: 02471-ДБ</div>
+            <div class="text-h7 q-mt-sm q-mb-xs ms-2">Email: a.polly.narii@gmail.com</div>
 
         </div>
     </div>

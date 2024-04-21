@@ -1,7 +1,7 @@
 module.exports = (app) => {
 
     var { authJwt } = require("../middleware");
-    const file = require('../controller/file.controller');
+    const section = require('../controller/section.controller');
 
     app.use((req, res, next) => {
         // подключаем заголовки для авторизации
@@ -13,9 +13,13 @@ module.exports = (app) => {
     });
     
     // app.get('/api/files', [authJwt.verifyToken], file.findAll);
-    // app.post('/api/addFileConference', file.create);
+
+    // // app.post('/api/addFileConference', file.create);
+    
     // app.post('/api/updateFile/:id', file.update);
+
     // app.post('/api/deleteFile/:id', file.delete);
+    
     // app.get('/api/file/:id', file.findById);
     
 };

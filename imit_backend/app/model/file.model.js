@@ -15,6 +15,10 @@ module.exports = (sequelize, Sequelize) => {
             is_public: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false
+            },
+            mime_type: {
+                type: Sequelize.STRING(100),
+                allowNull: true
             }
         });
 

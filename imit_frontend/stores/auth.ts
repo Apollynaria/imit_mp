@@ -8,7 +8,7 @@ if (process.client) {
     user = JSON.parse(localStorage.getItem('user'));
     initialState = user
         ? { status: { loggedIn: true }, user }
-        : { status: { loggedIn: false }, user: null };
+        : { status: { loggedIn: false }, user: {} };
 }
 
 export const useAuthStore = defineStore('auth', () => {
@@ -54,6 +54,7 @@ export const useAuthStore = defineStore('auth', () => {
             loginSuccess(loggedInUser)
             return loggedInUser
         } catch (error) {
+            console.log(error)
             loginFailure()
             return Promise.reject(error)
         }

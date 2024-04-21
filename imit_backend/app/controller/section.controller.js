@@ -1,24 +1,12 @@
 var db = require('../config/db.config.js');
 const globalFunctions = require('../config/global.functions.js');
-var File = db.file;
-var multiparty = require('multiparty');
-var fs = require('fs');
-var uuid = require('uuid');
+var Section = db.section;
+var UserSection = db.user_section;
 var { Op } = require("sequelize");
 
-var mime_expansion = new Map();
-mime_expansion
-    .set("vnd.ms-powerpoint", "ppt")
-    .set("vnd.openxmlformats-officedocument.presentationml.presentation", "pptx")
-    .set("x-zip-compressed", "zip")
-    .set("zip", "zip")
-    .set("pdf", "pdf")
-    .set("png", "png")
-    .set("jpeg", "jpeg")
-    .set("x-zip", "zip");
 
 exports.findAll = (req, res) => {
-    File.findAll()
+    Section.findAll()
         .then(objects => {
             globalFunctions.sendResult(res, objects);
         })
@@ -28,31 +16,42 @@ exports.findAll = (req, res) => {
 };
 
 
-exports.create = async (req, res, files, is_public, transaction) => {
+exports.create = async (section, conference_id, transaction) => {
 
-    var mimeType, link;
-    var mimeType = files.file[0].headers['content-type']; // тип файла указывается так: image/png
-
-    var expansion = mimeType.split('/')[1]; // из "image/png" нужно извлечь только расширение
-
-    expansion = mime_expansion.get(expansion);
-    var newName = uuid.v4() + "." + expansion; // вызываем функцию v4() для того, чтобы уникальный идентификатор был сгенерирован случайным образом
-    link = './files/' + newName;
-
-    fs.rename(files.file[0].path, link, (err) => {
-        if (err) {
-            throw err;
-        }
-    });
-
-    const newFile = await File.create({
-        path: link,
-        mime_type: mimeType,
-        is_public: is_public
+    const newSection = await Section.create({
+        conference_id: conference_id,
+        name: section.name,
+        description: section.description
     }, { transaction: transaction });
 
-    return newFile.id;
+    // Создание пользователей секции
+    await Promise.all(section.section_users.map(async (user) => {
+        await UserSection.create({
+            section_id: newSection.id,
+            user_id: user.id,
+        }, { transaction });
+    }));
 
+};
+
+exports.getAllSectionsForConference = async (conferenceId) => {
+    try {
+        const sections = await Section.findAll({
+            where: { conference_id: conferenceId },
+            include: [
+                {
+                    model: UserSection,
+                    required: true,
+                },
+            ]
+        });
+
+        return sections;
+
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 };
 
 // exports.update = async (req, res) => {
@@ -60,7 +59,7 @@ exports.create = async (req, res, files, is_public, transaction) => {
 //     await form.parse(req, async (err, fields, files) => {
 //         if (!err) {
 //             var mimeType, link;
-//             await File.findByPk(fields.id[0])
+//             await Section.findByPk(fields.id[0])
 //                 .then(object => {
 //                     if (object.path) {
 //                         fs.unlinkSync(object.path);
@@ -83,7 +82,7 @@ exports.create = async (req, res, files, is_public, transaction) => {
 //                 }
 //             });
 
-//             File.update({
+//             Section.update({
 //                 path: link,
 //                 mime_type: mimeType
 //             },
@@ -104,13 +103,13 @@ exports.create = async (req, res, files, is_public, transaction) => {
 // };
 
 // exports.delete = (req, res) => {
-//     File.findByPk(req.params.id)
+//     Section.findByPk(req.params.id)
 //         .then(async (object) => {
 //             // удаляем файл
 //             if (object.path) {
 //                 await fs.unlinkSync(object.dataValues.path);
 //             }
-//             await File.destroy({
+//             await Section.destroy({
 //                 where: {
 //                     id: req.params.id
 //                 }
@@ -126,7 +125,7 @@ exports.create = async (req, res, files, is_public, transaction) => {
 // };
 
 // exports.findById = (req, res) => {
-//     File.findByPk(req.params.id)
+//     Section.findByPk(req.params.id)
 //         .then(object => {
 //             globalFunctions.sendResult(res, object);
 //         })

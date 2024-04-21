@@ -13,13 +13,11 @@ const isDarkTheme = computed(() => themeStore.isDarkTheme)
 
 const requests = reactive([{
     id: 1,
+    name: 'Доклад 1',
     section_name: 'Дискретная математика и информационные технологии',
     conference_name: 'Конференция 1',
     conference_date: '11.03.2024 - 15.03.2024',
-    status_request: 'На проверке',
-    comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temporincididunt ut labore et dolore magna aliqua.',
-    file: 'hhh.tex'
-}
+    status_request: 'На проверке',}
 ])
 
 </script>
@@ -35,24 +33,24 @@ const requests = reactive([{
 
             <div v-for="(request, ind) in requests" :key="ind" :class="classDarkTheme" class="rounded-lg p-2 mb-3">
 
-                <q-card class="my-card" flat bordered>
+                <q-card bordered flat :dark="isDarkTheme" class="no-shadow transition-all duration-500 bg-inherit cursor-pointer hover:border-slate-300">
                     <q-card-section>
                         <q-card-section class="p-0">
                             <div class="flex flex-col md:flex-row justify-between">
-                                <div class="">{{ request.conference_date }} </div>
+                                <div class="text-orange-8">{{ request.conference_date }} </div>
                                 <q-btn color="primary" outline class="pointer-events-none flex-end"
                                     :label="request.status_request" />
                             </div>
                             <div class="text-[28px] q-mt-sm q-mb-xs">{{ request.conference_name }}</div>
                             <div class="text-[18px] q-mt-sm q-mb-xs">Секция: {{ request.section_name }}</div>
-                            <div class="text-[14px] text-grey" v-if="request.comment">
-                                Сообщение: {{ request.comment }}
-                            </div>
-                            <q-btn color="secondary" outline size="12px" class="pointer-events-none q-mt-sm q-mb-xs"
-                                label="Тезисы" />
+                           
                         </q-card-section>
                     </q-card-section>
 
+                    <!-- <q-card-actions class="p-3">
+                        <q-btn color="secondary" outline class="pointer-events-none q-mt-sm q-mb-xs"
+                                label="Тезисы" />
+                    </q-card-actions> -->
                 </q-card>
 
             </div>

@@ -4,6 +4,8 @@ import { classDarkTheme } from '../../services/DarkTheme'
 import { createFormattedDate } from '../../services/DataRules'
 import { getToken } from '~/services/auth.service';
 import { showNotif } from '~/services/Notify';
+import { getDateString } from '~/services/Date';
+import { getDate } from '~/services/Date';
 
 useSeoMeta({
     title: 'Изменение конференции',
@@ -39,6 +41,8 @@ const conference = reactive({
 })
 const config = useRuntimeConfig()
 const users = ref([]);
+const route = useRoute();
+const conferenceId = route.params.id;
 try {
     const fetchedUsers = await $fetch(`/users`, {
         baseURL: config.public.apiBase,
@@ -53,6 +57,32 @@ try {
         const userOption = { id: user.id, label: `${user.surname} ${user.name} ${user.patronymic}`, is_admin: Boolean(user.is_admin) };
         users.value.push(userOption);
     });
+
+    const getConference = await $fetch(`/adminConference/${conferenceId}`, {
+        baseURL: config.public.apiBase,
+        headers: {
+            'x-access-token': getToken(),
+        },
+    });
+
+    conference.name = getConference.name;
+    conference.short_description = getConference.short_description;
+    conference.dateRange.from = getDateString(getConference.date_begin);
+    conference.dateRange.to = getDateString(getConference.date_end);
+    conference.dateForRequestRange.from = getDateString(getConference.date_for_request_begin);
+    conference.dateForRequestRange.to = getDateString(getConference.date_for_request_end);
+    conference.full_description = getConference.full_description;
+    conference.location = getConference.location;
+    conference.resulst = getConference.result_text;
+
+    // sections: [],
+    // org_comm: [],
+    // progr_comm: [],
+    // title_file: null,
+    // collection_file: null,
+    // schedule_file: null,
+
+    console.log(getConference)
 
 } catch (error) {
     console.error(error);
@@ -92,6 +122,46 @@ const getProgComm = (secretary) => {
     }
 }
 
+
+const updateConference = async () => {
+    let formData = new FormData();
+    formData.append('name', conference.name);
+    formData.append('short_description', conference.short_description);
+    formData.append('date_begin', getDate(conference.dateRange.from));
+    formData.append('date_end', getDate(conference.dateRange.to));
+    formData.append('date_for_request_begin', getDate(conference.dateForRequestRange.from));
+    formData.append('date_for_request_end', getDate(conference.dateForRequestRange.to));
+    formData.append('full_description', conference.full_description);
+    formData.append('location', conference.location);
+    formData.append('file', conference.title_file);
+
+    formData.append('sections', JSON.stringify(conference.sections));
+    formData.append('org_comm', JSON.stringify(conference.org_comm));
+    formData.append('progr_comm', JSON.stringify(conference.progr_comm));
+
+    formData.append('collection_file', conference.collection_file);
+    formData.append('schedule_file', conference.schedule_file);
+    formData.append('resulst', conference.resulst);
+
+
+    try {
+
+        const updatedConference = await $fetch(`/updateConference`, {
+            baseURL: config.public.apiBase,
+            method: 'POST',
+            body: formData,
+            headers: {
+                'x-access-token': getToken(),
+            },
+        });
+
+        showNotif(updatedConference.message, 'green', $q);
+
+    } catch (error) {
+        console.error(error);
+        showNotif(error, 'red', $q)
+    }
+}
 
 </script>
 
@@ -221,8 +291,8 @@ const getProgComm = (secretary) => {
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Результаты конференции</div>
 
-            <q-file clearable clear-icon="close" :dark="isDarkTheme" outlined v-model="conference.collection_file" label="Сборник"
-                class="p-2">
+            <q-file clearable clear-icon="close" :dark="isDarkTheme" outlined v-model="conference.collection_file"
+                label="Сборник" class="p-2">
                 <template v-slot:prepend>
                     <q-icon name="attach_file" />
                 </template>
@@ -231,12 +301,12 @@ const getProgComm = (secretary) => {
             <q-input outlined class="p-2" :dark="isDarkTheme" v-model="conference.resulst" type="textarea"
                 label="Результаты конференции Markdown" placeholder="Напишите разметку для предпросмотра" lazy-rules />
             <Markdown class="prose dark:prose-invert p-2"
-                :source="conference.full_description ? conference.full_description.toString() : '> :sparkles: *Работает MarkDown!* :P :sparkles:'" />
+                :source="conference.resulst ? conference.resulst.toString() : '> :sparkles: *Работает MarkDown!* :P :sparkles:'" />
 
         </div>
 
         <div class="flex justify-center mt-2">
-            <q-btn @click="" label="Сохранить" type="button" color="primary" />
+            <q-btn @click="updateConference" label="Сохранить" type="button" color="primary" />
         </div>
 
 

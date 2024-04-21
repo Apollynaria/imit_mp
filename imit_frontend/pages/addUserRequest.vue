@@ -12,6 +12,7 @@ const request = reactive({
     user_id: null,
     conference_id: null,
     section_id: null,
+    name: '',
     comment: '',
     file_id: null
 })
@@ -36,6 +37,13 @@ const isDarkTheme = computed(() => themeStore.isDarkTheme)
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Мероприятие</div>
+
+            <q-input class="p-2" clearable clear-icon="close" outlined :dark="isDarkTheme" v-model="request.name"
+                label="Название доклада" lazy-rules>
+                <template v-slot:prepend>
+                    <q-icon name="badge" />
+                </template>
+            </q-input>
 
             <div class="flex flex-col md:flex-row p-2">
 
