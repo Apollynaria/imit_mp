@@ -15,4 +15,8 @@ module.exports = (app) => {
     app.get('/api/adminConference/:id', [authJwt.verifyToken, verifyAccess.userIsAdminConference], conference.findById);
 
     app.get('/api/conference/:id', conference.findById);
+    app.get('/api/conferenceAdmin/:id', conference.findByIdAdmin);
+
+    app.get('/api/conferenceForRequest/:id', conference.findByIdForRequest);
+    app.get('/api/conferencesForRequest', conference.findAllForRequest);
 };

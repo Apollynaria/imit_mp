@@ -10,7 +10,7 @@ exports.create = async (user, conference_id, transaction) => {
     const newUser = await AdminUser.create({
         conference_id: conference_id,
         user_id: user.id,
-        type: user.type === 'Председатель'? 'main' : 'secondary'
+        type: user.type === 'Председатель' ? 'main' : 'secondary'
     }, { transaction: transaction });
 
     return newUser;
@@ -48,7 +48,7 @@ exports.checkAdminUserExistence = async (conferenceId, userId) => {
     }
 };
 
-exports.getAllAdminUserForConference = async (conferenceId) => {
+exports.getAllAdminUserForConferenceAdmin = async (conferenceId) => {
     try {
         const users = await AdminUser.findAll({
             where: { conference_id: conferenceId },
@@ -59,9 +59,26 @@ exports.getAllAdminUserForConference = async (conferenceId) => {
                 },
             ]
         });
-
         return users;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
 
+exports.getAllAdminUserForConference = async (conferenceId) => {
+    try {
+        const users = await AdminUser.findAll({
+            where: { conference_id: conferenceId },
+            include: [
+                {
+                    model: User,
+                    attributes: ['name', 'surname', 'patronymic', 'email'],
+                    required: true,
+                },
+            ]
+        });
+        return users;
     } catch (error) {
         console.error(error);
         return null;

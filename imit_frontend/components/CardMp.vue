@@ -25,6 +25,10 @@ const props = defineProps({
     },
     register_link: {
         type: String,
+    },
+    border: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -32,7 +36,7 @@ const props = defineProps({
 
 <template>
     <div class="p-3 h-full">
-        <q-card :dark="isDarkTheme" class="my-card bg-[#fff] dark:bg-[#142437] h-full flex flex-col no-shadow">
+        <q-card :bordered="border" :dark="isDarkTheme" class="my-card bg-[#fff] dark:bg-[#142437] h-full flex flex-col no-shadow">
             <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
                 <div class="absolute-bottom text-h6">
                     {{ props.title }}
@@ -54,7 +58,7 @@ const props = defineProps({
             <q-card-actions class="mt-auto">
                 <q-btn color="primary" label="Подробнее" :to="page_link" />
                 <q-btn v-if="register_link" color="secondary" :to="register_link">
-                    <q-icon left name="add" />Подать заявку 
+                    Заявка 
                 </q-btn>
             </q-card-actions>
         </q-card>

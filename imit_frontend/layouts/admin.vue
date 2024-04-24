@@ -62,7 +62,7 @@ const logOut = () => {
                     <q-expansion-item icon="article" label="ЗАЯВКИ">
                         <q-list class="ms-[30px]">
 
-                            <q-item clickable to="/addUserRequest" active-class="q-item-no-link-highlighting">
+                            <q-item clickable to="/conferencesRequest" active-class="q-item-no-link-highlighting">
                                 <q-item-section avatar>
                                     <q-icon name="add_circle" />
                                 </q-item-section>

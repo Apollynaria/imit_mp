@@ -12,7 +12,8 @@ useSeoMeta({
 definePageMeta({
     layout: 'admin'
 })
-
+const route = useRoute()
+console.log(route)
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
 const is_admin = ref(false);

@@ -28,3 +28,7 @@ export const getDateString = (dateString) => {
         return null;
     }
 };
+
+export const getFullDate = (begin, end) => {
+    return `${getDateString(begin)} - ${getDateString(end)}`
+}

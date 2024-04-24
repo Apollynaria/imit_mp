@@ -11,7 +11,7 @@ const cards_prospects = ref([
 ])
 
 const cards_mp = ref([
-  { title: 'Мероприятие 1', short_description: 'Lorem ipsum dolor sit amet.', date: '12.05.2024 - 13.05.2024', date_request: '12.02.2023 - 23.05.2023', page_link: '/conference/1', register_link: '/addRequest/conference/2' },
+  { title: 'Мероприятие 1', short_description: 'Lorem ipsum dolor sit amet.', date: '12.05.2024 - 13.05.2024', date_request: '12.02.2023 - 23.05.2023', page_link: '/conference/1', register_link: '/addUserRequest?conference=1' },
   { title: 'Мероприятие 2', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '15.05.2024' },
   { title: 'Мероприятие 3', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '17.05.2024' },
   { title: 'Мероприятие 4', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '19.05.2024' },
@@ -19,7 +19,7 @@ const cards_mp = ref([
 ])
 
 const cards_3 = ref([
-  { title: 'Мероприятие 1', short_description: 'Lorem ipsum dolor sit amet.', date: '12.05.2024 - 13.05.2024', date_request: '12.02.2023 - 23.05.2023', page_link: '/conference/1', register_link: '/addRequest/conference/2' },
+  { title: 'Мероприятие 1', short_description: 'Lorem ipsum dolor sit amet.', date: '12.05.2024 - 13.05.2024', date_request: '12.02.2023 - 23.05.2023', page_link: '/conference/1', register_link: '/addUserRequest?conference=2' },
   { title: 'Мероприятие 2', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '15.05.2024' },
   { title: 'Мероприятие 3', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '17.05.2024' },
 ])
@@ -57,6 +57,7 @@ const cards_3 = ref([
       
 
       <div class="gap-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center">
+        <!-- <div class="gap-1 grid grid-cols-1"> -->
         <CardWithText v-for="(card, index) in cards_prospects" :key="index" :title="card.title" :text="card.text"
           :icon="card.icon" :color="card.color">
         </CardWithText>

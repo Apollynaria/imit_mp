@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { classDarkTheme } from '../services/DarkTheme'
+import { getFullDate } from '../services/Date'
 
 useSeoMeta({
     title: 'Подать заявку',
@@ -17,40 +18,62 @@ const request = reactive({
     file_id: null
 })
 
-const sections = reactive([{
-    id: 1,
-    name: 'test'
-}])
 
+const config = useRuntimeConfig()
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
+const IdConference = useRoute().query.conference;
+
+const { pending, data: conference } = await useAsyncData(
+    'conference',
+    () => $fetch(`${config.public.apiBase}/conferenceForRequest/${IdConference}`, {})
+);
+
+const options = ref([]);
+
+const sections = conference.value.sections;
+
+sections.forEach(section => {
+    const userOption = { id: section.id, label: `${section.name}`, conference_id: section.conference_id };
+    options.value.push(userOption);
+});
+
+console.log(options.value)
+const model = ref(null);
 
 </script>
 
 <template>
-    <!-- <div class="text-[#1f2731] dark:text-[#fff] p-5" v-if="is_admin">
-        У вас нет доступа к этому контенту.
-    </div>
-    <div v-else class="p-5"> -->
     <div class="p-5">
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
-            <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Мероприятие</div>
+            <div class="flex justify-between">
+                <q-btn class="ms-2 mb-2" to="/conferencesRequest" color="primary" icon="arrow_back_ios" label="Назад" />
+                <q-btn class="ms-2 mb-2" :to="`/conference/${IdConference}`" color="secondary" label="О мероприятии" />
+            </div>
+            <div class="p-2 text-[#1f2731] text-center dark:text-[#fff]">
+                <div class="text-h5">Мероприятие: «{{ conference.name }}»</div>
+                <div class="text-[16px] font-normal">Дата проведения: {{ getFullDate(conference.date_begin,
+                    conference.date_end) }}</div>
+                <div class="text-[16px] font-normal">Дата подачи тезисов: {{
+                    getFullDate(conference.date_for_request_begin, conference.date_for_request_end) }}</div>
+            </div>
 
             <q-input class="p-2" clearable clear-icon="close" outlined :dark="isDarkTheme" v-model="request.name"
                 label="Название доклада" lazy-rules>
                 <template v-slot:prepend>
-                    <q-icon name="badge" />
+                    <q-icon name="edit" />
                 </template>
             </q-input>
 
             <div class="flex flex-col md:flex-row p-2">
 
-                <q-select class="flex-1" :dark="isDarkTheme" outlined v-model="request.section_id" label="Секция"
-                    :options="sections">
+                <q-select class="flex-1" :dark="isDarkTheme" outlined
+                    v-model="model" use-input fill-input hide-selected input-debounce="0" label="Секция"
+                    :options="options" >
                     <template v-slot:prepend>
-                        <q-icon name="badge" />
+                        <q-icon name="grid_view" />
                     </template>
                 </q-select>
 

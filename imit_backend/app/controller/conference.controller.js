@@ -145,36 +145,6 @@ exports.get5ConferencesSortByData = (req, res) => {
         })
 };
 
-exports.findByName = (req, res) => {
-    Conference.findAll({
-        where: {
-            name: { [Op.like]: `%${req.params.name}%` }
-        }
-    }).then(objects => {
-        globalFunctions.sendResult(res, objects);
-    }).catch(err => {
-        globalFunctions.sendError(res, err);
-    })
-};
-
-// exports.findByDateBegin = (req, res) => {
-//     moment.createFromInputFallback = function (config) {
-//         config._d = new Date(config._i);
-//     };
-//     var startDate = moment(req.params.date).startOf("day").toDate();
-//     var endDate = moment(req.params.date).endOf("day").toDate();
-//     Presentation.findAll({
-//         where: {
-//             date: {
-//                 [Op.between]: [startDate, endDate]
-//             }
-//         }
-//     }).then(objects => {
-//         globalFunctions.sendResult(res, objects);
-//     }).catch(err => {
-//         globalFunctions.sendError(res, err);
-//     })
-// };
 
 exports.findById = (req, res) => {
     Conference.findByPk(req.params.id)
@@ -201,6 +171,80 @@ exports.findById = (req, res) => {
                 conference.dataValues.org_comm = users_org_comm;
                 conference.dataValues.progr_comm = users_progr_comm;
 
+                globalFunctions.sendResult(res, conference);
+            } catch (error) {
+                globalFunctions.sendError(res, error);
+            }
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        });
+};
+
+exports.findByIdAdmin = (req, res) => {
+    Conference.findByPk(req.params.id)
+        .then(async conference => {
+            if (!conference) {
+                globalFunctions.sendError(res, 'Конференция не найдена');
+                return;
+            }
+            try {
+                // Получение секций
+                const sections = await section.getAllSectionsForConference(req.params.id);
+
+                // Орг комм
+                const users_org_comm = await adminComm.getAllAdminUserForConferenceAdmin(req.params.id);
+
+                // Прогр комм
+                const users_progr_comm = await progrComm.getAllProgrUserForConferenceAdmin(req.params.id);
+
+                // Фото title_file, schedule_file, collection_file
+
+                // Добавление данных о секциях к объекту conference
+                conference.dataValues.sections = sections;
+                conference.dataValues.org_comm = users_org_comm;
+                conference.dataValues.progr_comm = users_progr_comm;
+
+                globalFunctions.sendResult(res, conference);
+            } catch (error) {
+                globalFunctions.sendError(res, error);
+            }
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        });
+};
+
+exports.findAllForRequest = (req, res) => {
+    Conference.findAll({
+        attributes: ['id', 'name', 'short_description', 'date_begin', 'date_end', 'date_for_request_begin', 'date_for_request_end', 'location'],
+        where: {
+            date_for_request_begin: { [Op.lte]: new Date() },
+            date_for_request_end: { [Op.gte]: new Date() }
+        }
+    })
+        .then(objects => {
+            globalFunctions.sendResult(res, objects);
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        });
+};
+
+exports.findByIdForRequest = (req, res) => {
+    Conference.findByPk(req.params.id, {
+        attributes: ['name', 'date_begin', 'date_end', 'date_for_request_begin', 'date_for_request_end']
+    })
+        .then(async conference => {
+            if (!conference) {
+                globalFunctions.sendError(res, 'Конференция не найдена');
+                return;
+            }
+            try {
+                // Получение секций
+                const sections = await section.getAllSectionsForConferenceRequest(req.params.id);
+                // Добавление данных о секциях к объекту conference
+                conference.dataValues.sections = sections;
                 globalFunctions.sendResult(res, conference);
             } catch (error) {
                 globalFunctions.sendError(res, error);

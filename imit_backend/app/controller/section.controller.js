@@ -2,6 +2,7 @@ var db = require('../config/db.config.js');
 const globalFunctions = require('../config/global.functions.js');
 var Section = db.section;
 var UserSection = db.user_section;
+var User = db.user;
 var { Op } = require("sequelize");
 
 
@@ -38,12 +39,29 @@ exports.getAllSectionsForConference = async (conferenceId) => {
     try {
         const sections = await Section.findAll({
             where: { conference_id: conferenceId },
-            include: [
-                {
-                    model: UserSection,
-                    required: true,
-                },
-            ]
+            include: [{
+                model: UserSection,
+                required: true,
+                include: [{
+                    model: User,
+                    attributes: ['name', 'surname', 'patronymic', 'email'],
+                }]
+            }],
+        });
+
+        console.log(sections);
+        return sections;
+
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+exports.getAllSectionsForConferenceRequest = async (conferenceId) => {
+    try {
+        const sections = await Section.findAll({
+            where: { conference_id: conferenceId },
         });
 
         return sections;
