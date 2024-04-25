@@ -302,6 +302,10 @@ const addConference = async () => {
                 title="Секретари программного комитета"></add-admin-conference>
         </div>
 
+        <div class="flex justify-center mt-2">
+            <q-btn @click="addConference" label="Добавить конференцию" type="button" color="primary" />
+        </div>
+
     </div>
 </template>
 

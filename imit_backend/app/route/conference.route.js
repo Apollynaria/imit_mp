@@ -12,10 +12,12 @@ module.exports = (app) => {
     });
 
     app.post('/api/addConference', [authJwt.verifyToken, verifyAccess.userIsAdmin], conference.create);
-    app.get('/api/adminConference/:id', [authJwt.verifyToken, verifyAccess.userIsAdminConference], conference.findById);
+    // app.get('/api/adminConference/:id', [authJwt.verifyToken, verifyAccess.userIsAdminConference], conference.findByIdAdmin);
 
     app.get('/api/conference/:id', conference.findById);
-    app.get('/api/conferenceAdmin/:id', conference.findByIdAdmin);
+    app.get('/api/conferenceAdmin/:id', [authJwt.verifyToken], conference.findByIdAdmin);
+
+    app.get('/api/conferences', conference.findAllSortByDateBegin);
 
     app.get('/api/conferenceForRequest/:id', conference.findByIdForRequest);
     app.get('/api/conferencesForRequest', conference.findAllForRequest);

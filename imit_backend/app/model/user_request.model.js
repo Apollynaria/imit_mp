@@ -9,6 +9,7 @@ module.exports = (sequelize, Sequelize) => {
                 allowNull: false
             },
             status: {
+                // «рассмотрение», «отмена», «пересмотр», «утвердить», «утвердить после пересмотра», «утвердить другой раздел»)
                 type: Sequelize.ENUM('consideration', 'cancel', 'revision', 'approve', 'approve_after_revision', 'approve_another_section'),
                 allowNull: false
             },

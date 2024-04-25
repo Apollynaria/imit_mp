@@ -58,7 +58,7 @@ try {
         users.value.push(userOption);
     });
 
-    const getConference = await $fetch(`/adminConference/${conferenceId}`, {
+    const getConference = await $fetch(`/conferenceAdmin/${conferenceId}`, {
         baseURL: config.public.apiBase,
         headers: {
             'x-access-token': getToken(),
@@ -166,10 +166,10 @@ const updateConference = async () => {
 </script>
 
 <template>
-    <div class="text-[#1f2731] dark:text-[#fff] p-5" v-if="!is_admin">
+    <!-- <div class="text-[#1f2731] dark:text-[#fff] p-5" v-if="!is_admin">
         У вас нет доступа к этому контенту.
-    </div>
-    <div v-else class="p-5">
+    </div> -->
+    <div class="p-5">
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
@@ -305,7 +305,8 @@ const updateConference = async () => {
 
         </div>
 
-        <div class="flex justify-center mt-2">
+        <div class="flex justify-between mt-2">
+            <q-btn @click="deleteConference" label="Удалить" type="button" color="red-8" />
             <q-btn @click="updateConference" label="Сохранить" type="button" color="primary" />
         </div>
 

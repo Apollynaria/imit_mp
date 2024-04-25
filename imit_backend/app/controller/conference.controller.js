@@ -4,6 +4,7 @@ var Conference = db.conference;
 var multiparty = require('multiparty');
 var { Op } = require("sequelize");
 const file = require('../controller/file.controller');
+const File = db.file;
 const section = require('../controller/section.controller');
 const progrComm = require('../controller/progr_comm.controller.js');
 const adminComm = require('../controller/admin_comm.controller.js');
@@ -147,7 +148,8 @@ exports.get5ConferencesSortByData = (req, res) => {
 
 
 exports.findById = (req, res) => {
-    Conference.findByPk(req.params.id)
+    Conference.findByPk(req.params.id, {
+    })
         .then(async conference => {
             if (!conference) {
                 globalFunctions.sendError(res, 'Конференция не найдена');
@@ -164,12 +166,16 @@ exports.findById = (req, res) => {
                 // Прогр комм
                 const users_progr_comm = await progrComm.getAllProgrUserForConference(req.params.id);
 
-                // Фото title_file, schedule_file, collection_file
+                // Фото title_file
+                const title_file = await File.findByPk(conference.title_file_id);
+                
+                // schedule_file, collection_file
 
-                // Добавление данных о секциях к объекту conference
+                // Добавление данных к объекту conference
                 conference.dataValues.sections = sections;
                 conference.dataValues.org_comm = users_org_comm;
                 conference.dataValues.progr_comm = users_progr_comm;
+                conference.dataValues.title_file = title_file
 
                 globalFunctions.sendResult(res, conference);
             } catch (error) {
@@ -182,6 +188,7 @@ exports.findById = (req, res) => {
 };
 
 exports.findByIdAdmin = (req, res) => {
+    console.log('fsfsdfsdfsdf')
     Conference.findByPk(req.params.id)
         .then(async conference => {
             if (!conference) {
@@ -196,14 +203,14 @@ exports.findByIdAdmin = (req, res) => {
                 const users_org_comm = await adminComm.getAllAdminUserForConferenceAdmin(req.params.id);
 
                 // Прогр комм
-                const users_progr_comm = await progrComm.getAllProgrUserForConferenceAdmin(req.params.id);
+                // const users_progr_comm = await progrComm.getAllProgrUserForConferenceAdmin(req.params.id);
 
                 // Фото title_file, schedule_file, collection_file
 
                 // Добавление данных о секциях к объекту conference
                 conference.dataValues.sections = sections;
                 conference.dataValues.org_comm = users_org_comm;
-                conference.dataValues.progr_comm = users_progr_comm;
+                // conference.dataValues.progr_comm = users_progr_comm;
 
                 globalFunctions.sendResult(res, conference);
             } catch (error) {
@@ -215,20 +222,50 @@ exports.findByIdAdmin = (req, res) => {
         });
 };
 
-exports.findAllForRequest = (req, res) => {
-    Conference.findAll({
-        attributes: ['id', 'name', 'short_description', 'date_begin', 'date_end', 'date_for_request_begin', 'date_for_request_end', 'location'],
-        where: {
-            date_for_request_begin: { [Op.lte]: new Date() },
-            date_for_request_end: { [Op.gte]: new Date() }
-        }
-    })
-        .then(objects => {
-            globalFunctions.sendResult(res, objects);
-        })
-        .catch(err => {
-            globalFunctions.sendError(res, err);
+exports.findAllForRequest = async (req, res) => {
+    try {
+        const conferences = await Conference.findAll({
+            attributes: ['id', 'name', 'short_description', 'date_begin', 'date_end', 'date_for_request_begin', 'date_for_request_end', 'location', 'title_file_id'], // Include title_file_id
+            where: {
+                date_for_request_begin: { [Op.lte]: new Date() },
+                date_for_request_end: { [Op.gte]: new Date() }
+            }
         });
+
+        // Fetch title_file for each conference
+        for (const conference of conferences) {
+            const title_file = await File.findByPk(conference.title_file_id);
+            conference.dataValues.title_file = title_file;
+        }
+
+        globalFunctions.sendResult(res, conferences);
+    } catch (err) {
+        globalFunctions.sendError(res, err);
+    }
+};
+
+exports.findAllSortByDateBegin = async (req, res) => {
+    try {
+        const conferences = await Conference.findAll({
+            attributes: ['id', 'name', 'short_description', 'date_begin', 'date_end', 'date_for_request_begin', 'date_for_request_end', 'location', 'title_file_id'],
+            where: {
+                date_begin: { [Op.gte]: new Date() }
+            },
+            order: [
+                ['date_begin', 'ASC'] 
+            ]
+        });
+
+        for (const conference of conferences) {
+            const title_file = await File.findByPk(conference.title_file_id);
+            conference.dataValues.title_file = title_file;
+        }
+
+        globalFunctions.sendResult(res, conferences);
+    } catch (err) {
+        console.log(err)
+        globalFunctions.sendError(res, err);
+    }
 };
 
 exports.findByIdForRequest = (req, res) => {
@@ -243,8 +280,10 @@ exports.findByIdForRequest = (req, res) => {
             try {
                 // Получение секций
                 const sections = await section.getAllSectionsForConferenceRequest(req.params.id);
-                // Добавление данных о секциях к объекту conference
+
+                // Добавление данных к объекту conference
                 conference.dataValues.sections = sections;
+
                 globalFunctions.sendResult(res, conference);
             } catch (error) {
                 globalFunctions.sendError(res, error);

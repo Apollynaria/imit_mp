@@ -81,9 +81,9 @@ const logOut = () => {
                         </q-list>
                     </q-expansion-item>
 
-                    <q-expansion-item icon="settings" label="КОНФЕРЕНЦИИ">
+                    <q-expansion-item icon="settings" label="КОНФЕРЕНЦИИ" v-if="authStore.getUserIsAdmin">
                         <q-list class="ms-[30px]">
-                            <q-item clickable to="/setAdmins" active-class="q-item-no-link-highlighting">
+                            <q-item clickable to="/setAdmins" active-class="q-item-no-link-highlighting" v-if="authStore.getUserIsSuperAdmin">
                                 <q-item-section avatar>
                                     <q-icon name="admin_panel_settings" />
                                 </q-item-section>

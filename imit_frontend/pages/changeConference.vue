@@ -10,15 +10,15 @@ definePageMeta({
 
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
-const is_admin = ref(false);
+// const is_admin = ref(false);
 
 </script>
 
 <template>
-    <div class="text-[#1f2731] dark:text-[#fff] p-5" v-if="!is_admin">
+    <!-- <div class="text-[#1f2731] dark:text-[#fff] p-5" >
         У вас нет доступа к этому контенту.
-    </div>
-    <div v-else class="p-5">
+    </div> -->
+    <div class="p-5">
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 

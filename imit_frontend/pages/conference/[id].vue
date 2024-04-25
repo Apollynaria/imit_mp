@@ -52,14 +52,14 @@ conference.dateForRequestRange.to = getDateString(getConference.date_for_request
 conference.full_description = getConference.full_description;
 conference.location = getConference.location;
 conference.resulst = getConference.result_text;
-
-console.log(conference)
+conference.title_file = getConference.title_file;
 
 const sections = getConference.sections;
 const org_comm = getConference.org_comm;
 const progr_comm = getConference.progr_comm;
 
-console.log(getConference)
+console.log(getConference);
+
 </script>
 
 <template>
@@ -86,10 +86,15 @@ console.log(getConference)
 
             <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
                 <div class="p-3">
-                    <div class="text-h5 font-semibold mb-4">{{ conference.name }}</div>
+                    <div class="text-h4 font-semibold mb-4">{{ conference.name }}</div>
                     <div class="w-full flex justify-center">
                         <div class="text-h7 font-light mb-4 max-w-[600px] text-center">{{ conference.short_description
                             }}</div>
+                    </div>
+
+                    <div v-if="conference.title_file">
+                        <q-img class="mb-4 max-w-[700px]"
+                            :src="`http://localhost:3000/` + conference.title_file.path.substring(8)" />
                     </div>
 
                     <q-btn icon="event" label="Даты проведения" color="primary" class="me-4 mb-4">
@@ -176,18 +181,23 @@ console.log(getConference)
 
             <!-- <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]"
                 v-if="conference.schedule_file"> -->
-                <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
+            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]" v-if="conference.schedule_file">
                 <div class="p-3">
                     <div class="text-h5 text-center font-semibold mb-2">
                         Расписание конференции
                     </div>
-                    <q-btn v-if="conference.schedule_file" @click="" label="Сборник" color="primary"/>
+                    <a style="text-decoration: none;" download=""
+                        :href="`http://localhost:3000/` + conference.title_file.path.substring(8)" target="_blank">
+                        <q-btn color="primary">
+                            <q-icon left name="schedule" />
+                            <div>Расписание</div>
+                        </q-btn>
+                    </a>
+                    <q-btn v-if="conference.schedule_file" @click="" target="_blank" label="Сборник" color="primary" />
                 </div>
             </div>
 
-            <!-- <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]"
-                v-if="conference.result_text || conference.collection_file"> -->
-                <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
+            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]" v-if="conference.result_text || conference.collection_file">
                 <div class="p-3">
                     <div class="text-h5 text-center font-semibold mb-2">
                         Результаты конференции
@@ -195,7 +205,13 @@ console.log(getConference)
                     <div class="flex justify-center" v-if="conference.result_text">
                         <Markdown class="prose dark:prose-invert p-2" :source="conference.result_text.toString()" />
                     </div>
-                    <q-btn v-if="conference.collection_file" @click="" label="Сборник" color="primary"/>
+                    <a v-if="conference.collection_file" style="text-decoration: none;" download=""
+                        :href="`http://localhost:3000/` + conference.collection_file.path.substring(8)" target="_blank">
+                        <q-btn color="primary">
+                            <q-icon left name="description" />
+                            <div>Сборник тезисов</div>
+                        </q-btn>
+                    </a>
                 </div>
             </div>
 

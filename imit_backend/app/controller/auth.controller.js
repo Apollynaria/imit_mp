@@ -73,6 +73,7 @@ exports.login = (req, res) => {
                     id: user.id,
                     login: user.login,
                     is_admin: user.is_admin,
+                    is_super_admin: user.is_super_admin,
                     accessToken: token
                 };
 

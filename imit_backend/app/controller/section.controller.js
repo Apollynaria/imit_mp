@@ -45,11 +45,12 @@ exports.getAllSectionsForConference = async (conferenceId) => {
                 include: [{
                     model: User,
                     attributes: ['name', 'surname', 'patronymic', 'email'],
-                }]
+                },
+            ]
             }],
         });
 
-        console.log(sections);
+        // console.log(sections);
         return sections;
 
     } catch (error) {

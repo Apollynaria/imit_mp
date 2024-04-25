@@ -26,6 +26,9 @@ user(app);
 var conference = require('./app/route/conference.route.js');
 conference(app);
 
+var user_request = require('./app/route/user_request.route.js');
+user_request(app);
+
 var file = require('./app/route/file.route.js');
 file(app);
 

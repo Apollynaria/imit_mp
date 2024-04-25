@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { getToken } from '~/services/auth.service';
 import { classDarkTheme } from '../services/DarkTheme'
 import { getFullDate } from '../services/Date'
+import { showNotif } from '~/services/Notify';
 
 useSeoMeta({
     title: 'Подать заявку',
@@ -9,20 +11,13 @@ definePageMeta({
     layout: 'admin'
 })
 
-const request = reactive({
-    user_id: null,
-    conference_id: null,
-    section_id: null,
-    name: '',
-    comment: '',
-    file_id: null
-})
-
 
 const config = useRuntimeConfig()
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
 const IdConference = useRoute().query.conference;
+const $q = useQuasar()
+const router = useRouter()
 
 const { pending, data: conference } = await useAsyncData(
     'conference',
@@ -41,13 +36,50 @@ sections.forEach(section => {
 console.log(options.value)
 const model = ref(null);
 
+const request = reactive({
+    user_id: null,
+    conference_id: IdConference,
+    section_id: model,
+    name: '',
+    comment: '',
+    file_id: null
+})
+
+
+const addUserRequest = async () => {
+    let formData = new FormData();
+    formData.append('name', request.name);
+    formData.append('comment', request.comment);
+    formData.append('conference_id', request.conference_id);
+    formData.append('section_id', request.section_id.id); 
+
+    formData.append('file', request.file_id);
+
+    try {
+        const addedRequest = await $fetch(`/addUserRequest`, {
+            baseURL: config.public.apiBase,
+            method: 'POST',
+            body: formData,
+            headers: {
+                'x-access-token': getToken(),
+            },
+        });
+
+        showNotif(addedRequest.message, 'green', $q);
+        router.push({ path: `/userRequests` });
+
+    } catch (error) {
+        console.error(error);
+        showNotif(error, 'red', $q)
+    }
+}
+
 </script>
 
 <template>
     <div class="p-5">
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
-
             <div class="flex justify-between">
                 <q-btn class="ms-2 mb-2" to="/conferencesRequest" color="primary" icon="arrow_back_ios" label="Назад" />
                 <q-btn class="ms-2 mb-2" :to="`/conference/${IdConference}`" color="secondary" label="О мероприятии" />
@@ -59,6 +91,7 @@ const model = ref(null);
                 <div class="text-[16px] font-normal">Дата подачи тезисов: {{
                     getFullDate(conference.date_for_request_begin, conference.date_for_request_end) }}</div>
             </div>
+            
 
             <q-input class="p-2" clearable clear-icon="close" outlined :dark="isDarkTheme" v-model="request.name"
                 label="Название доклада" lazy-rules>
@@ -93,7 +126,7 @@ const model = ref(null);
 
 
         <div class="flex justify-center mt-2">
-            <q-btn @click="" label="Создать заявку" type="button" color="primary" />
+            <q-btn @click="addUserRequest" label="Создать заявку" type="button" color="primary" />
         </div>
     </div>
 </template>

@@ -16,6 +16,6 @@ module.exports = (app) => {
     // app.post('/api/addFileConference', file.create);
     // app.post('/api/updateFile/:id', file.update);
     // app.post('/api/deleteFile/:id', file.delete);
-    // app.get('/api/file/:id', file.findById);
+    // app.get('/api/publicFile/:id', file.getPublicFileById);
     
 };

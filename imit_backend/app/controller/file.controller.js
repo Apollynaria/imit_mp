@@ -124,13 +124,3 @@ exports.create = async (req, res, files, is_public, transaction) => {
 //         });
 
 // };
-
-// exports.findById = (req, res) => {
-//     File.findByPk(req.params.id)
-//         .then(object => {
-//             globalFunctions.sendResult(res, object);
-//         })
-//         .catch(err => {
-//             globalFunctions.sendError(res, err);
-//         })
-// };

@@ -43,7 +43,8 @@ console.log(conferences);
                     :date="getFullDate(conference.date_begin, conference.date_end)"
                     :date_request="getFullDate(conference.date_for_request_begin, conference.date_for_request_end)"
                     :page_link="`/conference/${conference.id}`"
-                    :register_link="`/addUserRequest?conference=${conference.id}`">
+                    :register_link="`/addUserRequest?conference=${conference.id}`"
+                    :file="`http://localhost:3000/` + conference.title_file.path.substring(8)">
                 </CardMp>
             </div>
 

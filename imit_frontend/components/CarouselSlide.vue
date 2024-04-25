@@ -1,8 +1,11 @@
 <script setup lang="ts">
 
 const props = defineProps({
+    conf_id: {
+        type: Number,
+    },
     name: {
-        type: Number
+        type: String
     },
     img_src: {
         type: String,
@@ -12,10 +15,6 @@ const props = defineProps({
         type: Object,
         default: "Title"
     },
-    short_description: {
-        type: String,
-        default: "Description"
-    },
     date: {
         type: String,
         default: "01.01.2001 - 01.01.2001"
@@ -23,13 +22,6 @@ const props = defineProps({
     date_request: {
         type: String,
     },
-    page_link: {
-        type: String,
-        default: "/"
-    },
-    register_link: {
-        type: String,
-    }
 });
 
 </script>
@@ -49,16 +41,15 @@ const props = defineProps({
                     </q-btn>
                 </div>
             </div>
-            <div class="absolute-bottom custom-caption">
-                <div class="text-[40px] text-white text-bold m-3 flex justify-between items-end">
+            <div class="absolute-bottom custom-caption bg-[#000] bg-opacity-50">
+                <div class="text-[34px] text-white text-bold m-3 flex justify-between items-end">
                     {{ title }}
-                    <q-btn v-if="register_link" color="purple" class="h-[15px]" size="15px" :to="register_link">
-                        <Icon class="me-2" name="svg-spinners:pulse-2" color="white" size="20" />Идет регистрация
-                    </q-btn>
                 </div>
                 <div class="text-subtitle1 text-white m-3 flex justify-between items-center z-10">
-                    {{ short_description }}
-                    <q-btn :to="page_link" color="primary" size="15px" label="Подробнее" />
+                    <q-btn :to="`/conference/${conf_id}`" color="primary" size="15px" label="Подробнее" />
+                    <q-btn color="purple" class="h-[15px]" size="15px" :to="`/addUserRequest?conference=${conf_id}`">
+                        <Icon class="me-2" name="svg-spinners:pulse-2" color="white" size="20" />Идет регистрация
+                    </q-btn>
                 </div>
             </div>
         </q-carousel-slide>

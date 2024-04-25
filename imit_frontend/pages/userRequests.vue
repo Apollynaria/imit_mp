@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { getToken } from '~/services/auth.service';
 import { classDarkTheme } from '../services/DarkTheme'
+import { getFullDate } from '../services/Date';
+import { getRequestTxT } from '../services/EnumRequests';
 
 useSeoMeta({
     title: 'Заявки пользователя',
@@ -10,15 +13,16 @@ definePageMeta({
 
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
+const config = useRuntimeConfig()
 
-const requests = reactive([{
-    id: 1,
-    name: 'Доклад 1',
-    section_name: 'Дискретная математика и информационные технологии',
-    conference_name: 'Конференция 1',
-    conference_date: '11.03.2024 - 15.03.2024',
-    status_request: 'На проверке',}
-])
+const requests = await $fetch(`/userRequests`, {
+    baseURL: config.public.apiBase,
+    headers: {
+        'x-access-token': getToken(),
+    },
+});
+
+console.log(requests);
 
 </script>
 
@@ -33,17 +37,19 @@ const requests = reactive([{
 
             <div v-for="(request, ind) in requests" :key="ind" :class="classDarkTheme" class="rounded-lg p-2 mb-3">
 
-                <q-card bordered flat :dark="isDarkTheme" class="no-shadow transition-all duration-500 bg-inherit cursor-pointer hover:border-slate-300">
+                <q-card bordered flat :dark="isDarkTheme"
+                    class="no-shadow transition-all duration-500 bg-inherit cursor-pointer hover:border-slate-300">
                     <q-card-section>
                         <q-card-section class="p-0">
                             <div class="flex flex-col md:flex-row justify-between">
-                                <div class="text-orange-8">{{ request.conference_date }} </div>
+                                <div class="text-orange-8">Даты проведения: {{ getFullDate(request.conference.date_begin, request.conference.date_end)}} </div>
                                 <q-btn color="primary" outline class="pointer-events-none flex-end"
-                                    :label="request.status_request" />
+                                    :label="getRequestTxT(request.status)" />
                             </div>
-                            <div class="text-[28px] q-mt-sm q-mb-xs">{{ request.conference_name }}</div>
-                            <div class="text-[18px] q-mt-sm q-mb-xs">Секция: {{ request.section_name }}</div>
-                           
+                            <div class="">Проверка тезисов: {{ getFullDate(request.conference.date_for_request_begin, request.conference.date_for_request_end)}} </div>
+                            <div class="text-[24px] q-mt-sm q-mb-xs">{{ request.conference.name }}</div>
+                            <div class="text-[18px] q-mt-sm q-mb-xs">Секция: {{ request.section.name }}</div>
+
                         </q-card-section>
                     </q-card-section>
 
