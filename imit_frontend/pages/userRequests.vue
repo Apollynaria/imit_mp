@@ -24,18 +24,23 @@ const requests = await $fetch(`/userRequests`, {
 
 console.log(requests);
 
+const router = useRouter();
+const toRequest = (id) => {
+    router.push({ path: `/userRequest/${id}` });
+}
+
 </script>
 
 <template>
     <div class="p-5">
 
-        <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
+        <div class="rounded-lg p-3 mb-3">
 
-            <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Ваши заявки</div>
+            <div class="text-h6 ms-2 mb-2 text-[#1f2731] dark:text-[#fff]">Ваши заявки</div>
 
 
 
-            <div v-for="(request, ind) in requests" :key="ind" :class="classDarkTheme" class="rounded-lg p-2 mb-3">
+            <div v-for="(request, ind) in requests" :key="ind" @click="toRequest(request.id)" :class="classDarkTheme" class="rounded-lg p-2 mb-3">
 
                 <q-card bordered flat :dark="isDarkTheme"
                     class="no-shadow transition-all duration-500 bg-inherit cursor-pointer hover:border-slate-300">

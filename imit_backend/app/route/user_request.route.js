@@ -14,4 +14,8 @@ module.exports = (app) => {
     app.post('/api/addUserRequest', [authJwt.verifyToken], user_request.create);
 
     app.get('/api/userRequests', [authJwt.verifyToken], user_request.findAllUserRequests);
+
+    app.get('/api/requests', [authJwt.verifyToken], user_request.findAllRequestsForAdmin);
+
+    app.get('/api/request/:id', [authJwt.verifyToken], user_request.findById);
 };

@@ -6,7 +6,9 @@ var { Op } = require("sequelize");
 const file = require('../controller/file.controller');
 const File = db.file;
 const Section = db.section;
+const User = db.user;
 const Conference = db.conference;
+const AdminConference = db.admin_conference
 
 
 exports.create = async (req, res) => {
@@ -73,7 +75,6 @@ exports.findAllUserRequests = async (req, res) => {
                 user_id: req.userId
             },
             attributes: ['id', 'name', 'status'],
-            logging: console.log,
             include: [
                 {
                     model: Conference,
@@ -92,4 +93,51 @@ exports.findAllUserRequests = async (req, res) => {
     } catch (err) {
         globalFunctions.sendError(res, err);
     }
+};
+
+exports.findAllRequestsForAdmin = async (req, res) => {
+    try {
+        const conferences = await AdminConference.findAll({
+            where: {
+                user_id: req.userId
+            },
+            attributes: ['conference_id'] 
+        });
+
+        const conferenceIds = conferences.map(conference => conference.conference_id);
+
+        const requests = await UserRequest.findAll({
+            where: {
+                conference_id: { [Op.in]: conferenceIds }
+            },
+            include: [
+                {
+                    model: Conference,
+                    attributes: ['name']
+                },
+                {
+                    model: User,
+                    attributes: ['name', 'surname', 'patronymic']
+                }
+            ],
+            order: [
+                ['status', 'DESC']
+            ]
+        });
+       
+
+        globalFunctions.sendResult(res, requests);
+    } catch (err) {
+        globalFunctions.sendError(res, err);
+    }
+};
+
+exports.findById = (req, res) => {
+    UserRequest.findByPk(req.params.id)
+        .then(object => {
+            globalFunctions.sendResult(res, object);
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        })
 };
