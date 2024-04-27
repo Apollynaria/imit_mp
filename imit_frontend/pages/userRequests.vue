@@ -36,8 +36,12 @@ const toRequest = (id) => {
 
         <div class="rounded-lg p-3 mb-3">
 
-            <div class="text-h6 ms-2 mb-2 text-[#1f2731] dark:text-[#fff]">Ваши заявки</div>
-
+            <div v-if="requests.length > 0" class="text-h6 ms-2 mb-2 text-[#1f2731] dark:text-[#fff]">Ваши заявки</div>
+            <div v-else class="text-h6 ms-2 mb-2 text-[#1f2731] dark:text-[#fff]">
+                Список ваших заявок пуст
+                <q-btn to="/conferencesRequest" color="primary"  outline class="ms-2 q-mt-sm q-mb-xs"
+                                label="Подать заявку" />
+            </div>
 
 
             <div v-for="(request, ind) in requests" :key="ind" @click="toRequest(request.id)" :class="classDarkTheme" class="rounded-lg p-2 mb-3">

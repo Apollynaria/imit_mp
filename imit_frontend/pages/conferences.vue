@@ -77,19 +77,19 @@ const classLogo = computed(() => {
             </div>
 
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <CardMp v-for="(card, index) in cards_mp" :key="index" :title="card.title"
                     :description="card.description" :date="card.date">
                 </CardMp>
-            </div>
+            </div> -->
 
-            <div class="flex justify-center p-2">
+            <!-- <div class="flex justify-center p-2">
                 <q-btn color="primary" label="Загрузить еще" />
             </div>
 
             <div class="flex justify-center mb-2">
                 <button-underline title="АРХИВ" link="/archive" />
-            </div>
+            </div> -->
 
 
             <div class="flex justify-center flex-col md:flex-row text-[#1f2731] dark:text-[#fff]">
@@ -101,7 +101,7 @@ const classLogo = computed(() => {
                     <div class="rounded-xl flex flex-col lg:flex-row justify-center items-center mt-5"
                         :class="classLogo">
                         <div class="w-[300px]">
-                            <img class="p-3" src="../image1.jpg" alt="Step 1">
+                            <img class="p-3" src="../image1.png" alt="Step 1">
                         </div>
                         <div class="text-[120px] text-primary ">1</div>
                         <div class="md:w-[350px] text-center mb-5">
@@ -124,14 +124,14 @@ const classLogo = computed(() => {
                             </div>
                         </div>
                         <div class="w-[300px]">
-                            <img class="p-3" src="../image2.jpg" alt="Step 1">
+                            <img class="p-3" src="../image2.png" alt="Step 1">
                         </div>
                     </div>
 
                     <div class="rounded-xl flex flex-col lg:flex-row justify-center items-center mt-5"
                         :class="classLogo">
                         <div class="w-[300px]">
-                            <img class="p-3" src="../image3.jpg" alt="Step 1">
+                            <img class="p-3" src="../image3.png" alt="Step 1">
                         </div>
                         <div class="text-[120px] text-secondary ">3</div>
                         <div class="md:w-[350px] text-center mb-5">
@@ -154,7 +154,7 @@ const classLogo = computed(() => {
                             </div>
                         </div>
                         <div class="w-[300px]">
-                            <img class="p-3" src="../image4.jpg" alt="Step 1">
+                            <img class="p-3" src="../image4.png" alt="Step 1">
                         </div>
                     </div>
 

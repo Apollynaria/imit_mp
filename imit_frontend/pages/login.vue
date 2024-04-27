@@ -8,24 +8,22 @@ definePageMeta({
 
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
-
 const loginFromRoute = ref(useRoute().query.login);
 const isPwd = ref(true);
 const loading = ref(false);
+const $q = useQuasar()
+const color_input = ref('grey-6')
+const authStore = useAuthStore()
+const router = useRouter()
+
 const user = reactive({
     login: loginFromRoute,
     password: null,
 })
-const $q = useQuasar()
-const color_input = ref('grey-6')
 
-const authStore = useAuthStore()
-const loggedIn = computed(() => authStore.getLoggedIn)
-const router = useRouter()
-
-if(loggedIn.value === true){
-    showNotif("Успешный вход в аккаунт!", 'green', $q, 'done')
-    router.push({ path: `/profile`})
+if (authStore.getLoggedIn) {
+    showNotif("Пользователь авторизован!", 'green', $q, 'done')
+    router.push({ path: `/profile` })
 }
 
 const handleLogin = () => {
@@ -34,7 +32,7 @@ const handleLogin = () => {
     authStore.login(user)
         .then(() => {
             showNotif("Успешный вход в аккаунт!", 'green', $q, 'done')
-            router.push({ path: `/profile`})
+            router.push({ path: `/profile` })
         })
         .catch(e => {
             console.log(e.response)
@@ -60,8 +58,9 @@ const handleLogin = () => {
                     </template>
                 </q-input>
 
-                <q-input :rules="NOT_NULL_RULES" v-model="user.password" class="flex-1 p-2 mt-4 mb-4" :dark="isDarkTheme"
-                    outlined :type="isPwd ? 'password' : 'text'" label="Пароль" :label-color="color_input">
+                <q-input :rules="NOT_NULL_RULES" v-model="user.password" class="flex-1 p-2 mt-4 mb-4"
+                    :dark="isDarkTheme" outlined :type="isPwd ? 'password' : 'text'" label="Пароль"
+                    :label-color="color_input">
                     <template v-slot:append>
                         <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
                             @click="isPwd = !isPwd" />

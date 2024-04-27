@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import Markdown from 'vue3-markdown-it';
-import { classDarkTheme } from '../services/DarkTheme'
-import { createFormattedDate } from '../services/DataRules'
+import { classDarkTheme } from '../services/DarkTheme';
+import { createFormattedDate } from '../services/Date';
 import { getToken } from '~/services/auth.service';
 import { showNotif } from '~/services/Notify';
 import { getDate } from '~/services/Date';
+import { myLocale } from '~/services/Date';
+import { NOT_NULL_RULES } from "../services/DataRules";
+import { NOT_NULL_SELECT_FILE } from '../services/DataRules';
 
 useSeoMeta({
     title: 'Создание конференции',
 })
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['auth', 'admin'],
 })
 const route = useRoute()
 console.log(route)
@@ -119,7 +123,7 @@ const addConference = async () => {
         });
 
         showNotif(addedConference.message, 'green', $q);
-        router.push({ path: `/adminConference/${addedConference.id}` });
+        router.push({ path: `/changeConference` });
 
     } catch (error) {
         console.error(error);
@@ -131,22 +135,19 @@ const addConference = async () => {
 </script>
 
 <template>
-    <div class="text-[#1f2731] dark:text-[#fff] p-5" v-if="!is_admin">
-        У вас нет доступа к этому контенту.
-    </div>
-    <div v-else class="p-5">
+    <q-form class="p-5" @submit.prevent="addConference">
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Новая конференция</div>
 
             <div class="flex flex-col md:flex-row p-2">
-                <q-input clearable clear-icon="close" outlined class="flex-1" :dark="isDarkTheme"
+                <q-input :rules="NOT_NULL_RULES" clearable clear-icon="close" outlined class="flex-1" :dark="isDarkTheme"
                     v-model="conference.name" label="Название конференции" lazy-rules>
                     <template v-slot:prepend>
                         <q-icon name="badge" />
                     </template>
                 </q-input>
-                <q-input clearable clear-icon="close" outlined class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
+                <q-input :rules="NOT_NULL_RULES" clearable clear-icon="close" outlined class="flex-1 md:ms-2 md:mt-0 mt-2" :dark="isDarkTheme"
                     v-model="conference.location" label="Место проведения" lazy-rules>
                     <template v-slot:prepend>
                         <q-icon name="place" />
@@ -160,7 +161,7 @@ const addConference = async () => {
                     <template v-slot:append>
                         <q-icon name="event" class="cursor-pointer">
                             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                <q-date v-model="conference.dateRange" range :dark="isDarkTheme">
+                                <q-date :rules="NOT_NULL_SELECT_FILE" v-model="conference.dateRange" :locale="myLocale" range :dark="isDarkTheme">
                                     <div class="row items-center justify-end">
                                         <q-btn v-close-popup label="Close" color="primary" flat />
                                     </div>
@@ -174,7 +175,7 @@ const addConference = async () => {
                     <template v-slot:append>
                         <q-icon name="event" class="cursor-pointer">
                             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                <q-date v-model="conference.dateForRequestRange" range :dark="isDarkTheme">
+                                <q-date v-model="conference.dateForRequestRange" :locale="myLocale" range :dark="isDarkTheme">
                                     <div class="row items-center justify-end">
                                         <q-btn v-close-popup label="Close" color="primary" flat />
                                     </div>
@@ -196,9 +197,9 @@ const addConference = async () => {
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Описание конференции</div>
-            <q-input clearable clear-icon="close" outlined class="p-2" :dark="isDarkTheme"
+            <q-input :rules="NOT_NULL_RULES" clearable clear-icon="close" outlined class="p-2 mb-3" :dark="isDarkTheme"
                 v-model="conference.short_description" label="Краткое описание для карточек" lazy-rules />
-            <q-input outlined class="p-2" :dark="isDarkTheme" v-model="conference.full_description" type="textarea"
+            <q-input :rules="NOT_NULL_RULES" outlined class="p-2" :dark="isDarkTheme" v-model="conference.full_description" type="textarea"
                 label="Описание Markdown" placeholder="Напишите разметку для предпросмотра" lazy-rules />
             <Markdown class="prose dark:prose-invert p-2"
                 :source="conference.full_description ? conference.full_description.toString() : '> :sparkles: *Работает MarkDown!* :P :sparkles:'" />
@@ -212,7 +213,7 @@ const addConference = async () => {
                     :dark="isDarkTheme">
                     <q-card-section>
                         <div class="flex justify-between">
-                            <q-btn flat @click="" round size="13px" color="primary" icon="edit" />
+                            <q-btn flat @click="" round size="13px" color="secondary" icon="edit" />
                             <q-btn flat @click="conference.sections.splice(ind, 1)" round size="13px" color="red-4"
                                 icon="delete" />
                         </div>
@@ -240,7 +241,7 @@ const addConference = async () => {
                         <ul class="mt-2" v-for="(user, ind) in conference.org_comm" :key="ind">
                             <li v-if="user.type === 'Председатель'">
                                 <q-btn flat @click="conference.org_comm.splice(ind, 1)" round size="10px"
-                                    color="primary" icon="close" />
+                                    color="secondary" icon="close" />
                                 {{ user.label }}
                             </li>
                         </ul>
@@ -254,7 +255,7 @@ const addConference = async () => {
                         <ul class="mt-2" v-for="(user, ind) in conference.org_comm" :key="ind">
                             <li v-if="user.type !== 'Председатель'">
                                 <q-btn flat @click="conference.org_comm.splice(ind, 1)" round size="10px"
-                                    color="primary" icon="close" />
+                                    color="secondary" icon="close" />
                                 {{ user.label }}
                             </li>
                         </ul>
@@ -277,7 +278,7 @@ const addConference = async () => {
                         <ul class="mt-2" v-for="(user, ind) in conference.progr_comm" :key="ind">
                             <li v-if="user.type === 'Председатель'">
                                 <q-btn flat @click="conference.progr_comm.splice(ind, 1)" round size="10px"
-                                    color="primary" icon="close" />
+                                    color="secondary" icon="close" />
                                 {{ user.label }}
                             </li>
                         </ul>
@@ -291,7 +292,7 @@ const addConference = async () => {
                         <ul class="mt-2" v-for="(user, ind) in conference.progr_comm" :key="ind">
                             <li v-if="user.type !== 'Председатель'">
                                 <q-btn flat @click="conference.progr_comm.splice(ind, 1)" round size="10px"
-                                    color="primary" icon="close" />
+                                    color="secondary" icon="close" />
                                 {{ user.label }}
                             </li>
                         </ul>
@@ -303,10 +304,10 @@ const addConference = async () => {
         </div>
 
         <div class="flex justify-center mt-2">
-            <q-btn @click="addConference" label="Добавить конференцию" type="button" color="primary" />
+            <q-btn label="Добавить конференцию" type="submit" color="primary" />
         </div>
 
-    </div>
+    </q-form>
 </template>
 
 <style scoped></style>

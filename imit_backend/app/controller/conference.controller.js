@@ -248,9 +248,9 @@ exports.findAllSortByDateBegin = async (req, res) => {
     try {
         const conferences = await Conference.findAll({
             attributes: ['id', 'name', 'short_description', 'date_begin', 'date_end', 'date_for_request_begin', 'date_for_request_end', 'location', 'title_file_id'],
-            where: {
-                date_begin: { [Op.gte]: new Date() }
-            },
+            // where: {
+            //     date_begin: { [Op.gte]: new Date() }
+            // },
             order: [
                 ['date_begin', 'ASC'] 
             ]

@@ -8,7 +8,8 @@ useSeoMeta({
     title: 'Назначить администраторов',
 })
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['auth', 'super-admin'],
 })
 
 const themeStore = useThemeStore()

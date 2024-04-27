@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
                 allowNull: false
             },
             message: {
-                type: Sequelize.STRING(200)
+                type: Sequelize.TEXT
             }
         });
 

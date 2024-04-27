@@ -32,6 +32,9 @@ user_request(app);
 var file = require('./app/route/file.route.js');
 file(app);
 
+var check = require('./app/route/check.route.js');
+check(app);
+
 var section = require('./app/route/section.route.js');
 section(app);
 

@@ -4,19 +4,16 @@ var globalFunctions = require('../config/global.functions.js');
 var bcrypt = require("bcryptjs");
 
 exports.findAll = (req, res) => {
-    db.sequelize.query(
-        `SELECT * 
-        FROM user
-        ORDER BY user.surname`,
-        {
-            type: db.sequelize.QueryTypes.SELECT,
-        })
-        .then(objects => {
-            globalFunctions.sendResult(res, objects);
+    User.findAll({
+        attributes: ['id','name', 'surname', 'patronymic', 'is_admin'],
+        order: [['surname', 'ASC']]
+    })
+        .then(users => {
+            globalFunctions.sendResult(res, users);
         })
         .catch(err => {
             globalFunctions.sendError(res, err);
-        })
+        });
 };
 
 exports.create = (req, res) => {

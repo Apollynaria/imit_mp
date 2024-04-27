@@ -1,19 +1,11 @@
 <script setup lang="ts">
 import { setCssVar } from 'quasar'
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore } from '@/stores/theme';
+import { myLocale } from '~/services/Date';
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
 
 const date = ref('2019/02/01');
-const myLocale = reactive({
-    days: 'Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота'.split('_'),
-    daysShort: 'Вс_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
-    months: 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_'),
-    monthsShort: 'Янв_Февр_Март_Апр_Май_Июнь_Июль_Авг_Сент_Окт_Нояб_Дек'.split('_'),
-    firstDayOfWeek: 1,
-    format24h: true,
-    pluralDay: 'dias'
-});
 const events = ref(['2019/02/01', '2019/02/05', '2019/02/06'])
 
 onMounted(() => {

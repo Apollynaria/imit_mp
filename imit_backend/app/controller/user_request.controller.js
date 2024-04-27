@@ -45,6 +45,7 @@ exports.create = async (req, res) => {
                 const user_request = await UserRequest.create({
                     status: 'consideration',
                     name: fields.name[0],
+                    is_public: false,
                     comment: fields.comment[0],
 
                     user_id: req.userId,
@@ -101,7 +102,7 @@ exports.findAllRequestsForAdmin = async (req, res) => {
             where: {
                 user_id: req.userId
             },
-            attributes: ['conference_id'] 
+            attributes: ['conference_id']
         });
 
         const conferenceIds = conferences.map(conference => conference.conference_id);
@@ -124,7 +125,7 @@ exports.findAllRequestsForAdmin = async (req, res) => {
                 ['status', 'DESC']
             ]
         });
-       
+
 
         globalFunctions.sendResult(res, requests);
     } catch (err) {
@@ -133,11 +134,35 @@ exports.findAllRequestsForAdmin = async (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    UserRequest.findByPk(req.params.id)
+    UserRequest.findByPk(req.params.id, {
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'name', 'surname', 'patronymic', 'email'],
+            },
+            {
+                model: Section,
+                attributes: ['name']
+            },
+            {
+                model: Conference,
+                attributes: ['id', 'name'],
+                include: [
+                    {
+                        model: Section,
+                        attributes: ['id', 'name']
+                    }
+                ]
+            },
+            {
+                model: File,
+            }
+        ]
+    })
         .then(object => {
             globalFunctions.sendResult(res, object);
         })
         .catch(err => {
             globalFunctions.sendError(res, err);
-        })
+        });
 };

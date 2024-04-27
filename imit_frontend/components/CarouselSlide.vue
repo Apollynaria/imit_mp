@@ -4,15 +4,14 @@ const props = defineProps({
     conf_id: {
         type: Number,
     },
-    name: {
-        type: String
+    name:{
+        type: Number,
     },
     img_src: {
         type: String,
-        default: "https://cdn.quasar.dev/img/mountains.jpg"
     },
     title: {
-        type: Object,
+        type: String,
         default: "Title"
     },
     date: {

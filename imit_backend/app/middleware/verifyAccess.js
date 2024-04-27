@@ -1,5 +1,6 @@
 var db = require('../config/db.config.js');
 var User = db.user;
+var AdminConference = db.admin_conference;
 const adminComm = require('../controller/admin_comm.controller.js');
 
 exports.userIsSuperAdmin = (req, res, next) => {
@@ -30,3 +31,46 @@ exports.userIsAdmin = (req, res, next) => {
         res.status(500).send({ message: err.message || "Произошла ошибка при поиске пользователя по id." });
     });
 };
+
+exports.userIsAdminConference = (req, res, next) => {
+    AdminConference.findOne({
+        where: {
+            user_id: req.userId,
+            conference_id: req.body.conference_id,
+        }
+    })
+        .then(admin => {
+            if (admin) {
+                next();
+            } else {
+                res.status(400).send({
+                    message: "Доступ ограничен"
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message || "Доступ ограничен" });
+        });
+};
+
+exports.userIsAdminConferenceOrCreator = (req, res, next) => {
+    AdminConference.findOne({
+        where: {
+            user_id: req.userId,
+            conference_id: req.body.conference_id,
+        }
+    })
+        .then(admin => {
+            if (admin) {
+                next();
+            } else {
+                res.status(400).send({
+                    message: "Доступ ограничен"
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message || "Доступ ограничен" });
+        });
+};
+

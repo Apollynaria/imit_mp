@@ -2,63 +2,44 @@
 import { useThemeStore } from '@/stores/theme';
 import { getDateString } from '~/services/Date';
 import Markdown from 'vue3-markdown-it';
+import { serverLink } from '~/services/server';
+import { getFullDate } from '../../services/Date';
+import { myLocale } from '~/services/Date';
 
-const themeStore = useThemeStore()
-const isDarkTheme = computed(() => themeStore.isDarkTheme)
-
+const themeStore = useThemeStore();
+const isDarkTheme = computed(() => themeStore.isDarkTheme);
 
 const classLogo = computed(() => {
     return {
         'bg-[#142437]': (isDarkTheme.value === true),
         'bg-[#fff]': (isDarkTheme.value === false)
     }
+});
 
-})
-const config = useRuntimeConfig()
+const config = useRuntimeConfig();
 const route = useRoute();
 const conferenceId = route.params.id;
 
-const conference = reactive({
-    name: null,
-    short_description: null,
-    dateRange: {
-        from: null,
-        to: null
-    },
-    dateForRequestRange: {
-        from: null,
-        to: null
-    },
-    full_description: '',
-    location: null,
-    sections: [],
-    org_comm: [],
-    progr_comm: [],
-    title_file: null,
-    collection_file: null,
-    schedule_file: null
-})
-
-const getConference = await $fetch(`/conference/${conferenceId}`, {
+const conference = await $fetch(`/conference/${conferenceId}`, {
     baseURL: config.public.apiBase,
 });
 
-conference.name = getConference.name;
-conference.short_description = getConference.short_description;
-conference.dateRange.from = getDateString(getConference.date_begin);
-conference.dateRange.to = getDateString(getConference.date_end);
-conference.dateForRequestRange.from = getDateString(getConference.date_for_request_begin);
-conference.dateForRequestRange.to = getDateString(getConference.date_for_request_end);
-conference.full_description = getConference.full_description;
-conference.location = getConference.location;
-conference.resulst = getConference.result_text;
-conference.title_file = getConference.title_file;
+let dateRange = {
+    from: null,
+    to: null
+};
+let dateForRequestRange = {
+    from: null,
+    to: null
+}
+dateRange.from = getDateString(conference.date_begin);
+dateRange.to = getDateString(conference.date_end);
+dateForRequestRange.from = getDateString(conference.date_for_request_begin);
+dateForRequestRange.to = getDateString(conference.date_for_request_end);
 
-const sections = getConference.sections;
-const org_comm = getConference.org_comm;
-const progr_comm = getConference.progr_comm;
-
-console.log(getConference);
+const sections = conference.sections;
+const org_comm = conference.org_comm;
+const progr_comm = conference.progr_comm;
 
 </script>
 
@@ -67,47 +48,40 @@ console.log(getConference);
         <StarBackground>
             <Navbar></Navbar>
             <div class="h-[83%] flex flex-col items-center justify-center">
-
                 <div class="flex justify-center mb-2">
                     <img src="../../imit_nobackground.png" class="w-[200px] transition-all duration-400 mt-3" alt="">
                 </div>
-
                 <div class="mb-2 text-[40px]">
                     Конференции ИМИТ ИГУ
                 </div>
-
                 <q-btn outline style="color: white;" size="15px" label="Подробнее" no-caps />
-
             </div>
         </StarBackground>
 
-
+        <ButtonAddRequest :link="`/addUserRequest?conference=${conference.id}`"/>
         <div class="w-90 mx-auto max-w-screen-xl text-center">
-
             <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
                 <div class="p-3">
-                    <div class="text-h4 font-semibold mb-4">{{ conference.name }}</div>
+                    <div class="text-h5 font-semibold mb-4">{{ conference.name }}</div>
                     <div class="w-full flex justify-center">
-                        <div class="text-h7 font-light mb-4 max-w-[600px] text-center">{{ conference.short_description
+                        <div class="text-[16px] font-normal mb-4 max-w-[600px] text-center">{{ conference.short_description
                             }}</div>
                     </div>
-
+                    <div class="text-h7 text-orange-8 font-semibold">{{ getFullDate(dateRange.from, dateRange.to) }}</div>
+                    <div v-if="conference.date_for_request_begin" class="text-h7 text-secondary font-semibold mb-2">Прием заявок: {{
+                        getFullDate(dateForRequestRange.from, dateForRequestRange.to) }}</div>
                     <div v-if="conference.title_file">
-                        <q-img class="mb-4 max-w-[700px]"
-                            :src="`http://localhost:3000/` + conference.title_file.path.substring(8)" />
+                        <q-img class="mb-4 max-w-[700px]" :src="serverLink + conference.title_file.path.substring(8)" />
                     </div>
-
                     <q-btn icon="event" label="Даты проведения" color="primary" class="me-4 mb-4">
                         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                            <q-date :dark="isDarkTheme" readonly range v-model="conference.dateRange">
+                            <q-date :dark="isDarkTheme" :locale="myLocale" range v-model="dateRange">
                             </q-date>
                         </q-popup-proxy>
                     </q-btn>
-
                     <q-btn icon="event" label="Даты подачи заявок" color="secondary mb-4">
                         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                            <q-date color="secondary" :dark="isDarkTheme" readonly range
-                                v-model="conference.dateForRequestRange">
+                            <q-date color="secondary" :locale="myLocale" :dark="isDarkTheme" range v-model="dateForRequestRange">
                             </q-date>
                         </q-popup-proxy>
                     </q-btn>
@@ -125,7 +99,7 @@ console.log(getConference);
             </div>
 
 
-            <div class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
+            <div class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]" v-if="sections.length > 0">
                 <div class="text-h5 text-center font-semibold mb-2">
                     Секции
                 </div>
@@ -134,7 +108,7 @@ console.log(getConference);
                         :dark="isDarkTheme">
                         <q-card-section>
                             <div class="font-semibold text-[18px] text-primary">{{ section.name }}</div>
-                            <div class="font-light text-[14px]">{{ section.description }}</div>
+                            <div class="font-normal text-[14px]" v-if="section.description">{{ section.description }}</div>
                             <q-separator class="my-2 text-center" :dark="isDarkTheme" />
                             <ul class="list-disc mx-4 mt-2" v-for="(userSection, ind) in org_comm" :key="ind">
                                 <li>{{ userSection.user.surname }} {{ userSection.user.name }}
@@ -179,15 +153,14 @@ console.log(getConference);
             </div>
 
 
-            <!-- <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]"
-                v-if="conference.schedule_file"> -->
-            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]" v-if="conference.schedule_file">
+            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]"
+                v-if="conference.schedule_file">
                 <div class="p-3">
                     <div class="text-h5 text-center font-semibold mb-2">
                         Расписание конференции
                     </div>
                     <a style="text-decoration: none;" download=""
-                        :href="`http://localhost:3000/` + conference.title_file.path.substring(8)" target="_blank">
+                        :href="serverLink + conference.title_file.path.substring(8)" target="_blank">
                         <q-btn color="primary">
                             <q-icon left name="schedule" />
                             <div>Расписание</div>
@@ -197,7 +170,8 @@ console.log(getConference);
                 </div>
             </div>
 
-            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]" v-if="conference.result_text || conference.collection_file">
+            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]"
+                v-if="conference.result_text || conference.collection_file">
                 <div class="p-3">
                     <div class="text-h5 text-center font-semibold mb-2">
                         Результаты конференции
@@ -206,7 +180,7 @@ console.log(getConference);
                         <Markdown class="prose dark:prose-invert p-2" :source="conference.result_text.toString()" />
                     </div>
                     <a v-if="conference.collection_file" style="text-decoration: none;" download=""
-                        :href="`http://localhost:3000/` + conference.collection_file.path.substring(8)" target="_blank">
+                        :href="serverLink + conference.collection_file.path.substring(8)" target="_blank">
                         <q-btn color="primary">
                             <q-icon left name="description" />
                             <div>Сборник тезисов</div>

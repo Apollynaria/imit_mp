@@ -5,27 +5,18 @@ useSeoMeta({
   title: 'Главная',
 })
 
+const config = useRuntimeConfig();
+
 const cards_prospects = ref([
   { title: 'Конференции', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'groups', color: 'primary' },
   { title: 'Олимпиады', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'edit_note', color: 'purple' },
   { title: 'Семинары', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'connect_without_contact', color: 'secondary' },
-])
-
-
-// const cards_3 = ref([
-//   { title: 'Мероприятие 1', short_description: 'Lorem ipsum dolor sit amet.', date: '12.05.2024 - 13.05.2024', date_request: '12.02.2023 - 23.05.2023', page_link: '/conference/1', register_link: '/addUserRequest?conference=2' },
-//   { title: 'Мероприятие 2', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '15.05.2024' },
-//   { title: 'Мероприятие 3', short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '17.05.2024' },
-// ])
-
-const config = useRuntimeConfig();
+]);
 
 const { pending, data: conferences } = await useAsyncData(
   'conferences',
   () => $fetch(`${config.public.apiBase}/conferences`, {})
 );
-
-console.log(conferences)
 
 const cardsForCarousel = computed(() => conferences.value.slice(0, Math.min(3, conferences.value.length))); 
 
@@ -57,12 +48,9 @@ const cardsForCarousel = computed(() => conferences.value.slice(0, Math.min(3, c
 
     <div class="w-90 mx-auto max-w-screen-xl">
 
-
-      <Carousel :slides="cardsForCarousel"></Carousel>
-
+      <Carousel v-if="cardsForCarousel.length > 0" :slides="cardsForCarousel"></Carousel>
 
       <div class="gap-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center">
-        <!-- <div class="gap-1 grid grid-cols-1"> -->
         <CardWithText v-for="(card, index) in cards_prospects" :key="index" :title="card.title" :text="card.text"
           :icon="card.icon" :color="card.color">
         </CardWithText>
@@ -70,8 +58,7 @@ const cardsForCarousel = computed(() => conferences.value.slice(0, Math.min(3, c
 
       <CalendarHome class="m-3"></CalendarHome>
 
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-3">
         <CardMp v-for="(conference, index) in conferences" :key="index" :border="true" :title="conference.name"
           :short_description="conference.short_description"
           :date="getFullDate(conference.date_begin, conference.date_end)"
@@ -81,7 +68,7 @@ const cardsForCarousel = computed(() => conferences.value.slice(0, Math.min(3, c
         </CardMp>
       </div>
 
-      <div class="flex justify-center p-2">
+      <!-- <div class="flex justify-center p-2">
         <q-btn color="primary" label="Загрузить еще" />
       </div>
 
@@ -91,7 +78,7 @@ const cardsForCarousel = computed(() => conferences.value.slice(0, Math.min(3, c
           type="button">
           АРХИВ
         </button>
-      </div>
+      </div> -->
     </div>
 
   </div>

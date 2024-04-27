@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import Messages from "./Messages.vue";
-import { useQuasar } from "quasar";
 import { useThemeStore } from '@/stores/theme'
-import AuthService from '../services/auth.service';
 
 const themeStore = useThemeStore()
 const authStore = useAuthStore()
 const leftDrawerOpen = ref(false)
-const $q = useQuasar()
 const router = useRouter()
 
 const toggleLeftDrawer = () => {
@@ -16,9 +12,8 @@ const toggleLeftDrawer = () => {
 
 const logOut = () => {
     authStore.logout()
-    router.push({ path: '/login'})
+    router.push({ path: '/login' })
 }
-
 
 </script>
 
@@ -83,7 +78,8 @@ const logOut = () => {
 
                     <q-expansion-item icon="settings" label="КОНФЕРЕНЦИИ" v-if="authStore.getUserIsAdmin">
                         <q-list class="ms-[30px]">
-                            <q-item clickable to="/setAdmins" active-class="q-item-no-link-highlighting" v-if="authStore.getUserIsSuperAdmin">
+                            <q-item clickable to="/setAdmins" active-class="q-item-no-link-highlighting"
+                                v-if="authStore.getUserIsSuperAdmin">
                                 <q-item-section avatar>
                                     <q-icon name="admin_panel_settings" />
                                 </q-item-section>
