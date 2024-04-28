@@ -3,6 +3,7 @@ import { getToken } from '~/services/auth.service';
 import { classDarkTheme } from '../services/DarkTheme'
 import { getFullDate } from '../services/Date';
 import { getRequestTxT } from '../services/EnumRequests';
+import { getColorFromStatus } from '../services/Status';
 
 useSeoMeta({
     title: 'Заявки пользователя',
@@ -39,36 +40,27 @@ const toRequest = (id) => {
             <div v-if="requests.length > 0" class="text-h6 ms-2 mb-2 text-[#1f2731] dark:text-[#fff]">Ваши заявки</div>
             <div v-else class="text-h6 ms-2 mb-2 text-[#1f2731] dark:text-[#fff]">
                 Список ваших заявок пуст
-                <q-btn to="/conferencesRequest" color="primary"  outline class="ms-2 q-mt-sm q-mb-xs"
-                                label="Подать заявку" />
+                <q-btn to="/conferencesRequest" color="primary" class="ms-2 q-mt-sm q-mb-xs"
+                    label="Подать заявку" />
             </div>
 
 
-            <div v-for="(request, ind) in requests" :key="ind" @click="toRequest(request.id)" :class="classDarkTheme" class="rounded-lg p-2 mb-3">
-
-                <q-card bordered flat :dark="isDarkTheme"
-                    class="no-shadow transition-all duration-500 bg-inherit cursor-pointer hover:border-slate-300">
-                    <q-card-section>
-                        <q-card-section class="p-0">
-                            <div class="flex flex-col md:flex-row justify-between">
-                                <div class="text-orange-8">Даты проведения: {{ getFullDate(request.conference.date_begin, request.conference.date_end)}} </div>
-                                <q-btn color="primary" outline class="pointer-events-none flex-end"
-                                    :label="getRequestTxT(request.status)" />
-                            </div>
-                            <div class="">Проверка тезисов: {{ getFullDate(request.conference.date_for_request_begin, request.conference.date_for_request_end)}} </div>
-                            <div class="text-[24px] q-mt-sm q-mb-xs">{{ request.conference.name }}</div>
-                            <div class="text-[18px] q-mt-sm q-mb-xs">Секция: {{ request.section.name }}</div>
-
-                        </q-card-section>
+            <q-card bordered :dark="isDarkTheme" v-for="(request, ind) in requests" :key="ind"
+                @click="toRequest(request.id)"
+                class="bg-[#fff] dark:bg-[#142437] cursor-pointer p-1 mb-4">
+                <q-card-section>
+                    <q-card-section class="p-0">
+                        <div class="flex flex-col md:flex-row justify-between">
+                            <div class="text-[20px] text-[500]">{{ request.conference.name }}</div>
+                            <q-btn :color=getColorFromStatus(request.status) outline class="flex-end"
+                                :label="getRequestTxT(request.status)" />
+                        </div>
+                        <div class="text-[16px] text-normal">Секция: {{ request.section.name }}</div>
+                        <div class="text-[16px] text-normal">Доклад: {{ request.name }}</div>
                     </q-card-section>
+                </q-card-section>
+            </q-card>
 
-                    <!-- <q-card-actions class="p-3">
-                        <q-btn color="secondary" outline class="pointer-events-none q-mt-sm q-mb-xs"
-                                label="Тезисы" />
-                    </q-card-actions> -->
-                </q-card>
-
-            </div>
         </div>
     </div>
 </template>

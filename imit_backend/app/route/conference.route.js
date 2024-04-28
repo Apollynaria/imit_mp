@@ -17,6 +17,7 @@ module.exports = (app) => {
     app.get('/api/conference/:id', conference.findById);
     app.get('/api/conferenceAdmin/:id', [authJwt.verifyToken], conference.findByIdAdmin);
 
+    app.get('/api/confernecesForAdmin', [authJwt.verifyToken], conference.findAllForAdmin);
     app.get('/api/conferences', conference.findAllSortByDateBegin);
 
     app.get('/api/conferenceForRequest/:id', conference.findByIdForRequest);

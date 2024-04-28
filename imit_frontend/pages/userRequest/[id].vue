@@ -88,7 +88,7 @@ const addCheck = async () => {
         });
 
         showNotif(addedCheck, 'green', $q);
-        router.push({ path: `/userRequests` });
+        router.push({ path: `/requests` });
 
     } catch (error) {
         console.error(error);
@@ -103,7 +103,7 @@ const addCheck = async () => {
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
             <div class="flex justify-between">
-                <q-btn class="ms-2 mb-2" to="/requests" color="primary" icon="arrow_back_ios" label="Назад" />
+                <q-btn class="ms-2 mb-2" @click="$router.back()" color="primary" icon="arrow_back_ios" label="Назад" />
                 <div class="text-h6 mb-2 text-[#1f2731] dark:text-[#fff] text-semibold">Заявка пользователя</div>
                 <q-btn class="ms-2 mb-2" :to="`/conference/${request.conference.id}`" color="secondary"
                     label="О мероприятии" />

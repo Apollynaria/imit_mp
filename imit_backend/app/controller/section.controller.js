@@ -73,6 +73,30 @@ exports.getAllSectionsForConferenceRequest = async (conferenceId) => {
     }
 };
 
+exports.getAllSectionsForConferenceChange = async (conferenceId) => {
+    try {
+        const sections = await Section.findAll({
+            where: { conference_id: conferenceId },
+            include: [{
+                model: UserSection,
+                include: [{
+                    model: User,
+                    attributes: ['name', 'surname', 'patronymic', 'email', 'id'],
+                },
+            ]
+            }],
+        });
+
+        return sections;
+
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+
+
 // exports.update = async (req, res) => {
 //     var form = new multiparty.Form();
 //     await form.parse(req, async (err, fields, files) => {

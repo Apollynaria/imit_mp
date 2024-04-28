@@ -56,6 +56,7 @@ exports.getAllAdminUserForConferenceAdmin = async (conferenceId) => {
                 {
                     model: User,
                     required: true,
+                    attributes: ['name', 'surname', 'patronymic', 'id'],
                 },
             ]
         });

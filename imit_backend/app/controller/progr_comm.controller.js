@@ -35,3 +35,24 @@ exports.getAllProgrUserForConference = async (conferenceId) => {
         return null;
     }
 };
+
+exports.getAllProgrUserForConferenceAdmin = async (conferenceId) => {
+    try {
+        const users = await ProgrUser.findAll({
+            where: { conference_id: conferenceId },
+            include: [
+                {
+                    model: User,
+                    required: true,
+                    attributes: ['name', 'surname', 'patronymic', 'id'],
+                },
+            ]
+        });
+
+        return users;
+
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};

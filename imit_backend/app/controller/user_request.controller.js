@@ -119,6 +119,10 @@ exports.findAllRequestsForAdmin = async (req, res) => {
                 {
                     model: User,
                     attributes: ['name', 'surname', 'patronymic']
+                },
+                {
+                    model: Section,
+                    attributes: ['name']
                 }
             ],
             order: [

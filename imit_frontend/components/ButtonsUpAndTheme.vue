@@ -21,10 +21,10 @@ const props = defineProps({
 
 <template>
     <div class="z-40 fixed top-[10px] right-[10px]">
-        <q-btn round @click="themeStore.switchTheme" :color="themeStore.getTheme == 'light'? 'dark' : 'primary'" :icon="themeStore.getTheme == 'light'? 'dark_mode' : 'light_mode'" size="md"/>
+        <q-btn round @click="themeStore.switchTheme" color="primary" :icon="themeStore.getTheme == 'light'? 'dark_mode' : 'light_mode'" size="md"/>
     </div>
     <div v-if="showUp" class="z-40 fixed bottom-[10px] right-[10px]">
-        <q-btn round @click="scrollTop" :color="themeStore.getTheme == 'light'? 'dark' : 'primary'" icon="arrow_upward" size="md"/>
+        <q-btn round @click="scrollTop" color="primary" icon="arrow_upward" size="md"/>
     </div>
 </template>
 
