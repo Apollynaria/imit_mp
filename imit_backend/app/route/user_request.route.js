@@ -18,4 +18,6 @@ module.exports = (app) => {
     app.get('/api/requests', [authJwt.verifyToken], user_request.findAllRequestsForAdmin);
 
     app.get('/api/request/:id', [authJwt.verifyToken], user_request.findById);
+
+    app.post('/api/updateUserRequest', [authJwt.verifyToken], user_request.update);
 };

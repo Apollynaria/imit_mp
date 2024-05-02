@@ -26,7 +26,7 @@ exports.create = async (section, conference_id, transaction) => {
     }, { transaction: transaction });
 
     // Создание пользователей секции
-    await Promise.all(section.section_users.map(async (user) => {
+    await Promise.all(section.user_sections.map(async (user) => {
         await UserSection.create({
             section_id: newSection.id,
             user_id: user.id,

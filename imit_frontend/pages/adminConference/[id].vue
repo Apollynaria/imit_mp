@@ -158,6 +158,7 @@ const newTitle_file = ref(null);
 const newCollection_file = ref(null);
 const newSchedule_file = ref(null);
 
+
 const updateConference = async () => {
     let formData = new FormData();
     formData.append('name', conference.name);
@@ -318,7 +319,7 @@ const deleteConference = async () => {
                     </q-card-section>
                 </q-card>
             </div>
-            <!-- <add-section class="my-2" :users="users" @on-submit="getSection"></add-section> -->
+            <add-section class="my-2" :users="users" @on-submit="getSection"></add-section>
         </div>
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">

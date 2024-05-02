@@ -18,7 +18,7 @@ const props = defineProps({
 const section = reactive({
     name: '',
     description: '',
-    section_users: [
+    user_sections: [
         {
             id: props.users[0].id, label: props.users[0].label
         }
@@ -31,8 +31,8 @@ const $q = useQuasar()
 const addSection = ref()
 
 const addSectionUser = () => {
-    if (section.section_users.at(-1) !== null) {
-        section.section_users.push({
+    if (section.user_sections.at(-1) !== null) {
+        section.user_sections.push({
             id: props.users[0].id, label: props.users[0].label
         })
     }
@@ -42,7 +42,7 @@ const addSectionUser = () => {
 }
 
 const deleteSectionUser = (ind) => {
-    section.section_users.splice(ind, 1);
+    section.user_sections.splice(ind, 1);
 }
 
 const emit = defineEmits(['onSubmit']);
@@ -52,13 +52,13 @@ const onSubmitForm = () => {
         showNotif("Чтобы добавить секцию - введите название", 'red', $q)
     }
     else {
-        const uniqueUsers = section.section_users.filter((user, index, self) =>
+        const uniqueUsers = section.user_sections.filter((user, index, self) =>
             index === self.findIndex((t) => (
                 t.id === user.id
             ))
         );
 
-        section.section_users = uniqueUsers;
+        section.user_sections = uniqueUsers;
 
         const data = { ...section };
         emit('onSubmit', data);
@@ -71,7 +71,7 @@ const onSubmitForm = () => {
 const deleteData = () => {
     section.name = '';
     section.description = '';
-    section.section_users = [{
+    section.user_sections = [{
         id: props.users[0].id,
         label: props.users[0].label
     }];
@@ -106,9 +106,9 @@ const deleteData = () => {
 
                     <div class="flex justify-between p-2 items-center">
                         <div class="flex justify-between p-2 items-center w-full"
-                            v-for="(user, index) in section.section_users" :key="index">
+                            v-for="(user, index) in section.user_sections" :key="index">
                             <q-select class="flex-auto" :dark="isDarkTheme" outlined
-                                v-model="section.section_users[index]" use-input fill-input hide-selected
+                                v-model="section.user_sections[index]" use-input fill-input hide-selected
                                 input-debounce="0" label="Поиск по ФИО" :options="users">
                                 <template v-slot:prepend>
                                     <q-icon name="search" />
@@ -122,11 +122,11 @@ const deleteData = () => {
                                 </template>
                             </q-select>
 
-                            <q-btn v-if="section.section_users.length > 1" @click="deleteSectionUser(index)"
+                            <q-btn v-if="section.user_sections.length > 1" @click="deleteSectionUser(index)"
                                 class="md:ms-2 md:mt-0 mt-2" size="12px" round color="grey-8" icon="close"
                                 style="max-width: 12px; max-height: 12px;" />
 
-                            <q-btn v-if="index === section.section_users.length - 1" @click="addSectionUser"
+                            <q-btn v-if="index === section.user_sections.length - 1" @click="addSectionUser"
                                 class="md:ms-2 md:mt-0 mt-2" size="12px" round color="primary" icon="add"
                                 style="max-width: 12px; max-height: 12px;" />
 

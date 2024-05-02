@@ -7,6 +7,7 @@ const file = require('../controller/file.controller');
 const File = db.file;
 const Section = db.section;
 const User = db.user;
+const Check = db.check;
 const Conference = db.conference;
 const AdminConference = db.admin_conference
 
@@ -67,6 +68,58 @@ exports.create = async (req, res) => {
         }
     });
 }
+
+exports.update = async (req, res) => {
+    var form = new multiparty.Form();
+    await form.parse(req, async (err, fields, files) => {
+        if (!err) {
+            // Начало транзакции
+            const transaction = await db.sequelize.transaction();
+            try {
+
+                const userRequest = await UserRequest.findByPk(fields.id[0], { transaction });
+                if (!userRequest) {
+                    throw new Error('Заявка не найдена');
+                }
+                if(userRequest.user_id !== req.userId){
+                    throw new Error('Ошибка доступа');
+                }
+
+                console.log(fields)
+                // Создание файла и получение его ID
+                let fileId = null;
+                if (files.file) {
+                    fileId = await file.create(req, res, files, true, transaction);
+                }
+
+                const updateData = {
+                    status: 'consideration',
+                    comment: fields.comment[0],
+                };
+
+                if (fileId) {
+                    updateData.file_id = fileId;
+                    await file.delete(userRequest.file_id, transaction); 
+                }
+
+                const user_request = await UserRequest.update(updateData, { 
+                    where: { id: fields.id[0] }, 
+                    transaction 
+                });
+
+                // Коммит транзакции
+                await transaction.commit();
+                globalFunctions.sendResultWithId(res, 'Заявка успешно изменена!', user_request.id);
+
+            } catch (error) {
+                console.log(error)
+                await transaction.rollback();
+                globalFunctions.sendError(res, error);
+            }
+        }
+    });
+}
+
 
 
 exports.findAllUserRequests = async (req, res) => {
@@ -138,6 +191,8 @@ exports.findAllRequestsForAdmin = async (req, res) => {
 };
 
 exports.findById = (req, res) => {
+    const userId = req.userId;
+
     UserRequest.findByPk(req.params.id, {
         include: [
             {
@@ -160,11 +215,30 @@ exports.findById = (req, res) => {
             },
             {
                 model: File,
+            },
+            {
+                model: Check,
             }
         ]
     })
-        .then(object => {
-            globalFunctions.sendResult(res, object);
+        .then(userRequest => {
+            AdminConference.findOne({
+                where: {
+                    user_id: userId,
+                    conference_id: userRequest.conference_id
+                }
+            }).then(adminConference => {
+                if (adminConference) {
+                    userRequest.dataValues.adminInfo = {
+                        isAdminConference: true,
+                    };
+                    globalFunctions.sendResult(res, userRequest);
+                } else if (userId === userRequest.user_id) {
+                    globalFunctions.sendResult(res, userRequest);
+                } else {
+                    globalFunctions.sendError(res, new Error('Ошибка доступа'));
+                }
+            });
         })
         .catch(err => {
             globalFunctions.sendError(res, err);

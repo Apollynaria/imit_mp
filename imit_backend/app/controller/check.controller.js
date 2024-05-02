@@ -9,9 +9,13 @@ exports.create = async (req, res) => {
     console.log(req.body);
     const transaction = await db.sequelize.transaction();
     try {
+        const userRequest = await UserRequest.findByPk(req.body.request_id, { transaction });
+
         const check = await Check.create({
             request_id: req.body.request_id,
             message: req.body.message,
+            new_status: req.body.newStatus.status,
+            old_status: userRequest.status,
         }, { transaction });
 
         if (req.body.newStatus) {

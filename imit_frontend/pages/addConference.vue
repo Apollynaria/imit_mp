@@ -220,7 +220,7 @@ const addConference = async () => {
                         <div class="font-bold text-[16px] uppercase">{{ section.name }}</div>
                         <div class="font-medium text-[15px]">{{ section.description }}</div>
                         <q-separator class="my-2" :dark="isDarkTheme" />
-                        <ul class="list-disc mx-4 mt-2" v-for="(user, ind) in section.section_users" :key="ind">
+                        <ul class="list-disc mx-4 mt-2" v-for="(user, ind) in section.users_sections" :key="ind">
                             <li>{{ user.label }}</li>
                         </ul>
                     </q-card-section>
