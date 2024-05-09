@@ -45,6 +45,13 @@ module.exports = (sequelize, Sequelize) => {
             sourceKey: 'id'
         });
 
+        UserRequest.hasOne(models.schedule, {
+            foreignKey: 'request_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            sourceKey: 'id'
+        });
+
         UserRequest.belongsTo(models.user, {
             foreignKey: 'user_id'
         });

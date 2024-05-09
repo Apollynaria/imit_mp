@@ -6,6 +6,10 @@ var { Op } = require("sequelize");
 const file = require('../controller/file.controller');
 const File = db.file;
 const AdminComm = db.admin_conference;
+const Section = db.section;
+const User = db.user;
+const Schedule = db.schedule;
+const UserRequest = db.user_request;
 const section = require('../controller/section.controller');
 const progrComm = require('../controller/progr_comm.controller.js');
 const adminComm = require('../controller/admin_comm.controller.js');
@@ -116,6 +120,101 @@ exports.create = async (req, res) => {
     });
 }
 
+exports.update = async (req, res) => {
+    var form = new multiparty.Form();
+    await form.parse(req, async (err, fields, files) => {
+        if (!err) {
+            // Начало транзакции
+            const transaction = await db.sequelize.transaction();
+            try {
+
+                const conference = await Conference.findByPk(fields.id[0], { transaction });
+                if (!conference) {
+                    throw new Error('Конференция не найдена');
+                }
+
+                console.log(files)
+
+                const updateData = {
+                    name: fields.name[0],
+                    short_description: fields.short_description[0],
+                    date_begin: fields.date_begin[0],
+                    date_end: fields.date_end[0],
+                    date_for_request_begin: fields.date_for_request_begin[0],
+                    date_for_request_end: fields.date_for_request_end[0],
+                    full_description: fields.full_description[0],
+                    location: fields.location[0],
+                    result_text: fields.result_text[0],
+                }
+
+                // Создание файла и получение его ID
+                let titleFile = null;
+                let scheduleFile = null;
+                let collectionFile = null;
+
+                if (files.title_file) {
+                    titleFile = await file.createManyFile(req, res, files.title_file[0], true, transaction);
+                    if (conference.title_file_id) {
+                        await file.delete(conference.title_file_id, transaction);
+                    }
+                    updateData.title_file_id = titleFile;
+                }
+
+                if (files.schedule_file) {
+                    scheduleFile = await file.createManyFile(req, res, files.schedule_file[0], true, transaction);
+                    if (conference.schedule_file_id) {
+                        await file.delete(conference.schedule_file_id, transaction);
+                    }
+                    updateData.schedule_file_id = scheduleFile;
+                }
+
+                if (files.collection_file) {
+                    collectionFile = await file.createManyFile(req, res, files.collection_file[0], true, transaction);
+                    if (conference.collection_file_id) {
+                        await file.delete(conference.collection_file_id, transaction);
+                    }
+                    updateData.collection_file_id = collectionFile;
+                }
+
+                const updatedConference = await Conference.update(updateData, {
+                    where: { id: fields.id[0] },
+                    transaction
+                });
+
+                // // Создание секций
+                // const sections = JSON.parse(fields.sections[0]);
+                // const createSections = await Promise.all(sections.map(async (sectionData) => {
+                //     const newSection = await section.create(sectionData, conference.id, transaction);
+                //     return newSection;
+                // }));
+
+                // // Создание организационного коммитета
+                // const org_comm = JSON.parse(fields.org_comm[0]);
+                // const createOrgComm = await Promise.all(org_comm.map(async (user) => {
+                //     const newUserFromOrgComm = await adminComm.create(user, conference.id, transaction);
+                //     return newUserFromOrgComm;
+                // }));
+
+                // // Создание программного коммитета
+                // const progr_comm = JSON.parse(fields.progr_comm[0]);
+                // const createProgrComm = await Promise.all(progr_comm.map(async (user) => {
+                //     const newUserFromProgrComm = await progrComm.create(user, conference.id, transaction);
+                //     return newUserFromProgrComm;
+                // }));
+
+                // Коммит транзакции
+                await transaction.commit();
+                globalFunctions.sendResultWithId(res, 'Конференция успешно изменена', conference.id);
+
+            } catch (error) {
+                console.log(error)
+                await transaction.rollback();
+                globalFunctions.sendError(res, error);
+            }
+        }
+    });
+}
+
 exports.delete = (req, res) => {
     Conference.destroy({
         where: {
@@ -172,11 +271,14 @@ exports.findById = (req, res) => {
 
                 // schedule_file, collection_file
 
+                const schedule_sections = await section.getAllSectionsForSchedule(req.params.id);
+
                 // Добавление данных к объекту conference
                 conference.dataValues.sections = sections;
                 conference.dataValues.org_comm = users_org_comm;
                 conference.dataValues.progr_comm = users_progr_comm;
                 conference.dataValues.title_file = title_file;
+                conference.dataValues.schedule_sections = schedule_sections;
 
                 globalFunctions.sendResult(res, conference);
             } catch (error) {
@@ -213,8 +315,8 @@ exports.findByIdAdmin = (req, res) => {
 
                 // Фото title_file, schedule_file, collection_file
                 const title_file = await File.findByPk(conference.title_file_id);
-                const schedule_file = await File.findByPk(conference.schedule_file);
-                const collection_file = await File.findByPk(conference.collection_file);
+                const schedule_file = await File.findByPk(conference.schedule_file_id);
+                const collection_file = await File.findByPk(conference.collection_file_id);
 
                 // Добавление данных к объекту conference
                 conference.dataValues.sections = sections;
@@ -329,4 +431,36 @@ exports.findByIdForRequest = (req, res) => {
         .catch(err => {
             globalFunctions.sendError(res, err);
         });
+};
+
+exports.findAllForSchedule = async (req, res) => {
+    try {
+        const conference = await Conference.findByPk(req.params.id, {
+            include: [{
+                model: Section,
+                attributes: ['id', 'name'],
+                include: [{
+                    model: UserRequest,
+                    where: {
+                        status: {
+                            [Op.or]: ['approve', 'approve_after_revision', 'approve_another_section']
+                        }
+                    },
+                    attributes: ['id', 'name', 'comment', 'status'],
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['id', 'name', 'surname', 'patronymic'],
+                        },
+                        {
+                            model: Schedule,
+                        }
+                    ]
+                }]
+            }]
+        });
+        globalFunctions.sendResult(res, conference);
+    } catch (err) {
+        globalFunctions.sendError(res, err);
+    }
 };

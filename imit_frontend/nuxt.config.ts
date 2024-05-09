@@ -47,7 +47,7 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light'
   },
-  modules: ['nuxt-icon', 'nuxt-bootstrap-icons', 'nuxt-quasar-ui', '@nuxt/ui', '@pinia/nuxt',],
+  modules: ['nuxt-icon', 'nuxt-bootstrap-icons', 'nuxt-quasar-ui', '@nuxt/ui', '@pinia/nuxt'],
   quasar: {
     cssAddon: false,
     plugins: [

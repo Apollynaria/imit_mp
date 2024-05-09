@@ -140,7 +140,7 @@ exports.findAllUserRequests = async (req, res) => {
                 }
             ],
             order: [
-                [Conference, 'date_begin', 'DESC']
+                ['status', 'ASC']
             ]
         });
         globalFunctions.sendResult(res, userRequests);
@@ -179,7 +179,7 @@ exports.findAllRequestsForAdmin = async (req, res) => {
                 }
             ],
             order: [
-                ['status', 'DESC']
+                ['status', 'ASC']
             ]
         });
 

@@ -3,6 +3,8 @@ const globalFunctions = require('../config/global.functions.js');
 var Section = db.section;
 var UserSection = db.user_section;
 var User = db.user;
+var Schedule = db.schedule;
+var UserRequest = db.user_request;
 var { Op } = require("sequelize");
 
 
@@ -39,18 +41,58 @@ exports.getAllSectionsForConference = async (conferenceId) => {
     try {
         const sections = await Section.findAll({
             where: { conference_id: conferenceId },
-            include: [{
-                model: UserSection,
-                required: true,
-                include: [{
-                    model: User,
-                    attributes: ['name', 'surname', 'patronymic', 'email'],
+            include: [
+                {
+                    model: UserSection,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'surname', 'patronymic', 'email'],
+                        },
+                    ]
                 },
-            ]
-            }],
+            ],
         });
 
-        // console.log(sections);
+        return sections;
+
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+exports.getAllSectionsForSchedule = async (conferenceId) => {
+    try {
+        const sections = await Section.findAll({
+            where: { conference_id: conferenceId },
+            include: [
+                {
+                    model: UserRequest,
+                    where: {
+                        status: {
+                            [Op.or]: ['approve', 'approve_after_revision', 'approve_another_section']
+                        }
+                    },
+                    attributes: ['name'],
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['id', 'name', 'surname', 'patronymic'],
+                        },
+                        {
+                            model: Schedule,
+                            where: {
+                                request_id: {
+                                    [Op.not]: null
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+        });
+
         return sections;
 
     } catch (error) {
@@ -83,7 +125,7 @@ exports.getAllSectionsForConferenceChange = async (conferenceId) => {
                     model: User,
                     attributes: ['name', 'surname', 'patronymic', 'email', 'id'],
                 },
-            ]
+                ]
             }],
         });
 

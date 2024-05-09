@@ -40,3 +40,6 @@ section(app);
 
 var auth = require('./app/route/auth.route.js');
 auth(app);
+
+var schedule = require('./app/route/schedule.route.js');
+schedule(app);

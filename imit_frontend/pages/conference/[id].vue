@@ -24,6 +24,26 @@ const conference = await $fetch(`/conference/${conferenceId}`, {
     baseURL: config.public.apiBase,
 });
 
+console.log(conference);
+
+const sortRequestsByOrder = (section) => {
+    section.user_requests.sort((a, b) => {
+        if (a.schedule.order !== null && b.schedule.order !== null) {
+            return a.schedule.order - b.schedule.order;
+        } else if (a.schedule.order !== null) {
+            return -1;
+        } else if (b.schedule.order !== null) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+};
+
+conference.schedule_sections.forEach(section => {
+    sortRequestsByOrder(section);
+});
+
 let dateRange = {
     from: null,
     to: null
@@ -58,18 +78,21 @@ const progr_comm = conference.progr_comm;
             </div>
         </StarBackground>
 
-        <ButtonAddRequest :link="`/addUserRequest?conference=${conference.id}`"/>
+        <ButtonAddRequest :link="`/addUserRequest?conference=${conference.id}`" />
         <div class="w-90 mx-auto max-w-screen-xl text-center">
             <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
                 <div class="p-3">
                     <div class="text-h5 font-semibold mb-4">{{ conference.name }}</div>
                     <div class="w-full flex justify-center">
-                        <div class="text-[16px] font-normal mb-4 max-w-[600px] text-center">{{ conference.short_description
+                        <div class="text-[16px] font-normal mb-4 max-w-[600px] text-center">{{
+                            conference.short_description
                             }}</div>
                     </div>
-                    <div class="text-h7 text-orange-8 font-semibold">{{ getFullDate(dateRange.from, dateRange.to) }}</div>
-                    <div v-if="conference.date_for_request_begin" class="text-h7 text-secondary font-semibold mb-2">Прием заявок: {{
-                        getFullDate(dateForRequestRange.from, dateForRequestRange.to) }}</div>
+                    <div class="text-h7 text-orange-8 font-semibold">{{ getFullDate(dateRange.from, dateRange.to) }}
+                    </div>
+                    <div v-if="conference.date_for_request_begin" class="text-h7 text-secondary font-semibold mb-2">
+                        Прием заявок: {{
+                            getFullDate(dateForRequestRange.from, dateForRequestRange.to) }}</div>
                     <div v-if="conference.title_file">
                         <q-img class="mb-4 max-w-[700px]" :src="serverLink + conference.title_file.path.substring(8)" />
                     </div>
@@ -81,7 +104,8 @@ const progr_comm = conference.progr_comm;
                     </q-btn>
                     <q-btn icon="event" label="Даты подачи заявок" color="secondary mb-4">
                         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                            <q-date color="secondary" :locale="myLocale" :dark="isDarkTheme" range v-model="dateForRequestRange">
+                            <q-date color="secondary" :locale="myLocale" :dark="isDarkTheme" range
+                                v-model="dateForRequestRange">
                             </q-date>
                         </q-popup-proxy>
                     </q-btn>
@@ -108,7 +132,8 @@ const progr_comm = conference.progr_comm;
                         :dark="isDarkTheme">
                         <q-card-section>
                             <div class="font-semibold text-[18px] text-primary">{{ section.name }}</div>
-                            <div class="font-normal text-[14px]" v-if="section.description">{{ section.description }}</div>
+                            <div class="font-normal text-[14px]" v-if="section.description">{{ section.description }}
+                            </div>
                             <q-separator class="my-2 text-center" :dark="isDarkTheme" />
                             <ul class="list-disc mx-4 mt-2" v-for="(userSection, ind) in org_comm" :key="ind">
                                 <li>{{ userSection.user.surname }} {{ userSection.user.name }}
@@ -120,6 +145,9 @@ const progr_comm = conference.progr_comm;
             </div>
 
             <div class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
+                <div class="text-h5 text-center font-semibold mb-2">
+                    Комитеты
+                </div>
                 <div class="p-2 flex flex-col md:flex-row p-2">
                     <q-card :dark="isDarkTheme"
                         class="bg-[#fff] dark:bg-[#142437] text-[#000] dark:text-[#fff] my-card flex-1">
@@ -153,20 +181,50 @@ const progr_comm = conference.progr_comm;
             </div>
 
 
-            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]"
-                v-if="conference.schedule_file">
-                <div class="p-3">
-                    <div class="text-h5 text-center font-semibold mb-2">
-                        Расписание конференции
+            <div v-if="conference.schedule_sections.length !== 0" class="text-h5 text-center font-semibold mb-2 text-[#1f2731] dark:text-[#fff]">
+                Расписание
+            </div>
+
+            <div v-if="conference.schedule_sections.length !== 0" class="rounded p-3 mb-5 m-3" :class="classLogo">
+
+                <div class="flex flex-col p-3" v-for="section in conference.schedule_sections" :key="section.id">
+                    <div class="-my-2 overflow-x-auto">
+                        <div class="shadow overflow-hidden rounded-lg">
+                            <div class="text-[#1f2731] dark:text-[#fff] text-[16px] mb-2 mt-4">Секция: {{ section.name }}
+                            </div>
+                            <table
+                                class="min-w-full text-sm dark:text-gray-400 text-gray-900 divide-y divide-slate-700">
+                                <thead class="dark:bg-gray-900 bg-gray-300 text-[14px] uppercase font-medium">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col" class="px-6 py-3 text-center tracking-wider">
+                                            Время
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-center tracking-wider">
+                                            Название доклада
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-center tracking-wider">
+                                            ФИО
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-700">
+                                    <tr v-for="(request, index) in section.user_requests" :key="request.id"
+                                        class="dark:bg-gray-800 bg-gray-100 text-[16px]">
+                                        <td>
+                                            {{ index + 1 }}
+                                        </td>
+                                        <td>
+                                            {{ request.schedule.time }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-6 py-4">{{ request.name }}</td>
+                                        <td class="whitespace-nowrap px-6 py-4">{{ request.user.surname }} {{
+                                            request.user.name }} {{ request.user.patronymic }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <a style="text-decoration: none;" download=""
-                        :href="serverLink + conference.title_file.path.substring(8)" target="_blank">
-                        <q-btn color="primary">
-                            <q-icon left name="schedule" />
-                            <div>Расписание</div>
-                        </q-btn>
-                    </a>
-                    <q-btn v-if="conference.schedule_file" @click="" target="_blank" label="Сборник" color="primary" />
                 </div>
             </div>
 

@@ -23,6 +23,10 @@ const props = defineProps({
         type: String,
         default: "/"
     },
+    change_schedule_link: {
+        type: String,
+        default: "/"
+    },
     border: {
         type: Boolean,
         default: false
@@ -38,7 +42,7 @@ const props = defineProps({
     <div class="p-3 h-full">
         <q-card :bordered="border" :dark="isDarkTheme" class="my-card bg-[#fff] dark:bg-[#142437] h-full flex flex-col">
             <div class="text-[18px] text-[#1f2731] dark:text-[#fff] mx-4 mt-3 font-semibold ">
-                {{ props.title }}  
+                {{ props.title }}
             </div>
             <div class="flex-grow"></div>
 
@@ -50,6 +54,7 @@ const props = defineProps({
                 </div>
                 <div class="my-4">
                     <q-btn class="mt-2 w-full" color="primary" label="Изменить" :to="change_link" />
+                    <q-btn class="mt-2 w-full" color="secondary" label="Конструктор расписания" :to="change_schedule_link" />
                 </div>
             </q-card-section>
         </q-card>

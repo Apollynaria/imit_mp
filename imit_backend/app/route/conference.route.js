@@ -14,6 +14,8 @@ module.exports = (app) => {
     app.post('/api/addConference', [authJwt.verifyToken, verifyAccess.userIsAdmin], conference.create);
     // app.get('/api/adminConference/:id', [authJwt.verifyToken, verifyAccess.userIsAdminConference], conference.findByIdAdmin);
 
+    app.post('/api/updateConference', [authJwt.verifyToken], conference.update);
+    
     app.get('/api/conference/:id', conference.findById);
     app.get('/api/conferenceAdmin/:id', [authJwt.verifyToken], conference.findByIdAdmin);
 
@@ -22,4 +24,6 @@ module.exports = (app) => {
 
     app.get('/api/conferenceForRequest/:id', conference.findByIdForRequest);
     app.get('/api/conferencesForRequest', conference.findAllForRequest);
+
+    app.get('/api/conferenceForSchedule/:id', [authJwt.verifyToken], conference.findAllForSchedule);
 };

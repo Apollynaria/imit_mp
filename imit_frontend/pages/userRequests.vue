@@ -2,8 +2,8 @@
 import { getToken } from '~/services/auth.service';
 import { classDarkTheme } from '../services/DarkTheme'
 import { getFullDate } from '../services/Date';
-import { getRequestTxT } from '../services/EnumRequests';
 import { getColorFromStatus } from '../services/Status';
+import { getRequestTxT, getEnumKeyFromText } from '../services/EnumRequests';
 
 useSeoMeta({
     title: 'Заявки пользователя',
@@ -30,6 +30,32 @@ const toRequest = (id) => {
     router.push({ path: `/userRequest/${id}` });
 }
 
+const filteredRequests = computed(() => {
+    if (modelStatusFilter.value.length === 0) {
+        return requests;
+    }
+    return requests.filter(request => {
+        return modelStatusFilter.value.some(filterValue => {
+            const filterEnum = getEnumKeyFromText(filterValue);
+            return request.status === filterEnum;
+        });
+    });
+});
+
+const statusFilterOptions = [
+    'На рассмотрении', 'На доработке', 'Принято', 'Принято после доработки', 'Принято, изменена секция', 'Отмена'
+]   
+
+const modelStatusFilter = ref([])
+
+const classLogo = computed(() => {
+    return {
+        'bg-[#142437]': (isDarkTheme.value === true),
+        'bg-[#fff]': (isDarkTheme.value === false)
+    }
+
+})
+
 </script>
 
 <template>
@@ -37,17 +63,22 @@ const toRequest = (id) => {
 
         <div class="rounded-lg p-3 mb-3">
 
-            <div v-if="requests.length > 0" class="text-h6 ms-2 mb-2 text-[#1f2731] dark:text-[#fff]">Ваши заявки</div>
-            <div v-else class="text-h6 ms-2 mb-2 text-[#1f2731] dark:text-[#fff]">
-                Список ваших заявок пуст
-                <q-btn to="/conferencesRequest" color="primary" class="ms-2 q-mt-sm q-mb-xs"
-                    label="Подать заявку" />
+            <div class="rounded p-3 mb-5" :class="classLogo">
+                <div v-if="requests.length > 0" class="text-h6 ms-2 mb-2 text-[#1f2731] dark:text-[#fff]">Ваши заявки
+                </div>
+                <div v-else class="text-h6 mb-2 text-[#1f2731] dark:text-[#fff]">
+                    Список ваших заявок пуст
+                    <q-btn to="/conferencesRequest" color="primary" class="ms-2 q-mt-sm q-mb-xs"
+                        label="Подать заявку" />
+                </div>
+                <q-select :dark="isDarkTheme" class="" outlined v-model="modelStatusFilter" multiple
+                    :options="statusFilterOptions" use-chips stack-label label="Статус заявки" />
             </div>
 
 
-            <q-card bordered :dark="isDarkTheme" v-for="(request, ind) in requests" :key="ind"
+            <q-card bordered :dark="isDarkTheme" v-for="(request, ind) in filteredRequests" :key="ind"
                 @click="toRequest(request.id)"
-                class="bg-[#fff] dark:bg-[#142437] cursor-pointer p-1 mb-4">
+                class="bg-[#fff] dark:bg-[#142437] cursor-pointer p-1 mb-4 border-l-4 border-t-0 border-r-0 border-b-0 border-sky-600">
                 <q-card-section>
                     <q-card-section class="p-0">
                         <div class="flex flex-col md:flex-row justify-between">

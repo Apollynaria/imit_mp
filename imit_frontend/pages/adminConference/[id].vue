@@ -82,6 +82,8 @@ try {
     conference.location = getConference.location;
     conference.resulst = getConference.result_text;
     conference.title_file = getConference.title_file;
+    conference.schedule_file = getConference.schedule_file;
+    conference.collection_file = getConference.collection_file;
     conference.sections = getConference.sections;
     conference.org_comm = getConference.org_comm;
     conference.progr_comm = getConference.progr_comm;
@@ -161,6 +163,7 @@ const newSchedule_file = ref(null);
 
 const updateConference = async () => {
     let formData = new FormData();
+    formData.append('id', conferenceId);
     formData.append('name', conference.name);
     formData.append('short_description', conference.short_description);
     formData.append('date_begin', getDate(conference.dateRange.from));
@@ -176,7 +179,7 @@ const updateConference = async () => {
     formData.append('progr_comm', JSON.stringify(conference.progr_comm));
 
     formData.append('collection_file', newCollection_file.value);
-    formData.append('schedule_file', newSchedule_file.value);
+    // formData.append('schedule_file', newSchedule_file.value);
     formData.append('result_text', conference.resulst);
 
 
@@ -396,13 +399,13 @@ const deleteConference = async () => {
                 title="Секретари программного комитета"></add-admin-conference>
         </div>
 
-        <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
+        <!-- <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Расписание конференции</div>
 
-            <a v-if="conference.schedule_file" style="text-decoration: none;" download=""
+            <a class="p-2" v-if="conference.schedule_file" style="text-decoration: none;" download=""
                 :href="serverLink + conference.schedule_file.path.substring(8)" target="_blank">
-                <q-btn color="primary">
+                <q-btn color="secondary">
                     <q-icon left name="description" />
                     <div>Файл расписания</div>
                 </q-btn>
@@ -415,15 +418,15 @@ const deleteConference = async () => {
                 </template>
             </q-file>
 
-        </div>
+        </div> -->
 
         <div :class="classDarkTheme" class="rounded-lg p-3 mb-3">
 
             <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Результаты конференции</div>
 
-            <a v-if="conference.collection_file" style="text-decoration: none;" download=""
+            <a class="p-2" v-if="conference.collection_file" style="text-decoration: none;" download=""
                 :href="serverLink + conference.collection_file.path.substring(8)" target="_blank">
-                <q-btn color="primary">
+                <q-btn color="secondary">
                     <q-icon left name="description" />
                     <div>Сборник тезисов</div>
                 </q-btn>

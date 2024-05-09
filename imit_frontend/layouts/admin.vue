@@ -100,7 +100,7 @@ const logOut = () => {
                                     <q-icon name="change_circle" />
                                 </q-item-section>
                                 <q-item-section class="flex">
-                                    <q-item-label>Изменить конференцию</q-item-label>
+                                    <q-item-label>Конференции</q-item-label>
                                 </q-item-section>
                             </q-item>
                             <q-item clickable to="/requests" active-class="q-item-no-link-highlighting">

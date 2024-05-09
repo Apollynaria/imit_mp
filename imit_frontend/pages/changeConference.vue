@@ -9,7 +9,7 @@ useSeoMeta({
 })
 definePageMeta({
     layout: 'admin',
-    middleware: 'auth'
+    middleware: ['auth', 'admin'],
 })
 
 const config = useRuntimeConfig();
@@ -37,6 +37,7 @@ const { pending, data: conferences } = await useAsyncData(
                         :date="getFullDate(conference.date_begin, conference.date_end)"
                         :date_request="getFullDate(conference.date_for_request_begin, conference.date_for_request_end)"
                         :change_link="`/adminConference/${conference.id}`"
+                        :change_schedule_link="`/scheduleConference/${conference.id}`"
                         :file="serverLink + conference.title_file.path.substring(8)">
                     </CardChangeConference>
                 </div>

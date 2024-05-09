@@ -55,6 +55,7 @@ db.section = require('../model/section.model.js')(sequelize, Sequelize);
 db.user_request = require('../model/user_request.model.js')(sequelize, Sequelize);
 db.user = require('../model/user.model.js')(sequelize, Sequelize);
 db.user_section = require('../model/user_section.model.js')(sequelize, Sequelize);
+db.schedule = require('../model/schedule.model.js')(sequelize, Sequelize);
 
 
 // Связывание моделей без импорта файлов (то есть, чтобы в файле описания любой модели можно было
