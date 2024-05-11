@@ -3,7 +3,8 @@ import { NOT_NULL_RULES } from "../services/DataRules"
 import { showNotif } from "../services/Notify"
 
 definePageMeta({
-    layout: 'star'
+    layout: 'star',
+    middleware: 'is-login'
 })
 
 const themeStore = useThemeStore()
@@ -21,10 +22,6 @@ const user = reactive({
     password: null,
 })
 
-if (authStore.getLoggedIn) {
-    showNotif("Пользователь авторизован!", 'green', $q, 'done')
-    router.push({ path: `/profile` })
-}
 
 const handleLogin = () => {
     loading.value = true
