@@ -18,7 +18,9 @@ const { pending, data: conferences } = await useAsyncData(
   () => $fetch(`${config.public.apiBase}/conferences`, {})
 );
 
-const cardsForCarousel = computed(() => conferences.value.slice(0, Math.min(3, conferences.value.length))); 
+console.log(conferences);
+
+const cardsForCarousel = computed(() => conferences.value? conferences.value.slice(0, Math.min(3, conferences.value.length)) : null); 
 
 </script>
 
@@ -48,7 +50,7 @@ const cardsForCarousel = computed(() => conferences.value.slice(0, Math.min(3, c
 
     <div class="w-90 mx-auto max-w-screen-xl">
 
-      <Carousel v-if="cardsForCarousel.length > 0" :slides="cardsForCarousel"></Carousel>
+      <Carousel v-if="cardsForCarousel?.length > 0" :slides="cardsForCarousel"></Carousel>
 
       <div class="gap-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center">
         <CardWithText v-for="(card, index) in cards_prospects" :key="index" :title="card.title" :text="card.text"

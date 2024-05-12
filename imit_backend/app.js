@@ -14,7 +14,9 @@ app.listen(3000);
 
 var cors = require('cors');
 var corsOptions = {
-    origin: 'http://localhost:4200',
+    origin: function (origin, callback) {
+        callback(null, true);
+    },
     credentials: true,
     optionSuccessStatus: 200
 };
