@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { getFullDate } from '../services/Date'
+import { getFullDate } from '../services/Date';
+import { serverLink } from '~/services/server';
 
 useSeoMeta({
   title: 'Главная',
@@ -58,7 +59,7 @@ const cardsForCarousel = computed(() => conferences.value? conferences.value.sli
         </CardWithText>
       </div>
 
-      <CalendarHome class="m-3"></CalendarHome>
+      <!-- <CalendarHome class="m-3"></CalendarHome> -->
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-3">
         <CardMp v-for="(conference, index) in conferences" :key="index" :border="true" :title="conference.name"
@@ -66,7 +67,7 @@ const cardsForCarousel = computed(() => conferences.value? conferences.value.sli
           :date="getFullDate(conference.date_begin, conference.date_end)"
           :date_request="getFullDate(conference.date_for_request_begin, conference.date_for_request_end)"
           :page_link="`/conference/${conference.id}`" :register_link="`/addUserRequest?conference=${conference.id}`"
-          :file="`http://localhost:3000/` + conference.title_file.path.substring(8)">
+          :file="serverLink + conference.title_file.path.substring(8)">
         </CardMp>
       </div>
 

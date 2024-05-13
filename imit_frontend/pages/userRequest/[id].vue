@@ -6,6 +6,7 @@ import { getFullDate } from '~/services/Date'
 import { showNotif } from '~/services/Notify';
 import { getRequestTxT } from '~/services/EnumRequests';
 import { getColorFromStatus } from '~/services/Status';
+import { serverLink } from '~/services/server';
 
 const themeStore = useThemeStore()
 const isDarkTheme = computed(() => themeStore.isDarkTheme)
@@ -152,7 +153,7 @@ const changeRequest = async () => {
                 <div class="text-h6 text-semibold">Мероприятие: «{{ request.conference.name }}»</div>
                 <div class="mt-2">
                     <a style="text-decoration: none;" download=""
-                        :href="`http://localhost:3000/` + request.file.path.substring(8)" target="_blank">
+                        :href="serverLink + request.file.path.substring(8)" target="_blank">
                         <q-btn color="primary" no-caps outline>
                             <q-icon left name="upload_file" />
                             <div>ТЕЗИСЫ</div>
