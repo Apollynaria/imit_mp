@@ -14,6 +14,9 @@ async function login(user) {
     if (res.accessToken) {
         localStorage.setItem('user', JSON.stringify(res));
     }
+    else {
+        localStorage.removeItem('user');
+    }
 
     return res;
 

@@ -58,6 +58,7 @@ export const useAuthStore = defineStore('auth', () => {
             loginSuccess(loggedInUser)
             return loggedInUser
         } catch (error) {
+            localStorage.removeItem('user');
             console.log(error)
             loginFailure()
             return Promise.reject(error)
