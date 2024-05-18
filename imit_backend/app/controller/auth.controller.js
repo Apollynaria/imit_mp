@@ -6,7 +6,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.register = (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     User.create({
         login: req.body.login,
         password: bcrypt.hashSync(req.body.password, 10),
@@ -41,49 +41,25 @@ exports.login = (req, res) => {
                 res.status(404).send({ message: "Неверно введенный логин и/или пароль" });
                 return;
             }
-
             var passwordIsValid = bcrypt.compareSync(
                 req.body.password,
                 user.password
             );
-
-            if (!passwordIsValid) {
-                res.status(401).send({
-                    accessToken: null,
-                    message: "Неверно введенный логин и/или пароль"
-                });
+            if (!passwordIsValid || !user) {
+                res.status(404).send({ message: "Неверно введенный логин и/или пароль" });
                 return;
             }
-
             var token = jwt.sign({ id: user.id }, config.secret, {
                 expiresIn: 28800
             });
-
-            User.update({
-                access_token: token,
-            },
-                {
-                    where: {
-                        id: user.id
-                    }
-                }
-            ).then(object => {
-
-                var object = {
-                    id: user.id,
-                    login: user.login,
-                    is_admin: user.is_admin,
-                    is_super_admin: user.is_super_admin,
-                    accessToken: token
-                };
-
-                globalFunctions.sendResult(res, object);
-
-            }).catch(err => {
-                globalFunctions.sendError(res, err);
-            })
-
-
+            var object = {
+                id: user.id,
+                login: user.login,
+                is_admin: user.is_admin,
+                is_super_admin: user.is_super_admin,
+                accessToken: token
+            };
+            globalFunctions.sendResult(res, object);
         })
         .catch(err => {
             globalFunctions.sendError(res, err);

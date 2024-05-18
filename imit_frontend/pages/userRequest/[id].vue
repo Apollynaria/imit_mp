@@ -101,6 +101,7 @@ const changeRequest = async () => {
 
     let formData = new FormData();
 
+    formData.append('name', request.name);
     formData.append('id', request.id);
     formData.append('comment', request.comment);
 

@@ -93,6 +93,7 @@ exports.update = async (req, res) => {
                 }
 
                 const updateData = {
+                    name: fields.name[0],
                     status: 'consideration',
                     comment: fields.comment[0],
                 };

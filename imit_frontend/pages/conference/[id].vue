@@ -88,6 +88,9 @@ const progr_comm = conference.progr_comm;
                             conference.short_description
                             }}</div>
                     </div>
+                    <div class="text-[16px] font-normal mb-4 text-center">Место проведения: {{
+                        conference.location
+                        }}</div>
                     <div class="text-h7 text-orange-8 font-semibold">{{ getFullDate(dateRange.from, dateRange.to) }}
                     </div>
                     <div v-if="conference.date_for_request_begin" class="text-h7 text-secondary font-semibold mb-2">
@@ -181,43 +184,34 @@ const progr_comm = conference.progr_comm;
             </div>
 
 
-            <div v-if="conference.schedule_sections.length !== 0" class="text-h5 text-center font-semibold mb-2 text-[#1f2731] dark:text-[#fff]">
+            <div v-if="conference.schedule_sections.length !== 0"
+                class="text-h5 text-center font-semibold mb-2 text-[#1f2731] dark:text-[#fff]">
                 Расписание
             </div>
 
             <div v-if="conference.schedule_sections.length !== 0" class="rounded p-3 mb-5 m-3" :class="classLogo">
-
                 <div class="flex flex-col p-3" v-for="section in conference.schedule_sections" :key="section.id">
                     <div class="-my-2 overflow-x-auto">
                         <div class="shadow overflow-hidden rounded-lg">
-                            <div class="text-[#1f2731] dark:text-[#fff] text-[16px] mb-2 mt-4">Секция: {{ section.name }}
-                            </div>
+                            <div class="text-[#1f2731] dark:text-[#fff] text-[16px] mb-2 mt-4">Секция: {{ section.name
+                                }}</div>
                             <table
                                 class="min-w-full text-sm dark:text-gray-400 text-gray-900 divide-y divide-slate-700">
                                 <thead class="dark:bg-gray-900 bg-gray-300 text-[14px] uppercase font-medium">
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col" class="px-6 py-3 text-center tracking-wider">
-                                            Время
+                                        <th scope="col" class="px-6 py-3 text-center tracking-wider">Время</th>
+                                        <th scope="col" class="px-6 py-3 text-center tracking-wider">Название доклада
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-center tracking-wider">
-                                            Название доклада
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-center tracking-wider">
-                                            ФИО
-                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-center tracking-wider">ФИО</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-slate-700">
                                     <tr v-for="(request, index) in section.user_requests" :key="request.id"
                                         class="dark:bg-gray-800 bg-gray-100 text-[16px]">
-                                        <td>
-                                            {{ index + 1 }}
-                                        </td>
-                                        <td>
-                                            {{ request.schedule.time }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{ request.name }}</td>
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ request.schedule.time }}</td>
+                                        <td class="px-6 py-4" style="word-break: break-word;">{{ request.name }}</td>
                                         <td class="whitespace-nowrap px-6 py-4">{{ request.user.surname }} {{
                                             request.user.name }} {{ request.user.patronymic }}</td>
                                     </tr>
@@ -227,6 +221,7 @@ const progr_comm = conference.progr_comm;
                     </div>
                 </div>
             </div>
+
 
             <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]"
                 v-if="conference.result_text || conference.collection_file">

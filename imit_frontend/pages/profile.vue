@@ -4,6 +4,7 @@ import { changeUserData, changeUserPassword } from '../services/user.service'
 import { showNotif } from "../services/Notify"
 import { NOT_NULL_RULES } from "../services/DataRules"
 import { getToken } from '~/services/auth.service';
+const authStore = useAuthStore();
 
 useSeoMeta({
     title: 'Профиль',
@@ -25,6 +26,7 @@ const oldPassword = ref(null)
 const newPassword = ref(null)
 const repeatPassword = ref(null)
 const loading = ref(false);
+const router = useRouter()
 
 
 const { pending, data: user_details } = await useAsyncData(
@@ -35,6 +37,14 @@ const { pending, data: user_details } = await useAsyncData(
         }
     })
 );
+
+console.log(user_details);
+
+if (user_details.value === null) {
+    console.log('deleteUser')
+    localStorage.removeItem('user');
+    window.location.href = "/login"
+}
 
 const onChangeUserData = (user_details) => {
     loading.value = true;
@@ -142,8 +152,8 @@ const onChangeUserPassword = (user_details) => {
             <div :class="classDarkTheme" class="rounded-lg p-3">
 
                 <div class="text-h6 ms-2 text-[#1f2731] dark:text-[#fff]">Изменение пароля</div>
-                <q-input :rules="NOT_NULL_RULES" lazy-rules outlined class="p-2" :dark="isDarkTheme" v-model="oldPassword"
-                    :type="isPwd ? 'password' : 'text'" label="Текущий пароль">
+                <q-input :rules="NOT_NULL_RULES" lazy-rules outlined class="p-2" :dark="isDarkTheme"
+                    v-model="oldPassword" :type="isPwd ? 'password' : 'text'" label="Текущий пароль">
                     <template v-slot:append>
                         <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
                             @click="isPwd = !isPwd" />
