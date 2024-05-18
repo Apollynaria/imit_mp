@@ -147,14 +147,14 @@ const addSchedule = async () => {
                                     class="divide-y divide-slate-700">
                                     <tr v-for="(request, index) in section.user_requests" :key="request.id"
                                         class="dark:bg-gray-800 bg-gray-100 text-[16px]">
-                                        <td class="pl-4">
+                                        <td class="pl-4 whitespace-nowrap">
                                             {{ index + 1 }}
                                         </td>
-                                        <td class="pl-4">
+                                        <td class="pl-4 whitespace-nowrap">
                                             <nuxt-link class="underline text-blue" :to="`/userRequest/${request.id}`">{{
                                                 request.id }}</nuxt-link>
                                         </td>
-                                        <td class="pl-4">
+                                        <td class="pl-4 whitespace-nowrap">
                                             <q-input class="mt-2" :dark="isDarkTheme" v-model="request.schedule.time"
                                                 mask="time" :rules="['time']">
                                                 <template v-slot:append>
@@ -172,14 +172,14 @@ const addSchedule = async () => {
                                                 </template>
                                             </q-input>
                                         </td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{ request.name }}</td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{ request.user.surname }} {{
+                                        <td class="px-6 py-4" style="word-break: break-word;">{{ request.name }}</td>
+                                        <td class="px-6 py-4" style="word-break: break-word;">{{ request.user.surname }} {{
                                             request.user.name }} {{ request.user.patronymic }}</td>
                                         <td class="whitespace-nowrap px-6 py-4">
-                                            <q-btn :color=getColorFromStatus(request.status) outline class="flex-end"
+                                            <q-btn :size="xs" :color=getColorFromStatus(request.status) outline class="flex-end"
                                                 :label="getRequestTxT(request.status)" />
                                         </td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{ request.comment }}</td>
+                                        <td class="px-6 py-4" style="word-break: break-word;">{{ request.comment }}</td>
                                     </tr>
                                 </VueDraggableNext>
                             </table>

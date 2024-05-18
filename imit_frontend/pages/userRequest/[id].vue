@@ -22,7 +22,8 @@ useSeoMeta({
     title: 'Заявка',
 })
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['auth']
 })
 
 const config = useRuntimeConfig()
@@ -73,6 +74,10 @@ const addCheck = async () => {
         if (model_change_section.value) {
             data['newSection'] = model_section.value;
             console.log(data);
+        }
+        if(!model_status.value){
+            showNotif('Добавьте статус завки!', 'red', $q);
+            return;
         }
         try {
             const addedCheck = await $fetch(`/addCheck`, {
