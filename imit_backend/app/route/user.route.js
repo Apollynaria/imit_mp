@@ -11,7 +11,7 @@ module.exports = (app) => {
         next();
     });
     
-    app.get('/api/users', [authJwt.verifyToken, verifyAccess.userIsAdmin], user.findAll);
+    app.get('/api/users', [authJwt.verifyToken, verifyAccess.userHaveAdminConference], user.findAll);
     app.post('/api/addUser',[verifySignUp.checkDuplicateLogin], user.create);
     
     app.post('/api/updateUserData', [authJwt.verifyToken], user.updateUserData);

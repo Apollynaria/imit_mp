@@ -16,7 +16,7 @@ useSeoMeta({
 })
 definePageMeta({
     layout: 'admin',
-    middleware: ['auth'],
+    middleware: ['auth', 'admin-conference'],
 })
 
 const themeStore = useThemeStore()

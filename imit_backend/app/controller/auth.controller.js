@@ -1,6 +1,7 @@
 var db = require("../config/db.config");
 var config = require("../config/auth.config");
 var User = db.user;
+var AdminUser = db.admin_conference;
 var globalFunctions = require('../config/global.functions.js');
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
@@ -36,7 +37,7 @@ exports.login = (req, res) => {
             login: req.body.login
         }
     })
-        .then(user => {
+        .then(async user => {
             if (!user) {
                 res.status(404).send({ message: "Неверно введенный логин и/или пароль" });
                 return;
@@ -52,11 +53,17 @@ exports.login = (req, res) => {
             var token = jwt.sign({ id: user.id }, config.secret, {
                 expiresIn: 28800
             });
+            let haveConferenceAdmin = await AdminUser.findOne({
+                where: {
+                    user_id: user.id
+                }
+            });
             var object = {
                 id: user.id,
                 login: user.login,
                 is_admin: user.is_admin,
                 is_super_admin: user.is_super_admin,
+                is_admin_conference: haveConferenceAdmin? true : false,
                 accessToken: token
             };
             globalFunctions.sendResult(res, object);

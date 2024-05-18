@@ -18,8 +18,28 @@ exports.userIsSuperAdmin = (req, res, next) => {
 };
 
 
+exports.userHaveAdminConference = (req, res, next) => {
+    AdminConference.findOne({
+        where: {
+            user_id: req.userId,
+        }
+    })
+        .then(admin => {
+            if (admin) {
+                next();
+            } else {
+                res.status(400).send({
+                    message: "Доступ ограничен"
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message || "Доступ ограничен" });
+        });
+};
+
 exports.userIsAdmin = (req, res, next) => {
-    User.findByPk(req.userId).then(user => {
+    AdminConference.findByPk(req.userId).then(user => {
         if (user && user.is_admin === true) {
             next();
         } else {

@@ -50,6 +50,8 @@ export const useAuthStore = defineStore('auth', () => {
 
     const getUserIsAdmin = computed(() => state.user.is_admin)
 
+    const getUserIsAdminConference = computed(() => state.user.is_admin_conference);
+
     const getUserIsSuperAdmin = computed(() => state.user.is_super_admin)
 
     async function login(_user) {
@@ -82,7 +84,8 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     return {
-        state, login, logout, register, loginSuccess, loginFailure, logoutUser, registerSuccess, registerFailure, getState, getLoggedIn, getUserId, getUserIsAdmin, getUserIsSuperAdmin
+        state, login, logout, register, loginSuccess, loginFailure, logoutUser, registerSuccess, registerFailure, 
+        getState, getLoggedIn, getUserId, getUserIsAdmin, getUserIsSuperAdmin, getUserIsAdminConference
     }
 
 })
