@@ -19,6 +19,7 @@ const classLogo = computed(() => {
 const config = useRuntimeConfig();
 const route = useRoute();
 const conferenceId = route.params.id;
+const showSchedule = ref(false);
 
 const conference = await $fetch(`/conference/${conferenceId}`, {
     baseURL: config.public.apiBase,
@@ -79,43 +80,48 @@ const progr_comm = conference.progr_comm;
         </StarBackground>
 
         <ButtonAddRequest :link="`/addUserRequest?conference=${conference.id}`" />
-        <div class="w-90 mx-auto max-w-screen-xl text-center">
-            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
-                <div class="p-3">
-                    <div class="text-h5 font-semibold mb-4">{{ conference.name }}</div>
-                    <div class="w-full flex justify-center">
-                        <div class="text-[16px] font-normal mb-4 max-w-[600px] text-center">{{
-                            conference.short_description
+        <div class="w-90 mx-auto max-w-screen-xl bg-[#fff] dark:bg-inherit">
+            <div class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
+                <div class="p-3 text-center">
+                    <div class="">
+                        <div class="text-h4 font-semibold mb-4">{{ conference.name }}</div>
+                        <div class="w-full flex justify-center">
+                            <div class="text-[18px] font-normal mb-4 max-w-[600px]">{{
+                                conference.short_description
+                                }}</div>
+                        </div>
+                        <div class="text-[16px] font-normal mb-4">Место проведения: {{
+                            conference.location
                             }}</div>
+                        <div class="text-h7 text-orange-8 font-semibold">{{ getFullDate(dateRange.from, dateRange.to) }}
+                        </div>
+                        <div v-if="conference.date_for_request_begin" class="text-h7 text-secondary font-semibold mb-2">
+                            Прием заявок: {{
+                                getFullDate(dateForRequestRange.from, dateForRequestRange.to) }}</div>
+                        <q-btn icon="event" label="Даты проведения" color="primary" class="me-4 mb-4">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                <q-date :dark="isDarkTheme" :locale="myLocale" range v-model="dateRange">
+                                </q-date>
+                            </q-popup-proxy>
+                        </q-btn>
+                        <q-btn icon="event" label="Даты подачи заявок" color="secondary mb-4">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                <q-date color="secondary" :locale="myLocale" :dark="isDarkTheme" range
+                                    v-model="dateForRequestRange">
+                                </q-date>
+                            </q-popup-proxy>
+                        </q-btn>
                     </div>
-                    <div class="text-[16px] font-normal mb-4 text-center">Место проведения: {{
-                        conference.location
-                        }}</div>
-                    <div class="text-h7 text-orange-8 font-semibold">{{ getFullDate(dateRange.from, dateRange.to) }}
-                    </div>
-                    <div v-if="conference.date_for_request_begin" class="text-h7 text-secondary font-semibold mb-2">
-                        Прием заявок: {{
-                            getFullDate(dateForRequestRange.from, dateForRequestRange.to) }}</div>
-                    <div v-if="conference.title_file">
-                        <q-img class="mb-4 max-w-[700px]" :src="serverLink + conference.title_file.path.substring(8)" />
-                    </div>
-                    <q-btn icon="event" label="Даты проведения" color="primary" class="me-4 mb-4">
-                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                            <q-date :dark="isDarkTheme" :locale="myLocale" range v-model="dateRange">
-                            </q-date>
-                        </q-popup-proxy>
-                    </q-btn>
-                    <q-btn icon="event" label="Даты подачи заявок" color="secondary mb-4">
-                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                            <q-date color="secondary" :locale="myLocale" :dark="isDarkTheme" range
-                                v-model="dateForRequestRange">
-                            </q-date>
-                        </q-popup-proxy>
-                    </q-btn>
                 </div>
             </div>
 
-            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
+            <div class="text-center mt-2">
+                <div v-if="conference.title_file">
+                    <q-img class="mb-4 max-w-[700px]" :src="serverLink + conference.title_file.path.substring(8)" />
+                </div>
+            </div>
+
+            <div class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]">
                 <div class="text-h5 text-center font-semibold mb-2">
                     О конференции
                 </div>
@@ -138,6 +144,7 @@ const progr_comm = conference.progr_comm;
                             <div class="font-normal text-[14px]" v-if="section.description">{{ section.description }}
                             </div>
                             <q-separator class="my-2 text-center" :dark="isDarkTheme" />
+                            <div class="font-semibold text-[16px] text-primary">Ответственные</div>
                             <ul class="list-disc mx-4 mt-2" v-for="(userSection, ind) in org_comm" :key="ind">
                                 <li>{{ userSection.user.surname }} {{ userSection.user.name }}
                                     {{ userSection.user.patronymic }}, {{ userSection.user.email }}</li>
@@ -160,7 +167,13 @@ const progr_comm = conference.progr_comm;
                         </q-card-section>
                         <q-separator :dark="isDarkTheme" inset />
                         <q-card-section>
-                            <ul class="list-disc mx-4 mt-2 text-left" v-for="(userComm, ind) in org_comm" :key="ind">
+                            <div class="font-semibold text-[16px] text-secondary" v-if="org_comm.filter((user) => user.type === 'main').length !== 0">Ответственные</div>
+                            <ul class="list-disc mx-4 mt-2 text-left" v-for="(userComm, ind) in org_comm.filter((user) => user.type === 'main')" :key="ind">
+                                <li>{{ userComm.user.surname }} {{ userComm.user.name }}
+                                    {{ userComm.user.patronymic }}, {{ userComm.user.email }}</li>
+                            </ul>
+                            <div class="font-semibold text-[16px] text-secondary" v-if="org_comm.filter((user) => user.type !== 'main').length !== 0">Заместители</div>
+                            <ul class="list-disc mx-4 mt-2 text-left" v-for="(userComm, ind) in org_comm.filter((user) => user.type !== 'main')" :key="ind">
                                 <li>{{ userComm.user.surname }} {{ userComm.user.name }}
                                     {{ userComm.user.patronymic }}, {{ userComm.user.email }}</li>
                             </ul>
@@ -174,7 +187,13 @@ const progr_comm = conference.progr_comm;
                         </q-card-section>
                         <q-separator :dark="isDarkTheme" inset />
                         <q-card-section>
-                            <ul class="list-disc mx-4 mt-2 text-left" v-for="(userComm, ind) in progr_comm" :key="ind">
+                            <div class="font-semibold text-[16px] text-purple" v-if="progr_comm.filter((user) => user.type === 'main').length !== 0">Ответственные</div>
+                            <ul class="list-disc mx-4 mt-2 text-left" v-for="(userComm, ind) in progr_comm.filter((user) => user.type === 'main')" :key="ind">
+                                <li>{{ userComm.user.surname }} {{ userComm.user.name }}
+                                    {{ userComm.user.patronymic }}, {{ userComm.user.email }}</li>
+                            </ul>
+                            <div class="font-semibold text-[16px] text-purple" v-if="progr_comm.filter((user) => user.type !== 'main').length !== 0">Заместители</div>
+                            <ul class="list-disc mx-4 mt-2 text-left" v-for="(userComm, ind) in progr_comm.filter((user) => user.type !== 'main')" :key="ind">
                                 <li>{{ userComm.user.surname }} {{ userComm.user.name }}
                                     {{ userComm.user.patronymic }}, {{ userComm.user.email }}</li>
                             </ul>
@@ -186,10 +205,13 @@ const progr_comm = conference.progr_comm;
 
             <div v-if="conference.schedule_sections.length !== 0"
                 class="text-h5 text-center font-semibold mb-2 text-[#1f2731] dark:text-[#fff]">
-                Расписание
+                <div>
+                    Расписание
+                </div>
+                <q-btn class="mt-2" outline @click="showSchedule = !showSchedule">Показать расписание</q-btn>
             </div>
 
-            <div v-if="conference.schedule_sections.length !== 0" class="rounded p-3 mb-5 m-3" :class="classLogo">
+            <div v-if="conference.schedule_sections.length !== 0 && showSchedule" class="rounded p-3 mb-5 m-3">
                 <div class="flex flex-col p-3" v-for="section in conference.schedule_sections" :key="section.id">
                     <div class="-my-2 overflow-x-auto">
                         <div class="shadow overflow-hidden rounded-lg">
@@ -223,7 +245,7 @@ const progr_comm = conference.progr_comm;
             </div>
 
 
-            <div :class="classLogo" class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]"
+            <div class="rounded-lg p-3 m-3 text-[#1f2731] dark:text-[#fff]"
                 v-if="conference.result_text || conference.collection_file">
                 <div class="p-3">
                     <div class="text-h5 text-center font-semibold mb-2">
@@ -249,5 +271,14 @@ const progr_comm = conference.progr_comm;
 <style>
 .w-fulls {
     width: 100% !important;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.parent-container {
+    overflow: hidden;
 }
 </style>

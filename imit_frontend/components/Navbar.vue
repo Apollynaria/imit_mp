@@ -13,14 +13,14 @@ const urls_text = ref([
     // { name: '/conferences', text: 'СЕМИНАРЫ', icon: 'material-symbols-light:jamboard-kiosk' },])
 
 const urls_icon = ref([
-    { name: 'https://t.me/webimit_bot', text: '', icon: 'mdi:telegram', tooltip: 'Подписаться' },
-    { name: '/login', text: '', icon: 'mdi:import', tooltip: 'Войти' },
+    // { name: 'https://t.me/webimit_bot', text: '', icon: 'mdi:telegram', tooltip: 'Подписаться' },
+{ name: '/login', text: 'ВОЙТИ', icon: 'mdi:import', tooltip: 'Вход в систему' },
 ])
 
 const urls_mobile = ref([
     { name: '/home', text: 'Главная', icon: 'material-symbols-light:jamboard-kiosk' },
     { name: '/conferences', text: 'Конференции', icon: 'material-symbols-light:jamboard-kiosk' },
-    { name: '/https://t.me/webimit_bot', text: 'Подписаться', icon: 'mdi:telegram' },
+    // { name: '/https://t.me/webimit_bot', text: 'Подписаться', icon: 'mdi:telegram' },
     { name: '/login', text: 'Войти', icon: 'mdi:import' },
 ])
 
@@ -69,7 +69,7 @@ onBeforeMount(() => {
             <li v-for="url in urls_icon" :key="url.name" class="ml-4">
                 <nuxt-link class="text-[16px] text-[#fff] transition-all duration-400 pb-1 hover:text-gray-500"
                     :to="url.name">
-                    <Icon :name="url.icon" size="20" />
+                    <Icon :name="url.icon" size="20" />{{ url.text }}
                     <q-tooltip class="text-[#000] text-[12px] bg-[#fff] font-medium">{{ url.tooltip }}</q-tooltip>
                 </nuxt-link>
             </li>

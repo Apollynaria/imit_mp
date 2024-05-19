@@ -25,7 +25,8 @@ exports.getAllProgrUserForConference = async (conferenceId) => {
                     model: User,
                     required: true,
                 },
-            ]
+            ],
+            order: [['type', 'asc']]
         });
 
         return users;

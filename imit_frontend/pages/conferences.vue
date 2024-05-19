@@ -41,7 +41,7 @@ const classLogo = computed(() => {
         </StarBackground>
 
 
-        <div class="w-90 mx-auto max-w-screen-xl">
+        <div class="w-90 mx-auto max-w-screen-xl bg-[#fff] dark:bg-inherit">
 
             <div class="rounded-lg p-3 m-3">
                 <div class="text-h4 text-center text-[#1f2731] dark:text-[#fff] font-medium mb-2">
@@ -57,20 +57,12 @@ const classLogo = computed(() => {
                             class="bg-[#fff] dark:bg-[#142437] text-[#000] dark:text-[#fff] my-card no-shadow">
 
                             <q-card-section>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
-                                odio
-                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                                culpa fuga nulla ullam. In, libero.
+                                Участие в конференции дает возможность узнать о новых идеях и подходах в близких вам темах, а также расширить свое представление о смежных областях, глубже понять проблемы, обогатиться новыми фактами и аналитикой, зарядиться атмосферой профессионального сообщества.
+                                Чтобы не пропустить ничего ценного, нужна подготовка. Полезно заранее изучить программу. Желательно подготовить предметные вопросы по интересующим вас темам и задать их в зале или после, в перерыве. Это, кстати, хороший повод познакомиться со спикером лично.
                             </q-card-section>
 
-                            <q-separator :dark="isDarkTheme" inset />
+                            
 
-                            <q-card-section>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam
-                                odio
-                                iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur
-                                culpa fuga nulla ullam. In, libero.
-                            </q-card-section>
                         </q-card>
                     </div>
                 </div>
@@ -107,8 +99,7 @@ const classLogo = computed(() => {
                         <div class="md:w-[350px] text-center mb-5">
                             <div class="text-h4 text-bold text-primary mb-2">Подача заявки</div>
                             <div class="text-balance">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
+                               Зарегистрируйтесь в личном кабинете и нажмите вкладку Заявки. Выберите конференцию и заполните все поля.
                             </div>
                         </div>
                     </div>
@@ -117,10 +108,10 @@ const classLogo = computed(() => {
                         :class="classLogo">
                         <div class="text-[120px] text-purple ">2</div>
                         <div class="md:w-[350px] text-center mb-5">
-                            <div class="text-h4 text-bold text-purple mb-2">Тезисы</div>
+                            <div class="text-h4 text-bold text-purple mb-2">Тезисы и статус заявки</div>
                             <div class="text-balance">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
+                                Загрузите тезисы на мероприятие. Обратите внимание, что тезисы проверяет оргкомитет конференции.
+                                Отслеживать статус своей заявки можно в личном кабинете.
                             </div>
                         </div>
                         <div class="w-[300px]">
@@ -137,8 +128,8 @@ const classLogo = computed(() => {
                         <div class="md:w-[350px] text-center mb-5">
                             <div class="text-h4 text-bold text-secondary mb-2">Порядок выступления</div>
                             <div class="text-balance">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
+                                Через несколько дней на странице мероприятия появится порядок выступления.
+                                Вы можете найти свой доклад там, если он был принят администраторами.
                             </div>
                         </div>
                     </div>
@@ -149,8 +140,7 @@ const classLogo = computed(() => {
                         <div class="md:w-[350px] text-center mb-5">
                             <div class="text-h4 text-bold text-orange mb-2">Конференция</div>
                             <div class="text-balance">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
+                                Приходите на конференцию в назначенный день. Просьба не опаздывать!
                             </div>
                         </div>
                         <div class="w-[300px]">

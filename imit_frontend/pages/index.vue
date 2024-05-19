@@ -9,9 +9,9 @@ useSeoMeta({
 const config = useRuntimeConfig();
 
 const cards_prospects = ref([
-  { title: 'Конференции', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'groups', color: 'primary' },
-  { title: 'Олимпиады', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'edit_note', color: 'purple' },
-  { title: 'Семинары', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', icon: 'connect_without_contact', color: 'secondary' },
+  { title: 'Конференции', text: 'Участвие в конференциях позволяет расширить свои знания, узнать о новых тенденциях и исследованиях. Кроме того, конференции предоставляют отличную возможность для обмена опытом с профессионалами отрасли и для установления полезных контактов для будущей карьеры.', icon: 'groups', color: 'primary' },
+  { title: 'Олимпиады', text: 'Участие в олимпиадах способствует развитию интеллектуальных способностей, логического мышления и конкурентоспособности у студентов. Это также отличный способ проверить и улучшить свои знания и навыки в определенной области и получить признание за свои достижения.', icon: 'edit_note', color: 'purple' },
+  { title: 'Семинары', text: 'Посещение семинаров позволяет студентам и гостям получить более глубокое понимание определенной темы или проблемы благодаря обсуждениям и практическим занятиям. Участие в семинарах помогает улучшить умение анализировать информацию и развивать навыки коммуникации.', icon: 'connect_without_contact', color: 'secondary' },
 ]);
 
 const { pending, data: conferences } = await useAsyncData(
@@ -49,7 +49,7 @@ const cardsForCarousel = computed(() => conferences.value? conferences.value.sli
 
     </StarBackground>
 
-    <div class="w-90 mx-auto max-w-screen-xl">
+    <div class="w-90 mx-auto max-w-screen-xl bg-[#fff] dark:bg-inherit">
 
       <Carousel v-if="cardsForCarousel?.length > 0" :slides="cardsForCarousel"></Carousel>
 

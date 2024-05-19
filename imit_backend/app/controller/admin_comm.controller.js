@@ -77,7 +77,8 @@ exports.getAllAdminUserForConference = async (conferenceId) => {
                     attributes: ['name', 'surname', 'patronymic', 'email'],
                     required: true,
                 },
-            ]
+            ],
+            order: [['type', 'asc']]
         });
         return users;
     } catch (error) {

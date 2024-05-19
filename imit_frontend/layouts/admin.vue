@@ -27,11 +27,17 @@ const logOut = () => {
                     <div class="q-gutter-sm row items-center no-wrap">
                         <q-btn round dense flat @click="themeStore.switchTheme"
                             :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'"
-                            :icon="themeStore.getTheme == 'light' ? 'dark_mode' : 'light_mode'" />
+                            :icon="themeStore.getTheme == 'light' ? 'dark_mode' : 'light_mode'" >
+                            <q-tooltip class="text-[#000] text-[12px] bg-[#fff] font-medium">Поменять тему</q-tooltip>
+                        </q-btn>
                         <q-btn round dense flat to='/profile'
-                            :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'" icon='person' />
+                            :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'" icon='person'>
+                            <q-tooltip class="text-[#000] text-[12px] bg-[#fff] font-medium">Профиль</q-tooltip>    
+                        </q-btn>
                         <q-btn round dense flat @click="logOut"
-                            :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'" icon='logout' />
+                            :color="themeStore.getTheme == 'light' ? 'grey-9' : 'primary'" icon='logout'>
+                            <q-tooltip class="text-[#000] text-[12px] bg-[#fff] font-medium">Выйти</q-tooltip>  
+                        </q-btn>
                     </div>
                 </q-toolbar>
             </q-header>
