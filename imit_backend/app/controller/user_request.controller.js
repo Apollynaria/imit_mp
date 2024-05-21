@@ -180,7 +180,8 @@ exports.findAllRequestsForAdmin = async (req, res) => {
                 }
             ],
             order: [
-                ['status', 'ASC']
+                ['status', 'ASC'],
+                ['id', 'DESC']
             ]
         });
 

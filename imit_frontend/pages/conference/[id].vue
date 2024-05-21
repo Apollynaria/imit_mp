@@ -221,7 +221,7 @@ const progr_comm = conference.progr_comm;
                                 class="min-w-full text-sm dark:text-gray-400 text-gray-900 divide-y divide-slate-700">
                                 <thead class="dark:bg-gray-900 bg-gray-300 text-[14px] uppercase font-medium">
                                     <tr>
-                                        <th scope="col">#</th>
+                                        <th scope="col px-6 py-3 tracking-wider">#</th>
                                         <th scope="col" class="px-6 py-3 text-center tracking-wider">Время</th>
                                         <th scope="col" class="px-6 py-3 text-center tracking-wider">Название доклада
                                         </th>
@@ -231,8 +231,8 @@ const progr_comm = conference.progr_comm;
                                 <tbody class="divide-y divide-slate-700">
                                     <tr v-for="(request, index) in section.user_requests" :key="request.id"
                                         class="dark:bg-gray-800 bg-gray-100 text-[16px]">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ request.schedule.time }}</td>
+                                        <td class="px-6 py-3">{{ index + 1 }}</td>
+                                        <td class="px-6 py-4">{{ request.schedule.time }}</td>
                                         <td class="px-6 py-4" style="word-break: break-word;">{{ request.name }}</td>
                                         <td class="whitespace-nowrap px-6 py-4">{{ request.user.surname }} {{
                                             request.user.name }} {{ request.user.patronymic }}</td>

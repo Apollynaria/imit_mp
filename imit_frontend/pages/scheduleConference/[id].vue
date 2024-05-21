@@ -94,7 +94,7 @@ const addSchedule = async () => {
             body: data
         });
 
-        showNotif(res.message, 'green', $q);
+        showNotif('Расписание успешно сохранено', 'green', $q);
     }
     catch {
         console.error(error);
